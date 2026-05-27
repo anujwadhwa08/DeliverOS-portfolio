@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeliverOS — Overview</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0f;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrap {
+      max-width: 680px;
+      width: 100%;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      background: linear-gradient(135deg, #e2e8f0 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .sub {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      line-height: 1.65;
+      margin-bottom: 48px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .2s, background .2s, transform .15s;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card:hover {
+      border-color: rgba(165,180,252,0.4);
+      background: rgba(99,102,241,0.08);
+      transform: translateY(-2px);
+    }
+
+    .icon {
+      font-size: 1.6rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .card-desc {
+      font-size: .85rem;
+      color: #64748b;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .arrow {
+      margin-top: auto;
+      font-size: .8rem;
+      color: #a5b4fc;
+      letter-spacing: .03em;
+    }
+
+    footer {
+      margin-top: 48px;
+      font-size: .78rem;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="badge">DeliverOS</div>
+    <h1>Full-Stack Food&nbsp;Delivery Platform</h1>
+    <p class="sub">
+      Multi-channel ordering across Telegram, mobile app, web, and AI agents —
+      built with Node.js, React Native, Supabase, Stripe, and Claude.
+    </p>
+
+    <div class="cards">
+      <a href="platform.html" class="card">
+        <div class="icon">🏗️</div>
+        <div class="card-title">Platform Overview</div>
+        <div class="card-desc">Architecture, channels, integrations, and how the pieces fit together.</div>
+        <div class="arrow">View →</div>
+      </a>
+      <a href="outcomes.html" class="card">
+        <div class="icon">📈</div>
+        <div class="card-title">Product &amp; Outcomes</div>
+        <div class="card-desc">What gets unlocked for restaurants, drivers, customers, and operators.</div>
+        <div class="arrow">View →</div>
+      </a>
+    </div>
+
+    <footer>Built by Anuj Wadhwa · 2026</footer>
+  </div>
+</body>
+</html>
