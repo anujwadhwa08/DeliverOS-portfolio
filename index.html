@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeliverOS — Overview</title>
+  <title>Deliver OS — Product Portfolio</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -12,16 +12,21 @@
       background: #0a0a0f;
       color: #e2e8f0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .wrap {
-      max-width: 680px;
+      max-width: 720px;
       width: 100%;
-      padding: 48px 24px;
-      text-align: center;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    /* ── Top meta ── */
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
     }
 
     .badge {
@@ -31,107 +36,198 @@
       border: 1px solid rgba(99,102,241,0.3);
       border-radius: 99px;
       padding: 4px 14px;
-      font-size: 12px;
-      letter-spacing: .06em;
+      font-size: 11px;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      margin-bottom: 28px;
     }
 
+    .author {
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* ── Hero ── */
     h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
       font-weight: 800;
-      letter-spacing: -.03em;
+      letter-spacing: -.04em;
       background: linear-gradient(135deg, #e2e8f0 0%, #a5b4fc 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 16px;
+      line-height: 1.05;
+      margin-bottom: 20px;
     }
 
     .sub {
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       color: #94a3b8;
-      line-height: 1.65;
+      line-height: 1.7;
+      margin-bottom: 56px;
+      max-width: 560px;
+    }
+
+    /* ── Differentiators ── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #475569;
+      margin-bottom: 20px;
+    }
+
+    .diffs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin-bottom: 48px;
+    }
+
+    @media (max-width: 520px) { .diffs { grid-template-columns: 1fr; } }
+
+    .diff {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+
+    .diff-icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .diff-title {
+      font-size: .92rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+
+    .diff-body {
+      font-size: .8rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ── Deep-dive links ── */
+    .section-label-2 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #475569;
+      margin-bottom: 20px;
     }
 
     .cards {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
     }
 
-    @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) { .cards { grid-template-columns: 1fr; } }
 
     .card {
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 28px 24px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      padding: 24px 20px;
       text-decoration: none;
       color: inherit;
       transition: border-color .2s, background .2s, transform .15s;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 10px;
+      gap: 8px;
     }
 
     .card:hover {
-      border-color: rgba(165,180,252,0.4);
-      background: rgba(99,102,241,0.08);
+      border-color: rgba(165,180,252,0.35);
+      background: rgba(99,102,241,0.07);
       transform: translateY(-2px);
     }
 
-    .icon {
-      font-size: 1.6rem;
-    }
+    .card-icon { font-size: 1.4rem; }
 
     .card-title {
-      font-size: 1rem;
+      font-size: .92rem;
       font-weight: 700;
       color: #e2e8f0;
     }
 
     .card-desc {
-      font-size: .85rem;
+      font-size: .78rem;
       color: #64748b;
-      line-height: 1.5;
-      text-align: left;
+      line-height: 1.55;
     }
 
     .arrow {
       margin-top: auto;
-      font-size: .8rem;
+      padding-top: 8px;
+      font-size: .75rem;
       color: #a5b4fc;
       letter-spacing: .03em;
     }
 
     footer {
-      margin-top: 48px;
-      font-size: .78rem;
-      color: #334155;
+      margin-top: 56px;
+      font-size: .75rem;
+      color: #1e293b;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="badge">DeliverOS</div>
-    <h1>Full-Stack Food&nbsp;Delivery Platform</h1>
+
+    <div class="meta">
+      <div class="badge">Product Portfolio</div>
+      <div class="author">Anuj Wadhwa</div>
+    </div>
+
+    <h1>Deliver OS</h1>
     <p class="sub">
-      Multi-channel ordering across Telegram, mobile app, web, and AI agents —
-      built with Node.js, React Native, Supabase, Stripe, and Claude.
+      A multi-channel food delivery platform designed from the ground up around
+      one idea: a customer should get the exact same experience whether they order
+      via chat, mobile app, or AI — and operators should never need a technical
+      team to run it.
     </p>
 
+    <div class="section-label">What makes it different</div>
+    <div class="diffs">
+      <div class="diff">
+        <div class="diff-icon">🪪</div>
+        <div class="diff-title">One identity, every channel</div>
+        <div class="diff-body">A single customer profile follows users across Telegram, mobile app, web, and AI agents — order history, saved addresses, and preferences unified regardless of where they ordered last.</div>
+      </div>
+      <div class="diff">
+        <div class="diff-icon">🔄</div>
+        <div class="diff-title">Consistent experience, any channel</div>
+        <div class="diff-body">Menu availability, delivery estimates, and pricing are identical across every surface. No channel gets stale data or a degraded flow — the logic lives once and serves all.</div>
+      </div>
+      <div class="diff">
+        <div class="diff-icon">⚡</div>
+        <div class="diff-title">Zero-friction partner onboarding</div>
+        <div class="diff-body">Restaurants and drivers onboard entirely through conversation — no portals, no forms, no ops handoff. An AI-driven flow handles verification, menu setup, and compliance from first message to live.</div>
+      </div>
+      <div class="diff">
+        <div class="diff-icon">🤖</div>
+        <div class="diff-title">Three purpose-built AI assistants</div>
+        <div class="diff-body">Separate AI assistants for restaurants, drivers, and customers — each with deep context about that role's workflow, never a generic chatbot. Support escalation and order disputes handled the same way.</div>
+      </div>
+    </div>
+
+    <div class="section-label-2">Go deeper</div>
     <div class="cards">
       <a href="platform.html" class="card">
-        <div class="icon">🏗️</div>
+        <div class="card-icon">🏗️</div>
         <div class="card-title">Platform Overview</div>
-        <div class="card-desc">Architecture, channels, integrations, and how the pieces fit together.</div>
+        <div class="card-desc">Channels, surfaces, integrations, and how the pieces fit together end to end.</div>
         <div class="arrow">View →</div>
       </a>
       <a href="outcomes.html" class="card">
-        <div class="icon">📈</div>
+        <div class="card-icon">📈</div>
         <div class="card-title">Product &amp; Outcomes</div>
         <div class="card-desc">What gets unlocked for restaurants, drivers, customers, and operators.</div>
         <div class="arrow">View →</div>
