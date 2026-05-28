@@ -2,360 +2,404 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeliverOS — Platform Outcomes</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
   @page { size: A4; margin: 0; }
-  * { margin:0; padding:0; box-sizing:border-box; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    background:#fff; color:#052e16;
-    width:210mm; min-height:297mm; margin:0 auto;
-    font-size:7.8pt; line-height:1.4;
-    display:flex; flex-direction:column;
-    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fff;
+    color: #052e16;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    font-size: 8.8pt;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
-  /* ── Header ───────────── */
-  .hdr {
-    background:linear-gradient(135deg,#052e16 0%,#064e3b 55%,#065f46 100%);
-    padding:14px 28px 11px; color:#fff; flex-shrink:0; position:relative; overflow:hidden;
+  /* ── Header ─────────────────────────────────── */
+  .header {
+    background: linear-gradient(135deg, #052e16 0%, #064e3b 55%, #065f46 100%);
+    padding: 20px 28px 16px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
   }
-  .hdr::after { content:''; position:absolute; bottom:-50px; right:-40px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,0.04); }
-  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:5px; }
-  .logo { display:flex; align-items:center; gap:9px; }
-  .lmark { width:36px; height:36px; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.28); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
-  .ltxt h1 { font-size:19pt; font-weight:800; letter-spacing:-.5px; line-height:1; }
-  .ltxt .sub { font-size:7.5pt; color:rgba(255,255,255,0.6); margin-top:2px; }
-  .badges { display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end; }
-  .badge { font-size:6.5pt; font-weight:600; padding:2.5px 7px; border-radius:20px; letter-spacing:.3px; white-space:nowrap; }
-  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.22); }
-  .bg { background:rgba(74,222,128,0.18); color:#86efac; border:1px solid rgba(74,222,128,0.28); }
-  .bi { background:rgba(165,180,252,0.18); color:#c7d2fe; border:1px solid rgba(165,180,252,0.28); }
-  .ba { background:rgba(251,191,36,0.18); color:#fde68a; border:1px solid rgba(251,191,36,0.28); }
-  .hdr-desc { font-size:7.9pt; color:rgba(255,255,255,0.78); line-height:1.5; max-width:82%; margin-top:2px; }
-
-  /* ── Body ─────────────── */
-  .body { padding:9px 28px 7px; flex:1; display:flex; flex-direction:column; gap:8px; }
-
-  /* ── Section label ────── */
-  .slbl { font-size:5.8pt; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#059669; margin-bottom:6px; padding-bottom:3px; border-bottom:1.5px solid #d1fae5; display:flex; align-items:center; gap:5px; }
-  .slbl::before { content:''; width:3px; height:8px; background:#059669; border-radius:2px; flex-shrink:0; }
-
-  /* ── App flow strip ────── */
-  .flow-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
-  .phone-cell { display:flex; flex-direction:column; align-items:center; }
-  .phone-num {
-    width:16px; height:16px; border-radius:50%;
-    background:#059669; color:#fff;
-    font-size:7pt; font-weight:700;
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:3px; flex-shrink:0;
+  .header::before {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: -50px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
   }
-  .phone-cell img {
-    width:100%; border-radius:11px;
-    border:1.5px solid #d1fae5;
-    box-shadow:0 3px 12px rgba(0,0,0,0.12);
-    display:block;
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
   }
-  .phone-cell .cap {
-    font-size:5.6pt; color:#6b7280; text-align:center;
-    margin-top:3px; line-height:1.3;
+  .logo-area { display: flex; align-items: center; gap: 11px; }
+  .logo-mark {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.28);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
   }
-  .phone-cell .cap strong { color:#374151; font-weight:600; }
-
-  /* ── Wide agents flow ──── */
-  .agents-wrap img {
-    width:100%; border-radius:8px;
-    border:1px solid #065f46;
-    box-shadow:0 4px 18px rgba(0,0,0,0.16);
-    display:block;
+  .logo-text h1 {
+    font-size: 21pt; font-weight: 800;
+    letter-spacing: -0.6px; line-height: 1;
   }
-  .agents-cap { font-size:5.8pt; color:#6b7280; margin-top:3px; line-height:1.3; }
-  .agents-cap strong { color:#374151; font-weight:600; }
+  .logo-text .sub {
+    font-size: 8pt; color: rgba(255,255,255,0.6);
+    margin-top: 3px; letter-spacing: 0.2px;
+  }
+  .header-badges { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .badge {
+    font-size: 7pt; font-weight: 600;
+    padding: 3px 9px; border-radius: 20px;
+    letter-spacing: 0.3px; white-space: nowrap;
+  }
+  .b-white  { background: rgba(255,255,255,0.16); color:#fff;    border:1px solid rgba(255,255,255,0.22); }
+  .b-indigo { background: rgba(165,180,252,0.18); color:#c7d2fe; border:1px solid rgba(165,180,252,0.28); }
+  .b-amber  { background: rgba(251,191,36,0.18);  color:#fde68a; border:1px solid rgba(251,191,36,0.28); }
 
-  /* ── PSO table ────────── */
-  .pso { width:100%; border-collapse:collapse; font-size:7.4pt; }
-  .pso th { padding:4px 9px; text-align:left; font-size:6.2pt; font-weight:700; letter-spacing:.4px; color:#fff; }
-  .pso th.tp { background:#7f1d1d; } .pso th.ts { background:#065f46; } .pso th.to { background:#1e1b4b; }
-  .pso th:first-child { border-radius:5px 0 0 0; } .pso th:last-child { border-radius:0 5px 0 0; }
-  .pso td { padding:4.5px 9px; border-bottom:1px solid #d1fae5; color:#374151; vertical-align:top; line-height:1.4; }
-  .pso tr:nth-child(even) td { background:#f0fdf4; }
-  .pso td:first-child { color:#7f1d1d; font-weight:500; }
-  .pso td:nth-child(2){ color:#065f46; font-weight:500; }
-  .pso td:nth-child(3){ color:#312e81; font-weight:600; }
+  .header-tagline {
+    font-size: 9pt; color: rgba(255,255,255,0.78);
+    line-height: 1.55; max-width: 76%; margin-top: 5px;
+  }
 
-  /* ── Outcomes grid ────── */
-  .ogrid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:6px; }
-  .oc { border-radius:7px; padding:7px 9px; border:1.5px solid; }
+  /* ── Content ─────────────────────────────────── */
+  .content { padding: 15px 28px 10px; flex: 1; }
+
+  /* ── Section label ───────────────────────────── */
+  .sec-label {
+    font-size: 6.2pt; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.1px;
+    color: #059669; margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid #d1fae5;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sec-label::before {
+    content: '';
+    width: 3px; height: 10px;
+    background: #059669; border-radius: 2px; flex-shrink: 0;
+  }
+
+  /* ── Problem → Solution → Outcome table ──────── */
+  .pso-table {
+    width: 100%; border-collapse: collapse;
+    margin-bottom: 13px; font-size: 7.8pt;
+  }
+  .pso-table th {
+    padding: 5px 11px; text-align: left;
+    font-size: 6.8pt; font-weight: 700;
+    letter-spacing: 0.4px; color: #fff;
+  }
+  .pso-table th.th-problem  { background: #7f1d1d; }
+  .pso-table th.th-solution { background: #065f46; }
+  .pso-table th.th-outcome  { background: #1e1b4b; }
+  .pso-table th:first-child { border-radius: 6px 0 0 0; }
+  .pso-table th:last-child  { border-radius: 0 6px 0 0; }
+  .pso-table td {
+    padding: 6px 11px;
+    border-bottom: 1px solid #d1fae5;
+    color: #374151; vertical-align: top; line-height: 1.45;
+  }
+  .pso-table tr:nth-child(even) td { background: #f0fdf4; }
+  .pso-table td:first-child { color:#7f1d1d; font-weight:500; }
+  .pso-table td:nth-child(2){ color:#065f46; font-weight:500; }
+  .pso-table td:nth-child(3){ color:#312e81; font-weight:600; }
+
+  /* ── Outcomes grid ───────────────────────────── */
+  .outcomes-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 7px; margin-bottom: 13px;
+  }
+  .oc {
+    border-radius: 9px; padding: 9px 11px; border: 1.5px solid;
+  }
   .oc.c { background:#eef2ff; border-color:#a5b4fc; }
   .oc.r { background:#f0fdf4; border-color:#86efac; }
   .oc.d { background:#fffbeb; border-color:#fcd34d; }
   .oc.o { background:#fdf4ff; border-color:#e9d5ff; }
-  .oh { font-size:7.5pt; font-weight:700; margin-bottom:3px; display:flex; align-items:center; gap:4px; }
-  .oc.c .oh { color:#3730a3; } .oc.r .oh { color:#15803d; } .oc.d .oh { color:#92400e; } .oc.o .oh { color:#7e22ce; }
+
+  .oc .oc-head {
+    font-size: 8pt; font-weight: 700;
+    margin-bottom: 5px; display:flex; align-items:center; gap:4px;
+  }
+  .oc.c .oc-head { color:#3730a3; }
+  .oc.r .oc-head { color:#15803d; }
+  .oc.d .oc-head { color:#92400e; }
+  .oc.o .oc-head { color:#7e22ce; }
+
   .oc ul { list-style:none; }
-  .oc ul li { font-size:6.8pt; color:#374151; padding:1px 0 1px 9px; position:relative; line-height:1.36; }
-  .oc ul li::before { content:'✓'; position:absolute; left:0; font-size:6pt; font-weight:700; }
-  .oc.c ul li::before { color:#4f46e5; } .oc.r ul li::before { color:#16a34a; } .oc.d ul li::before { color:#d97706; } .oc.o ul li::before { color:#9333ea; }
+  .oc ul li {
+    font-size: 7.3pt; color:#374151;
+    padding:1.5px 0 1.5px 10px;
+    position:relative; line-height:1.4;
+  }
+  .oc ul li::before {
+    content:'✓'; position:absolute; left:0;
+    font-size:6.5pt; font-weight:700;
+  }
+  .oc.c ul li::before { color:#4f46e5; }
+  .oc.r ul li::before { color:#16a34a; }
+  .oc.d ul li::before { color:#d97706; }
+  .oc.o ul li::before { color:#9333ea; }
 
-  /* ── Highlight ────────── */
-  .hl { background:linear-gradient(135deg,#052e16,#065f46); color:#fff; border-radius:7px; padding:9px 13px; }
-  .hl-t { font-size:8pt; font-weight:700; margin-bottom:4px; }
-  .hl p { font-size:7.2pt; color:rgba(255,255,255,0.82); line-height:1.5; }
-  .hl p+p { margin-top:5px; }
-  .hl strong { color:#fff; }
+  /* ── Highlight box ───────────────────────────── */
+  .highlight {
+    background: linear-gradient(135deg, #052e16, #065f46);
+    color: #fff; border-radius: 9px;
+    padding: 13px 16px; margin-bottom: 13px;
+  }
+  .highlight .hl-title {
+    font-size: 9pt; font-weight: 700;
+    margin-bottom: 6px; color: #fff;
+  }
+  .highlight p {
+    font-size: 8pt; color: rgba(255,255,255,0.82); line-height: 1.6;
+  }
+  .highlight p + p { margin-top: 7px; }
+  .highlight strong { color: #fff; }
 
-  /* ── Skills ───────────── */
-  .skrow { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; }
-  .sk { background:#f9fafb; border:1px solid #e5e7eb; border-radius:7px; padding:7px 10px; }
-  .sk-h { font-size:7.5pt; font-weight:700; color:#1f2937; margin-bottom:2px; display:flex; align-items:center; gap:4px; }
-  .sk p { font-size:7pt; color:#6b7280; line-height:1.42; }
+  /* ── PM skills row ───────────────────────────── */
+  .skills-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; margin-bottom: 13px;
+  }
+  .skill-card {
+    background: #f9fafb; border: 1px solid #e5e7eb;
+    border-radius: 9px; padding: 9px 12px;
+  }
+  .skill-card .sk-head {
+    font-size: 8pt; font-weight: 700; color: #1f2937;
+    margin-bottom: 4px; display:flex; align-items:center; gap:5px;
+  }
+  .skill-card p {
+    font-size: 7.5pt; color: #6b7280; line-height: 1.5;
+  }
 
-  /* ── Live strip ───────── */
-  .live { background:#f0fdf4; border:1px solid #d1fae5; border-radius:6px; padding:6px 12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .ldot { width:6px; height:6px; background:#16a34a; border-radius:50%; flex-shrink:0; animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
-  .llbl { font-size:6.2pt; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:#15803d; flex-shrink:0; }
-  .ldiv { width:1px; height:11px; background:#86efac; flex-shrink:0; }
-  .li { font-size:7pt; color:#374151; }
-  .li strong { color:#065f46; font-weight:600; }
-  .lsep { color:#86efac; }
+  /* ── Live strip ──────────────────────────────── */
+  .live-strip {
+    background: #f0fdf4; border: 1px solid #d1fae5;
+    border-radius: 8px; padding: 8px 14px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: #16a34a; border-radius: 50%;
+    animation: pulse 2s infinite; flex-shrink: 0;
+  }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .live-strip .live-label {
+    font-size: 7pt; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    color: #15803d; flex-shrink: 0;
+  }
+  .live-divider { width:1px; height:14px; background:#86efac; flex-shrink:0; }
+  .live-item { font-size:7.5pt; color:#374151; }
+  .live-item strong { color:#065f46; font-weight:600; }
+  .live-sep { color:#86efac; }
 
-  /* ── Footer ───────────── */
-  .ftr { background:#052e16; color:rgba(255,255,255,0.55); padding:6px 28px; display:flex; align-items:center; justify-content:space-between; font-size:6.8pt; flex-shrink:0; }
-  .ftr .by { color:rgba(255,255,255,0.85); font-weight:500; }
+  /* ── Footer ──────────────────────────────────── */
+  .footer {
+    background: #052e16; color: rgba(255,255,255,0.55);
+    padding: 7px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 7pt; flex-shrink: 0;
+  }
+  .footer .built-by { color: rgba(255,255,255,0.85); font-weight: 500; }
 
   @media print {
-    body { margin:0; width:210mm; }
-    .hdr,.ftr,.hl,.pso th,.ldot { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .back-bar { display:none; }
+    body { margin: 0; width: 210mm; }
+    .header, .footer, .highlight, .pso-table th, .live-dot {
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
   }
-
-  .back-bar {
-    background: #0a0a0f;
-    padding: 14px 28px;
-    display: flex;
-    align-items: center;
-  }
-
-  .back-bar a {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 12px;
-    color: #a5b4fc;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    letter-spacing: .02em;
-    opacity: .85;
-    transition: opacity .15s;
-  }
-
-  .back-bar a:hover { opacity: 1; }
 </style>
 </head>
 <body>
 
-<div class="back-bar"><a href="index.html">← Back to overview</a></div>
-
-<div class="hdr">
-  <div class="hdr-top">
-    <div class="logo">
-      <div class="lmark">📦</div>
-      <div class="ltxt">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo-area">
+      <div class="logo-mark">📦</div>
+      <div class="logo-text">
         <h1>DeliverOS</h1>
         <div class="sub">Platform outcomes — problems solved, decisions made, value delivered</div>
       </div>
     </div>
-    <div class="badges">
-      <span class="badge bw">Multi-Agent AI</span>
-      <span class="badge bi">3 User Types</span>
-      <span class="badge ba">Production-Ready</span>
-      <span class="badge bi">MCP API</span>
+    <div class="header-badges">
+      <span class="badge b-white">Multi-Agent AI</span>
+      <span class="badge b-indigo">3 User Types</span>
+      <span class="badge b-amber">Production-Ready</span>
     </div>
   </div>
-  <div class="hdr-desc">DeliverOS replaces scripted chatbots and manual coordination with three AI assistants that understand natural language, share real-time order state, and handle every step from payment to doorstep delivery — autonomously. It also exposes an MCP endpoint so any external agent can place a real order, auto-create an account, and charge a card — no app, no login, zero friction.</div>
+  <div class="header-tagline">
+    DeliverOS replaces scripted chatbots and manual coordination with three AI assistants that understand natural language, share real-time order state, and handle every step from payment to doorstep delivery — autonomously.
+  </div>
 </div>
 
-<div class="body">
+<!-- CONTENT -->
+<div class="content">
 
-  <!-- APP FLOW + AGENTS SIDE BY SIDE -->
-  <div>
-    <div class="slbl">Customer Journey — App Flow</div>
-    <div class="flow-strip">
-      <div class="phone-cell">
-        <div class="phone-num">1</div>
-        <img src="demo/screenshots/flow-01-home.png" alt="Home">
-        <div class="cap"><strong>Browse</strong><br>Restaurants near you</div>
-      </div>
-      <div class="phone-cell">
-        <div class="phone-num">2</div>
-        <img src="demo/screenshots/flow-02-restaurant.png" alt="Restaurant">
-        <div class="cap"><strong>Restaurant</strong><br>Menu, ratings, ETA</div>
-      </div>
-      <div class="phone-cell">
-        <div class="phone-num">3</div>
-        <img src="demo/screenshots/flow-04-cart.png" alt="Cart">
-        <div class="cap"><strong>Add &amp; Cart</strong><br>One-tap ordering</div>
-      </div>
-      <div class="phone-cell">
-        <div class="phone-num">4</div>
-        <img src="demo/screenshots/flow-07-tracking.png" alt="Tracking">
-        <div class="cap"><strong>Live Tracking</strong><br>Driver on the way</div>
-      </div>
-      <div class="phone-cell">
-        <div class="phone-num">5</div>
-        <img src="demo/screenshots/flow-08-completed.png" alt="Complete">
-        <div class="cap"><strong>Delivered!</strong><br>Order complete</div>
-      </div>
+  <!-- PROBLEM → SOLUTION → OUTCOME -->
+  <div class="sec-label">Problems Solved</div>
+  <table class="pso-table">
+    <thead>
+      <tr>
+        <th class="th-problem" style="width:30%">The Problem</th>
+        <th class="th-solution" style="width:36%">What Was Built</th>
+        <th class="th-outcome"  style="width:34%">The Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Food apps force customers through rigid category filters — useless when you just know what you feel like eating.</td>
+        <td>AI that converts natural-language queries into meaning-based searches across live restaurant menus.</td>
+        <td>Customers can order by craving, not by knowing the right category to tap.</td>
+      </tr>
+      <tr>
+        <td>AI assistants can confidently make up details — wrong restaurant names, prices that don't exist.</td>
+        <td>Every AI response is automatically checked by a second AI before reaching the user, blocking any invented content.</td>
+        <td>Users can trust every restaurant, price, and time shown — it was verified before they saw it.</td>
+      </tr>
+      <tr>
+        <td>Restaurant and driver coordination is usually handled through phone calls, WhatsApp, or manual dispatch.</td>
+        <td>Three AI assistants share order state. When a customer orders, the restaurant AI is notified. When food is ready, the driver AI is notified — no human in the loop.</td>
+        <td>End-to-end coordination runs automatically, from order placement to delivery confirmation.</td>
+      </tr>
+      <tr>
+        <td>Edge cases in food delivery — cancellations, driver no-shows, disputes — are typically handled reactively.</td>
+        <td>Every failure scenario is a defined state with automatic recovery: timeout triggers re-assignment, cancellation triggers refund, dispute triggers support ticket.</td>
+        <td>No order goes silent. Every customer gets a response. Every penny is accounted for.</td>
+      </tr>
+      <tr>
+        <td>Getting a restaurant live on a new platform requires hours of manual data entry — re-typing every item, price, and category from scratch.</td>
+        <td>Three menu import methods: paste a website URL (AI scrapes and parses the page), photograph a physical menu (AI reads the image), or upload an Excel template. All three produce the same structured menu.</td>
+        <td>A restaurant with a 100-item menu can go live in under five minutes — with zero manual data entry.</td>
+      </tr>
+      <tr>
+        <td>Third-party AI agents — voice assistants, concierge bots — can't access food ordering without a platform-specific custom integration.</td>
+        <td>The platform exposes an MCP (Model Context Protocol) server. Any AI agent can browse menus, place orders, and track delivery through a single standard interface.</td>
+        <td>DeliverOS becomes a composable capability — plug any AI assistant into the platform without writing custom code for each one.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- WHAT EACH USER GETS -->
+  <div class="sec-label">Outcomes by User Type</div>
+  <div class="outcomes-row">
+    <div class="oc c">
+      <div class="oc-head">🛍️ Customer</div>
+      <ul>
+        <li>Order in any words, any phrasing</li>
+        <li>Results matched by meaning</li>
+        <li>Track every stage in real time</li>
+        <li>AI help available mid-delivery</li>
+        <li>Automatic refunds on issues</li>
+        <li>App, web, or Telegram — same AI</li>
+      </ul>
+    </div>
+    <div class="oc r">
+      <div class="oc-head">🍽️ Restaurant</div>
+      <ul>
+        <li>Orders arrive in Telegram or app instantly</li>
+        <li>One-tap confirm or reject</li>
+        <li>Menu from URL, photo, or spreadsheet</li>
+        <li>Stripe payout setup in onboarding</li>
+        <li>Auto-pause on closure detected</li>
+        <li>Telegram or mobile app — their choice</li>
+      </ul>
+    </div>
+    <div class="oc d">
+      <div class="oc-head">🚗 Driver</div>
+      <ul>
+        <li>Jobs offered via Telegram or mobile app</li>
+        <li>Decline → automatic reassignment</li>
+        <li>Handover code confirms delivery</li>
+        <li>ID verification via Stripe</li>
+        <li>Earnings and balance in real time</li>
+        <li>Instant payout on request</li>
+      </ul>
+    </div>
+    <div class="oc o">
+      <div class="oc-head">⚙️ Operator</div>
+      <ul>
+        <li>Admin dashboard: full visibility</li>
+        <li>Approve restaurants &amp; drivers</li>
+        <li>Override any order state manually</li>
+        <li>Initiate refunds &amp; resolve disputes</li>
+        <li>10 automated background jobs</li>
+        <li>Full audit log on every action</li>
+      </ul>
     </div>
   </div>
 
-  <!-- 3 AGENTS FLOW -->
-  <div>
-    <div class="slbl">Three AI Agents — Complete Coordination Flow (16 Messages · 0 Human Interventions)</div>
-    <div class="agents-wrap">
-      <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordination">
+  <!-- WHAT THIS SHOWS AS A PM -->
+  <div class="sec-label">What This Demonstrates as a PM</div>
+  <div class="highlight">
+    <div class="hl-title">Designing with AI as a product capability, not a feature</div>
+    <p>
+      Every AI decision in DeliverOS was made to solve a user problem, not to showcase technology. Semantic search exists because customers don't browse like a database. The second AI safety check exists because users can't tell when an AI is making something up — the platform has to catch it for them. Three separate AI assistants exist because a single generic AI gives worse answers to everyone.
+    </p>
+    <p>
+      <strong>The hardest product work was designing the failure paths.</strong> What happens when a restaurant doesn't respond? When a driver goes offline mid-delivery? When a customer disputes a completed order? Every one of these is a defined, tested state with a documented resolution — not a gap to discover in production. That's the difference between a demo and a platform.
+    </p>
+  </div>
+
+  <!-- PM SKILLS DEMONSTRATED -->
+  <div class="sec-label">PM Skills Demonstrated</div>
+  <div class="skills-row">
+    <div class="skill-card">
+      <div class="sk-head">🗺️ End-to-End Ownership</div>
+      <p>Defined the product, designed user flows, made architecture decisions, shipped all three user experiences — customer, restaurant, driver — from zero.</p>
     </div>
-    <div class="agents-cap"><strong>Customer agent</strong> (app) orders in natural language [1–4] &nbsp;·&nbsp; <strong>Restaurant agent</strong> (Telegram) receives order [5], confirms with "1" [6] &nbsp;·&nbsp; <strong>Driver agent</strong> (Telegram) gets delivery request [6], accepts [7–8], picks up [9], delivers + earns [10] — steps 6 &amp; 8 fire across all 3 agents simultaneously</div>
-  </div>
-
-  <!-- PROBLEMS SOLVED -->
-  <div>
-    <div class="slbl">Problems Solved</div>
-    <table class="pso">
-      <thead>
-        <tr>
-          <th class="tp" style="width:30%">The Challenge</th>
-          <th class="ts" style="width:36%">What Was Built</th>
-          <th class="to" style="width:34%">The Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>People think in cravings — "something light", "spicy tonight", "quick and under $10" — not in category filters and search keywords.</td>
-          <td>AI converts natural-language queries into meaning-based searches across live restaurant menus.</td>
-          <td>Customers order by craving, not by knowing the right category to tap.</td>
-        </tr>
-        <tr>
-          <td>Generative AI can produce plausible-sounding details that don't exist: restaurant names, prices, or menu items invented on the fly.</td>
-          <td>Every AI response is verified by a second AI before reaching the user, blocking any invented content.</td>
-          <td>Users can trust every restaurant, price, and time shown — it was verified before they saw it.</td>
-        </tr>
-        <tr>
-          <td>Coordinating a live order across a restaurant, a driver, and a customer involves real-time decisions across three separate parties.</td>
-          <td>Three AI assistants share live order state and are each notified automatically when it's their turn to act.</td>
-          <td>End-to-end coordination runs autonomously — from placement to delivery confirmation.</td>
-        </tr>
-        <tr>
-          <td>Every delivery has failure modes — driver no-shows, restaurant closures, disputed handovers — each requiring a defined recovery path.</td>
-          <td>Every failure scenario is a defined state with automatic recovery: timeout triggers reassignment, cancel triggers refund.</td>
-          <td>No order goes silent. Every customer gets a response. Every penny is accounted for.</td>
-        </tr>
-        <tr>
-          <td>Agentic commerce requires an API contract external agents can call — but most platforms assume a human with a browser and an existing account. And blindly linking by email would let any agent impersonate any user.</td>
-          <td>MCP endpoint with two paths: new customers auto-onboard in one call (with explicit consent gate); existing customers verify via OTP email → receive a 15-min signed token → agent retries order.</td>
-          <td>Any AI agent can place a real, tracked order. Existing accounts are protected by OTP verification — a malicious agent cannot impersonate a customer just by knowing their email.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- OUTCOMES BY USER TYPE -->
-  <div>
-    <div class="slbl">Outcomes by User Type</div>
-    <div class="ogrid">
-      <div class="oc c">
-        <div class="oh">🛍️ Customer</div>
-        <ul>
-          <li>Order in any words, any phrasing</li>
-          <li>Results matched by meaning</li>
-          <li>Track every stage in real time</li>
-          <li>AI help available mid-delivery</li>
-          <li>Automatic refunds on issues</li>
-          <li>App, web, or Telegram — same AI</li>
-          <li>Order via your AI agent — no app needed</li>
-        </ul>
-      </div>
-      <div class="oc r">
-        <div class="oh">🍽️ Restaurant</div>
-        <ul>
-          <li>Orders arrive in Telegram instantly</li>
-          <li>One-message confirm or reject</li>
-          <li>Spreadsheet menu upload → live</li>
-          <li>Stripe payout setup in onboarding</li>
-          <li>Auto-pause on closure detected</li>
-          <li>No separate app to manage</li>
-        </ul>
-      </div>
-      <div class="oc d">
-        <div class="oh">🚗 Driver</div>
-        <ul>
-          <li>Jobs offered with all details upfront</li>
-          <li>Decline → automatic reassignment</li>
-          <li>Handover code confirms delivery</li>
-          <li>ID verification via Stripe</li>
-          <li>Earnings visible in real time</li>
-          <li>Instant payout on request</li>
-        </ul>
-      </div>
-      <div class="oc o">
-        <div class="oh">⚙️ Operator</div>
-        <ul>
-          <li>Admin portal: full visibility</li>
-          <li>Approve restaurants &amp; drivers</li>
-          <li>Override any order state manually</li>
-          <li>Initiate refunds &amp; resolve disputes</li>
-          <li>10 automated background jobs</li>
-          <li>Full audit log on every action</li>
-        </ul>
-      </div>
+    <div class="skill-card">
+      <div class="sk-head">🤖 AI Product Design</div>
+      <p>Decided where AI adds real value vs. where it introduces risk. Built safety mechanisms (fact-checking, grounding) as first-class product requirements, not afterthoughts.</p>
+    </div>
+    <div class="skill-card">
+      <div class="sk-head">💳 Monetisation &amp; Trust</div>
+      <p>Designed the full payment loop: customer auth, merchant payout, driver earnings, automatic refunds on cancellation. Every financial edge case is handled.</p>
     </div>
   </div>
 
-  <!-- HIGHLIGHT + SKILLS -->
-  <div class="hl">
-    <div class="hl-t">Designing with AI as a product capability, not a feature</div>
-    <p>Every AI decision in DeliverOS solved a user problem. Semantic search exists because customers don't browse like a database. The safety check exists because users can't tell when an AI is making something up. Three separate agents exist because a single generic AI gives worse answers to everyone. <strong>The MCP endpoint exists because agentic commerce is real</strong> — a customer's AI assistant should be able to order dinner the same way a human taps a button.</p>
-    <p><strong>The hardest product work was designing the failure paths.</strong> When a restaurant doesn't respond, when a driver goes offline mid-delivery, when a customer disputes — every one is a defined state with a documented resolution. That's the difference between a demo and a platform.</p>
-  </div>
-
-  <div class="skrow">
-    <div class="sk">
-      <div class="sk-h">🗺️ End-to-End Ownership</div>
-      <p>Defined the product, designed user flows, made architecture decisions, shipped all three user experiences from zero.</p>
-    </div>
-    <div class="sk">
-      <div class="sk-h">🤖 AI Product Design</div>
-      <p>Decided where AI adds real value vs. where it introduces risk. Built safety mechanisms as first-class product requirements.</p>
-    </div>
-    <div class="sk">
-      <div class="sk-h">💳 Monetisation &amp; Trust</div>
-      <p>Designed the full payment loop: customer auth, merchant payout, driver earnings, automatic refunds on cancellation.</p>
-    </div>
-  </div>
-
-  <div class="live">
-    <div class="ldot"></div>
-    <span class="llbl">Live &amp; Deployable</span>
-    <div class="ldiv"></div>
-    <span class="li"><strong>Platforms:</strong> iOS · Android · Web · Telegram · MCP</span>
-    <span class="lsep">·</span>
-    <span class="li"><strong>Payments:</strong> Stripe (real transactions)</span>
-    <span class="lsep">·</span>
-    <span class="li"><strong>AI:</strong> Claude by Anthropic</span>
-    <span class="lsep">·</span>
-    <span class="li"><strong>Search:</strong> OpenAI + Pinecone</span>
-    <span class="lsep">·</span>
-    <span class="li"><strong>Agent API:</strong> MCP (any AI agent)</span>
+  <!-- LIVE STATUS -->
+  <div class="live-strip">
+    <div class="live-dot"></div>
+    <span class="live-label">Live &amp; Deployable</span>
+    <div class="live-divider"></div>
+    <span class="live-item"><strong>Platforms:</strong> iOS · Android · Web · Telegram · MCP</span>
+    <span class="live-sep">·</span>
+    <span class="live-item"><strong>Payments:</strong> Stripe (real transactions)</span>
+    <span class="live-sep">·</span>
+    <span class="live-item"><strong>AI:</strong> Claude by Anthropic</span>
+    <span class="live-sep">·</span>
+    <span class="live-item"><strong>Search:</strong> OpenAI + Pinecone</span>
   </div>
 
 </div>
 
-<div class="ftr">
-  <span class="by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
+<!-- FOOTER -->
+<div class="footer">
+  <span class="built-by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
   <span>DeliverOS &nbsp;·&nbsp; AI-Native Food Delivery Platform &nbsp;·&nbsp; Platform Outcomes</span>
 </div>
 
