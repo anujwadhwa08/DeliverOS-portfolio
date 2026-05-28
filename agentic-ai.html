@@ -14,8 +14,8 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: #fff;
     color: #1e1b4b;
-    width: 210mm;
-    min-height: 297mm;
+    max-width: 960px;
+    width: 100%;
     margin: 0 auto;
     font-size: 8.8pt;
     line-height: 1.5;
@@ -183,7 +183,7 @@
   .footer .built-by { color: rgba(255,255,255,0.85); font-weight: 500; }
 
   @media print {
-    body { margin:0; width:210mm; }
+    body { margin:0; width:210mm; padding:0; max-width:none; }
   }
 </style>
 </head>
@@ -205,10 +205,11 @@
       <span class="badge b-white">LLM-as-a-Judge</span>
       <span class="badge b-amber">Tool Use</span>
       <span class="badge b-rose">MCP</span>
+      <span class="badge b-amber">Evals</span>
     </div>
   </div>
   <div class="header-tagline">
-    DeliverOS doesn't use AI as a chatbot. Six production-grade agentic patterns work in sequence on every message — from routing user intent and retrieving live context, to taking real-world actions and fact-checking the response before it's delivered.
+    DeliverOS doesn't use AI as a chatbot. Seven production-grade agentic patterns work in sequence on every message — from routing user intent and retrieving live context, to taking real-world actions, fact-checking the response, and running an eval suite that catches regressions in agent reasoning before they ship.
   </div>
 </div>
 
@@ -269,8 +270,8 @@
 
   </div>
 
-  <!-- Six concept cards -->
-  <div class="sec-label">Six Agentic Patterns — What Each One Does</div>
+  <!-- Seven concept cards -->
+  <div class="sec-label">Seven Agentic Patterns — What Each One Does</div>
   <div class="concepts">
 
     <div class="concept">
@@ -305,8 +306,8 @@
           LLM-as-a-Judge
         </div>
       </div>
-      <p>Every response Claude Sonnet generates is passed to a second model (Claude Haiku) before reaching the user. The judge has one task: verify that every restaurant name, price, and delivery time in the response actually appears in the retrieved context. Any invented detail fails the check and the response is corrected.</p>
-      <p class="how">Why: LLMs hallucinate even with strong grounding instructions. A separate judge catches what the generator misses.</p>
+      <p>Every Sonnet response — across all three agents — is passed to Claude Haiku before reaching the user. The judge has one narrow task: check whether every restaurant name and menu item in the response actually appears in the retrieved context JSON. Any invented detail gets corrected before delivery.</p>
+      <p class="how">Why Haiku, not a stronger model: this is a structured grounding check, not quality evaluation — essentially "does string X exist in list Y?" Haiku handles it in ~200ms at a fraction of Sonnet's cost. A larger judge would be overkill for a deterministic lookup task.</p>
     </div>
 
     <div class="concept">
@@ -343,6 +344,18 @@
       </div>
       <p>The platform exposes a Model Context Protocol (MCP) server — a standard interface any external AI agent can call to browse restaurants, place orders, and track deliveries on behalf of a user. The same ordering logic, safety checks, and payment flows apply regardless of which AI triggered the request.</p>
       <p class="how">Why: makes the platform a reusable capability inside the broader AI ecosystem, not just a standalone app.</p>
+    </div>
+
+    <div class="concept" style="grid-column: 1 / -1">
+      <div class="concept-head">
+        <span class="emo">🧪</span>
+        <div class="tw">
+          <span class="ptag">Pattern 7 — Quality Assurance</span>
+          Eval Framework — Testing AI Behaviour, Not Just Code
+        </div>
+      </div>
+      <p>Unit tests verify that code runs correctly. They do not verify that an AI agent behaves correctly — a test that mocks the Claude API will pass even if the real model refuses, hallucinates, or misreads the state machine. DeliverOS has a separate eval suite that sends real prompts to real models and checks the outputs against expected behaviours.</p>
+      <p class="how">58 eval cases across 6 agents: state machine correctness (does the agent advance the order to the right next state?), hallucination detection (does the judge catch invented restaurant names?), order flow edge cases, payment failure paths, safety (does the agent refuse PII requests?), and driver and merchant conversation flows. Evals run as part of the pre-deploy checklist — a regression in agent reasoning fails the suite before any code ships.</p>
     </div>
 
   </div>
