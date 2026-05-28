@@ -110,14 +110,31 @@
   .ftr { background:#1e1b4b; color:rgba(255,255,255,0.55); padding:6px 28px; display:flex; align-items:center; justify-content:space-between; font-size:6.8pt; flex-shrink:0; }
   .ftr .by { color:rgba(255,255,255,0.85); font-weight:500; }
 
+  .back-nav {
+    padding:10px 0 6px;
+    display:flex; align-items:center;
+  }
+  .back-nav a {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12px; font-weight:600; color:#6366f1;
+    text-decoration:none; letter-spacing:.01em;
+    padding:5px 12px; border-radius:20px;
+    border:1px solid rgba(99,102,241,0.3);
+    background:rgba(99,102,241,0.06);
+    transition:background .15s, border-color .15s;
+  }
+  .back-nav a:hover { background:rgba(99,102,241,0.14); border-color:rgba(99,102,241,0.5); }
+
   @media print {
     body { margin:0; width:210mm; padding:0; max-width:none; }
     .hdr,.ftr,.stat,.pstrip { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .back-nav { display:none; }
   }
 </style>
 </head>
 <body>
 
+<nav class="back-nav"><a href="index.html">← Back to overview</a></nav>
 <div class="hdr">
   <div class="hdr-top">
     <div class="logo">
