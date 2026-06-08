@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeliverOS — Driver App Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#f0f9ff; color:#0c1a2e;
+    font-size:14px; line-height:1.55;
+  }
+
+  /* ── Header ─── */
+  .hdr {
+    background:linear-gradient(135deg,#0284C7 0%,#0369a1 55%,#075985 100%);
+    padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
+  }
+  .hdr::after { content:''; position:absolute; bottom:-80px; right:-60px; width:320px; height:320px; border-radius:50%; background:rgba(255,255,255,0.05); }
+  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:12px; flex-wrap:wrap; }
+  .logo { display:flex; align-items:center; gap:14px; }
+  .lmark { width:52px; height:52px; background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.3); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+  .ltxt h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .ltxt .sub { font-size:13px; color:rgba(255,255,255,0.65); margin-top:4px; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; letter-spacing:.3px; white-space:nowrap; }
+  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.25); }
+  .bg { background:rgba(74,222,128,0.2); color:#bbf7d0; border:1px solid rgba(74,222,128,0.35); }
+  .bl { background:rgba(186,230,253,0.2); color:#bae6fd; border:1px solid rgba(186,230,253,0.35); }
+  .hdr-desc { font-size:15px; color:rgba(255,255,255,0.85); line-height:1.6; max-width:820px; }
+
+  /* ── Main layout ─── */
+  .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
+
+  /* ── Section label ─── */
+  .slbl {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
+    color:#0284C7; margin-bottom:16px; padding-bottom:8px;
+    border-bottom:2px solid #bae6fd;
+    display:flex; align-items:center; gap:7px;
+  }
+  .slbl::before { content:''; width:4px; height:14px; background:#0284C7; border-radius:2px; flex-shrink:0; }
+
+  /* ── Flow grid ─── */
+  .flow-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .flow-step { display:flex; flex-direction:column; align-items:center; }
+  .step-num {
+    width:28px; height:28px; border-radius:50%;
+    background:#0284C7; color:#fff;
+    font-size:13px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:10px; flex-shrink:0;
+    box-shadow:0 2px 8px rgba(2,132,199,0.4);
+  }
+  .flow-step img {
+    width:100%; border-radius:20px;
+    border:2.5px solid #bae6fd;
+    box-shadow:0 8px 32px rgba(0,0,0,0.14);
+    display:block;
+  }
+  .flow-step .cap {
+    font-size:12px; color:#475569; text-align:center;
+    margin-top:10px; line-height:1.45;
+  }
+  .flow-step .cap strong { color:#0f172a; font-weight:700; display:block; font-size:13px; margin-bottom:2px; }
+  .flow-step .cap .status {
+    display:inline-block; font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:.5px; padding:2px 8px; border-radius:10px; margin-top:4px;
+    background:#dbeafe; color:#1d4ed8;
+  }
+
+  /* ── Journey arrow connector ─── */
+  .journey { display:flex; align-items:center; gap:0; margin:8px 0; flex-wrap:wrap; }
+  .jstep {
+    display:flex; align-items:center; gap:6px; padding:8px 14px;
+    background:#fff; border:2px solid #bae6fd; border-radius:10px;
+    font-size:12px; font-weight:600; color:#0284C7; white-space:nowrap;
+  }
+  .jarrow { font-size:18px; color:#bae6fd; padding:0 4px; flex-shrink:0; }
+
+  /* ── Feature grid ─── */
+  .feat-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .feat { background:#fff; border:2px solid #bae6fd; border-radius:10px; padding:14px 16px; }
+  .feat-h { font-size:14px; font-weight:700; color:#0284C7; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .feat ul { list-style:none; }
+  .feat ul li { font-size:13px; color:#374151; padding:3px 0 3px 16px; position:relative; line-height:1.45; }
+  .feat ul li::before { content:'✓'; position:absolute; left:0; font-size:11px; font-weight:700; color:#0284C7; }
+
+  /* ── Stats row ─── */
+  .stats { display:flex; gap:10px; flex-wrap:wrap; }
+  .stat { flex:1; min-width:90px; background:linear-gradient(135deg,#0284C7,#0369a1); color:#fff; border-radius:10px; padding:14px 12px; text-align:center; box-shadow:0 4px 16px rgba(2,132,199,0.25); }
+  .stat .n { font-size:22px; font-weight:800; line-height:1; display:block; }
+  .stat .l { font-size:10px; opacity:.75; text-transform:uppercase; letter-spacing:.6px; margin-top:4px; display:block; }
+
+  /* ── Footer ─── */
+  .ftr { background:#0c1a2e; color:rgba(255,255,255,0.6); padding:16px 48px; display:flex; align-items:center; justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px; }
+  .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
+
+  .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
+  .back-nav a { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#0284C7; text-decoration:none; padding:6px 14px; border-radius:20px; border:1px solid rgba(2,132,199,0.3); background:rgba(2,132,199,0.06); }
+
+  @media (max-width:900px) {
+    .flow-3 { grid-template-columns:repeat(2,1fr); }
+    .feat-grid { grid-template-columns:1fr; }
+    .hdr { padding:24px 24px 20px; }
+    .body { padding:20px 16px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-nav"><a href="platform.html">← Platform overview</a></div>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <div class="lmark">🚗</div>
+      <div class="ltxt">
+        <h1>Driver App</h1>
+        <div class="sub">DeliverOS · End-to-end driver experience</div>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge bw">Real Screenshots</span>
+      <span class="badge bg">Live on iOS · Android · Web</span>
+      <span class="badge bl">Telegram also supported</span>
+    </div>
+  </div>
+  <div class="hdr-desc">Every step of a delivery — from seeing an available order to getting paid — handled by one app. Go online, accept a job, pick it up with a secure handover code, deliver, and watch earnings land in real time. No dispatchers. No phone calls. No paper receipts.</div>
+</div>
+
+<div class="body">
+
+  <!-- JOURNEY OVERVIEW -->
+  <div>
+    <div class="slbl">Full Delivery Journey — 8 Steps, Zero Friction</div>
+    <div class="journey">
+      <div class="jstep">🟢 Go Online</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">📦 See Order</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">✅ Accept</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🏎 Head to Restaurant</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🔢 Show Code</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🛵 In Transit</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🏠 Arrive</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">💰 Paid</div>
+    </div>
+  </div>
+
+  <!-- FLOW SCREENSHOTS -->
+  <div>
+    <div class="slbl">App Screens — Real Screenshots from the Running App</div>
+    <div class="flow-3">
+
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <img src="demo/screenshots/wf-driver-01-available.png" alt="Available order in dashboard">
+        <div class="cap">
+          <strong>Available Order</strong>
+          Driver goes online — order appears instantly with total, delivery fee, and distance. One tap to accept or decline.
+          <span class="status">FindingDriver</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <img src="demo/screenshots/wf-driver-02-enroute.png" alt="Heading to restaurant">
+        <div class="cap">
+          <strong>Heading to Restaurant</strong>
+          After accepting, active delivery screen shows progress bar, restaurant address, and "Arrived at restaurant" action button.
+          <span class="status">DriverEnRoute</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <img src="demo/screenshots/wf-driver-03-atrestaurant.png" alt="At restaurant — pickup code">
+        <div class="cap">
+          <strong>Pickup Code</strong>
+          Unique 6-character code generated per order. Driver shows it to restaurant staff who enter it on their end to confirm handover — no confusion, no disputes.
+          <span class="status">DriverAtRestaurant</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <img src="demo/screenshots/wf-driver-04-intransit.png" alt="In transit to customer">
+        <div class="cap">
+          <strong>In Transit</strong>
+          Order confirmed picked up. Driver heads to customer — live GPS tracked, customer notified "on the way", delivery timer counting.
+          <span class="status">InTransit</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">5</div>
+        <img src="demo/screenshots/wf-driver-05-arrived.png" alt="Arrived at customer">
+        <div class="cap">
+          <strong>At Customer Door</strong>
+          Driver marks "Arrived" — customer is notified. One more tap to confirm delivery complete. Geo-proximity check ensures the driver is actually there.
+          <span class="status">Arrived</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">6</div>
+        <img src="demo/screenshots/wf-driver-06-earnings.png" alt="Earnings and balance">
+        <div class="cap">
+          <strong>Earnings &amp; Balance</strong>
+          After delivery: 85% of earnings hit available balance immediately. 15% held in escrow for 7 days (dispute window), then released automatically.
+          <span class="status">Paid</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><span class="n">85%</span><span class="l">Instant Payout</span></div>
+    <div class="stat"><span class="n">15%</span><span class="l">7-Day Escrow</span></div>
+    <div class="stat"><span class="n">6-char</span><span class="l">Secure Code</span></div>
+    <div class="stat"><span class="n">&lt; 5 s</span><span class="l">Accept to Active</span></div>
+    <div class="stat"><span class="n">Auto</span><span class="l">Reassignment on Decline</span></div>
+    <div class="stat"><span class="n">GPS</span><span class="l">Live Location Tracking</span></div>
+  </div>
+
+  <!-- FEATURE GRID -->
+  <div>
+    <div class="slbl">What the Driver App Does</div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-h">📋 Orders &amp; Dispatch</div>
+        <ul>
+          <li>Go online / offline with one toggle</li>
+          <li>See available orders with total, type &amp; distance</li>
+          <li>Accept or decline — auto-reassigned on decline</li>
+          <li>No race conditions: first confirmed write wins</li>
+          <li>Real-time status updates every 15 seconds</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="feat-h">🔢 Secure Handover</div>
+        <ul>
+          <li>Unique 6-character code per order</li>
+          <li>Code only shown at DriverAtRestaurant state</li>
+          <li>Restaurant enters code on their end to confirm</li>
+          <li>Code match required to advance order — no skipping</li>
+          <li>Admin can override handover if code is lost</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="feat-h">💰 Earnings &amp; Payouts</div>
+        <ul>
+          <li>Available balance: withdrawable minus $20 reserve</li>
+          <li>Held balance: 15% held 7 days for dispute coverage</li>
+          <li>Lifetime earnings &amp; delivery count tracked</li>
+          <li>Weekly / monthly / yearly breakdown</li>
+          <li>Stripe Connect payout — request anytime</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="ftr">
+  <span class="by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
+  <span>DeliverOS &nbsp;·&nbsp; Driver App Flow &nbsp;·&nbsp; Real Screenshots</span>
+</div>
+
+</body>
+</html>
