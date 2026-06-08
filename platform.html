@@ -2,139 +2,204 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeliverOS — Platform Overview</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-  @page { size: A4; margin: 0; }
   * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
     font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    background:#fff; color:#1e1b4b;
-    max-width:960px; width:100%; margin:0 auto; padding:0 24px;
-    font-size:8pt; line-height:1.42;
-    display:flex; flex-direction:column;
-    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    background:#f8f9fe; color:#1e1b4b;
+    font-size:14px; line-height:1.55;
   }
 
-  /* ── Header ───────────── */
+  /* ── Header ──────────────────────────────────────────────────────────── */
   .hdr {
     background:linear-gradient(135deg,#1e1b4b 0%,#312e81 55%,#4338ca 100%);
-    padding:14px 28px 11px; color:#fff; flex-shrink:0; position:relative; overflow:hidden;
+    padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
   }
-  .hdr::after { content:''; position:absolute; bottom:-50px; right:-40px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,0.04); }
-  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:5px; }
-  .logo { display:flex; align-items:center; gap:9px; }
-  .lmark { width:36px; height:36px; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.28); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
-  .ltxt h1 { font-size:19pt; font-weight:800; letter-spacing:-.5px; line-height:1; }
-  .ltxt .sub { font-size:7.5pt; color:rgba(255,255,255,0.6); margin-top:2px; }
-  .badges { display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end; }
-  .badge { font-size:6.5pt; font-weight:600; padding:2.5px 7px; border-radius:20px; letter-spacing:.3px; white-space:nowrap; }
-  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.22); }
-  .bg { background:rgba(74,222,128,0.18); color:#86efac; border:1px solid rgba(74,222,128,0.28); }
-  .ba { background:rgba(251,191,36,0.18); color:#fde68a; border:1px solid rgba(251,191,36,0.28); }
-  .bi { background:rgba(165,180,252,0.18); color:#c7d2fe; border:1px solid rgba(165,180,252,0.28); }
-  .hdr-desc { font-size:8pt; color:rgba(255,255,255,0.78); line-height:1.5; max-width:82%; margin-top:2px; }
+  .hdr::after {
+    content:''; position:absolute; bottom:-80px; right:-60px;
+    width:320px; height:320px; border-radius:50%;
+    background:rgba(255,255,255,0.04);
+  }
+  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:12px; flex-wrap:wrap; }
+  .logo { display:flex; align-items:center; gap:14px; }
+  .lmark {
+    width:52px; height:52px; background:rgba(255,255,255,0.14);
+    border:2px solid rgba(255,255,255,0.28); border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; flex-shrink:0;
+  }
+  .ltxt h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .ltxt .sub { font-size:13px; color:rgba(255,255,255,0.65); margin-top:4px; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .badge {
+    font-size:11px; font-weight:600; padding:4px 10px;
+    border-radius:20px; letter-spacing:.3px; white-space:nowrap;
+  }
+  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.25); }
+  .bg { background:rgba(74,222,128,0.18); color:#86efac; border:1px solid rgba(74,222,128,0.3); }
+  .ba { background:rgba(251,191,36,0.18); color:#fde68a; border:1px solid rgba(251,191,36,0.3); }
+  .bi { background:rgba(165,180,252,0.18); color:#c7d2fe; border:1px solid rgba(165,180,252,0.3); }
+  .hdr-desc { font-size:15px; color:rgba(255,255,255,0.82); line-height:1.6; max-width:820px; }
 
-  /* ── Body ─────────────── */
-  .body { padding:10px 28px 8px; flex:1; display:flex; flex-direction:column; gap:9px; }
+  /* ── Main layout ─────────────────────────────────────────────────────── */
+  .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
 
-  /* ── Stats ────────────── */
-  .stats { display:flex; gap:5px; }
-  .stat { flex:1; background:linear-gradient(135deg,#1e1b4b,#312e81); color:#fff; border-radius:6px; padding:6px 7px; text-align:center; }
-  .stat .n { font-size:13pt; font-weight:800; line-height:1; display:block; }
-  .stat .l { font-size:5.5pt; opacity:.7; text-transform:uppercase; letter-spacing:.5px; margin-top:2px; display:block; }
+  /* ── Stats ──────────────────────────────────────────────────────────── */
+  .stats { display:flex; gap:10px; flex-wrap:wrap; }
+  .stat {
+    flex:1; min-width:90px;
+    background:linear-gradient(135deg,#1e1b4b,#312e81); color:#fff;
+    border-radius:10px; padding:14px 12px; text-align:center;
+    box-shadow:0 4px 16px rgba(30,27,75,0.18);
+  }
+  .stat .n { font-size:24px; font-weight:800; line-height:1; display:block; }
+  .stat .l { font-size:10px; opacity:.7; text-transform:uppercase; letter-spacing:.6px; margin-top:4px; display:block; }
 
-  /* ── Section label ────── */
-  .slbl { font-size:5.8pt; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#6366f1; margin-bottom:6px; padding-bottom:3px; border-bottom:1.5px solid #e0e7ff; display:flex; align-items:center; gap:5px; }
-  .slbl::before { content:''; width:3px; height:8px; background:#6366f1; border-radius:2px; flex-shrink:0; }
+  /* ── Section label ───────────────────────────────────────────────────── */
+  .slbl {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
+    color:#6366f1; margin-bottom:16px; padding-bottom:8px;
+    border-bottom:2px solid #e0e7ff;
+    display:flex; align-items:center; gap:7px;
+  }
+  .slbl::before { content:''; width:4px; height:14px; background:#6366f1; border-radius:2px; flex-shrink:0; }
 
-  /* ── App Flow Grid ─────── */
+  /* ── Customer App Flow ───────────────────────────────────────────────── */
   .flow-grid {
-    display:grid; grid-template-columns:repeat(8,1fr); gap:7px;
-    align-items:start;
+    display:grid; grid-template-columns:repeat(8,1fr); gap:10px; align-items:start;
   }
   .phone-cell { display:flex; flex-direction:column; align-items:center; }
   .phone-num {
-    width:17px; height:17px; border-radius:50%;
+    width:22px; height:22px; border-radius:50%;
     background:#4338ca; color:#fff;
-    font-size:7.5pt; font-weight:700;
+    font-size:11px; font-weight:700;
     display:flex; align-items:center; justify-content:center;
-    margin-bottom:4px; flex-shrink:0;
+    margin-bottom:6px; flex-shrink:0;
   }
   .phone-cell img {
-    width:100%; border-radius:12px;
+    width:100%; border-radius:14px;
     border:1.5px solid #e5e7eb;
-    box-shadow:0 4px 14px rgba(0,0,0,0.13);
+    box-shadow:0 4px 16px rgba(0,0,0,0.12);
     display:block;
   }
   .phone-cell .cap {
-    font-size:5.8pt; color:#6b7280; text-align:center;
-    margin-top:4px; line-height:1.3;
+    font-size:11px; color:#6b7280; text-align:center;
+    margin-top:7px; line-height:1.4;
   }
-  .phone-cell .cap strong { color:#374151; font-weight:600; }
+  .phone-cell .cap strong { color:#374151; font-weight:600; display:block; }
 
-  /* ── Wide agents flow ─── */
+  /* ── Agents flow ─────────────────────────────────────────────────────── */
   .agents-wrap img {
-    width:100%; border-radius:8px;
-    border:1px solid #1e1b4b;
-    box-shadow:0 4px 20px rgba(0,0,0,0.18);
+    width:100%; border-radius:12px;
+    border:1px solid #312e81;
+    box-shadow:0 6px 24px rgba(0,0,0,0.16);
     display:block;
   }
-  .agents-wrap .cap { font-size:6pt; color:#6b7280; margin-top:4px; line-height:1.3; }
+  .agents-wrap .cap { font-size:12px; color:#6b7280; margin-top:8px; line-height:1.5; }
   .agents-wrap .cap strong { color:#374151; font-weight:600; }
 
-  /* ── User cards ───────── */
-  .ucards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; }
-  .uc { border-radius:7px; padding:8px 10px; border:1.5px solid; }
+  /* ── App Screenshots (driver / merchant / admin) ─────────────────────── */
+  .app-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:start; }
+  .app-col { display:flex; flex-direction:column; gap:0; border-radius:14px; overflow:hidden; border:2px solid; }
+  .app-col.driver { border-color:#0284C7; }
+  .app-col.merchant { border-color:#7C3AED; }
+  .app-col.admin { border-color:#6366f1; }
+
+  .app-col-hdr {
+    padding:10px 14px; font-size:13px; font-weight:700;
+    display:flex; align-items:center; gap:8px;
+  }
+  .app-col.driver  .app-col-hdr { background:#0284C7; color:#fff; }
+  .app-col.merchant .app-col-hdr { background:#7C3AED; color:#fff; }
+  .app-col.admin    .app-col-hdr { background:#4338ca; color:#fff; }
+
+  .app-screens { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .app-screens.single { grid-template-columns:1fr; }
+  .app-screens img { width:100%; display:block; border-right:1px solid rgba(0,0,0,0.06); }
+  .app-screens img:last-child { border-right:none; }
+
+  .app-col-footer {
+    padding:10px 14px; font-size:12px; line-height:1.6;
+    list-style:none;
+  }
+  .app-col.driver  .app-col-footer { background:#F0F9FF; color:#374151; }
+  .app-col.merchant .app-col-footer { background:#F5F3FF; color:#374151; }
+  .app-col.admin    .app-col-footer { background:#EEF2FF; color:#374151; }
+
+  .app-col-footer li { padding:2px 0 2px 14px; position:relative; }
+  .app-col-footer li::before { content:'✓'; position:absolute; left:0; font-weight:700; font-size:11px; }
+  .app-col.driver  .app-col-footer li::before { color:#0284C7; }
+  .app-col.merchant .app-col-footer li::before { color:#7C3AED; }
+  .app-col.admin    .app-col-footer li::before { color:#4338ca; }
+
+  /* ── User cards ──────────────────────────────────────────────────────── */
+  .ucards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  .uc { border-radius:10px; padding:16px 18px; border:2px solid; }
   .uc.cu { background:#eef2ff; border-color:#a5b4fc; }
   .uc.re { background:#f0fdf4; border-color:#86efac; }
   .uc.dr { background:#fffbeb; border-color:#fcd34d; }
-  .uc .uh { font-size:7.8pt; font-weight:700; margin-bottom:3px; display:flex; align-items:center; gap:4px; }
+  .uc .uh { font-size:15px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
   .uc.cu .uh { color:#3730a3; } .uc.re .uh { color:#15803d; } .uc.dr .uh { color:#92400e; }
-  .uc .ur { font-size:6.2pt; color:#6b7280; font-style:italic; margin-bottom:4px; }
+  .uc .ur { font-size:12px; color:#6b7280; font-style:italic; margin-bottom:10px; }
   .uc ul { list-style:none; }
-  .uc ul li { font-size:7pt; color:#374151; padding:1.5px 0 1.5px 9px; position:relative; line-height:1.38; }
-  .uc ul li::before { content:'✓'; position:absolute; left:0; font-size:6pt; font-weight:700; }
+  .uc ul li { font-size:13px; color:#374151; padding:3px 0 3px 16px; position:relative; line-height:1.45; }
+  .uc ul li::before { content:'✓'; position:absolute; left:0; font-size:11px; font-weight:700; }
   .uc.cu ul li::before { color:#4f46e5; } .uc.re ul li::before { color:#16a34a; } .uc.dr ul li::before { color:#d97706; }
 
-  /* ── Powered by ───────── */
-  .pstrip { background:#f5f6ff; border:1px solid #e0e7ff; border-radius:6px; padding:6px 12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .plbl { font-size:5.8pt; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#6366f1; flex-shrink:0; }
-  .pdiv { width:1px; height:11px; background:#c7d2fe; flex-shrink:0; }
-  .pi { font-size:7pt; color:#374151; }
-  .pi strong { color:#312e81; font-weight:600; }
-  .pdot { color:#c7d2fe; }
-
-  /* ── Footer ───────────── */
-  .ftr { background:#1e1b4b; color:rgba(255,255,255,0.55); padding:6px 28px; display:flex; align-items:center; justify-content:space-between; font-size:6.8pt; flex-shrink:0; }
-  .ftr .by { color:rgba(255,255,255,0.85); font-weight:500; }
-
-  .back-nav {
-    padding:10px 0 6px;
-    display:flex; align-items:center;
+  /* ── MCP strip ───────────────────────────────────────────────────────── */
+  .pstrip {
+    background:#f5f0ff; border:2px solid #d8b4fe; border-radius:12px;
+    padding:18px 22px; display:flex; flex-direction:column; gap:10px;
   }
+  .pstrip-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .plbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#7c3aed; flex-shrink:0; min-width:110px; }
+  .pdiv { width:1px; height:14px; background:#d8b4fe; flex-shrink:0; }
+  .pi { font-size:13px; color:#374151; }
+  .pi strong { color:#312e81; font-weight:600; }
+  .pdot { color:#d8b4fe; font-weight:700; }
+
+  /* ── Powered by ──────────────────────────────────────────────────────── */
+  .powered {
+    background:#f5f6ff; border:2px solid #e0e7ff; border-radius:12px;
+    padding:14px 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .powered .plbl { color:#6366f1; min-width:auto; }
+  .powered .pi { font-size:13px; }
+
+  /* ── Footer ──────────────────────────────────────────────────────────── */
+  .ftr {
+    background:#1e1b4b; color:rgba(255,255,255,0.6);
+    padding:16px 48px; display:flex; align-items:center;
+    justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px;
+  }
+  .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
+
+  .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
   .back-nav a {
     display:inline-flex; align-items:center; gap:6px;
-    font-size:12px; font-weight:600; color:#6366f1;
-    text-decoration:none; letter-spacing:.01em;
-    padding:5px 12px; border-radius:20px;
-    border:1px solid rgba(99,102,241,0.3);
-    background:rgba(99,102,241,0.06);
-    transition:background .15s, border-color .15s;
+    font-size:13px; font-weight:600; color:#6366f1;
+    text-decoration:none; padding:6px 14px; border-radius:20px;
+    border:1px solid rgba(99,102,241,0.3); background:rgba(99,102,241,0.06);
   }
-  .back-nav a:hover { background:rgba(99,102,241,0.14); border-color:rgba(99,102,241,0.5); }
+  .back-nav a:hover { background:rgba(99,102,241,0.14); }
 
-  @media print {
-    body { margin:0; width:210mm; padding:0; max-width:none; }
-    .hdr,.ftr,.stat,.pstrip { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .back-nav { display:none; }
+  @media (max-width:900px) {
+    .flow-grid { grid-template-columns:repeat(4,1fr); }
+    .app-grid  { grid-template-columns:1fr; }
+    .ucards    { grid-template-columns:1fr; }
+    .hdr { padding:24px 24px 20px; }
+    .body { padding:20px 16px 32px; }
   }
 </style>
 </head>
 <body>
 
-<nav class="back-nav"><a href="index.html">← Back to overview</a></nav>
+<div class="back-nav"><a href="index.html">← Back to overview</a></div>
+
 <div class="hdr">
   <div class="hdr-top">
     <div class="logo">
@@ -168,68 +233,123 @@
     <div class="stat"><span class="n">100%</span><span class="l">Generative AI</span></div>
   </div>
 
-  <!-- APP FLOW -->
+  <!-- CUSTOMER APP FLOW -->
   <div>
-    <div class="slbl">Customer App — End-to-End Journey</div>
+    <div class="slbl">Customer App — End-to-End Journey (Real Screenshots)</div>
     <div class="flow-grid">
 
       <div class="phone-cell">
         <div class="phone-num">1</div>
         <img src="demo/screenshots/flow-01-home.png" alt="Home">
-        <div class="cap"><strong>Home</strong><br>Browse restaurants, search by craving</div>
+        <div class="cap"><strong>Home</strong>Browse restaurants, search by craving</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">2</div>
         <img src="demo/screenshots/flow-02-restaurant.png" alt="Restaurant">
-        <div class="cap"><strong>Restaurant</strong><br>Cover, ratings, delivery info</div>
+        <div class="cap"><strong>Restaurant</strong>Cover, ratings, delivery info</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">3</div>
         <img src="demo/screenshots/flow-03-menu.png" alt="Menu">
-        <div class="cap"><strong>Menu Items</strong><br>Photos, prices, one-tap add</div>
+        <div class="cap"><strong>Menu</strong>Photos, prices, one-tap add</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">4</div>
         <img src="demo/screenshots/flow-04-cart.png" alt="Cart">
-        <div class="cap"><strong>Cart</strong><br>Items added, ready to checkout</div>
+        <div class="cap"><strong>Cart</strong>Items, fees, total</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">5</div>
         <img src="demo/screenshots/flow-05-checkout.png" alt="Checkout">
-        <div class="cap"><strong>Checkout</strong><br>Address, fees, tip, total</div>
+        <div class="cap"><strong>Checkout</strong>Address, tip, confirm</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">6</div>
         <img src="demo/screenshots/flow-07-tracking.png" alt="Tracking">
-        <div class="cap"><strong>Tracking</strong><br>Live delivery steps, driver ETA</div>
+        <div class="cap"><strong>Live Tracking</strong>Driver ETA, every stage</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">7</div>
-        <img src="demo/screenshots/flow-09-chat-response.png" alt="AI Assistant">
-        <div class="cap"><strong>In-App AI Assistant</strong><br>Track order, reorder, ask anything</div>
+        <img src="demo/screenshots/flow-09-chat-response.png" alt="AI Chat">
+        <div class="cap"><strong>In-App AI</strong>Track, reorder, ask anything</div>
       </div>
 
       <div class="phone-cell">
         <div class="phone-num">8</div>
-        <img src="demo/screenshots/flow-08-completed.png" alt="Complete">
-        <div class="cap"><strong>Delivered!</strong><br>Confirmation + order summary</div>
+        <img src="demo/screenshots/flow-08-completed.png" alt="Delivered">
+        <div class="cap"><strong>Delivered!</strong>Confirmation + summary</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 3 AGENTS FLOW -->
+  <!-- THREE AI AGENTS -->
   <div>
     <div class="slbl">Three AI Agents — Complete Order Coordination (16 Messages · 0 Human Interventions)</div>
     <div class="agents-wrap">
       <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordination flow">
       <div class="cap"><strong>Left: Customer Agent</strong> (app channel) — natural language ordering, steps 1–4 &nbsp;·&nbsp; <strong>Centre: Restaurant Agent</strong> (Telegram) — order notification [5], confirmation [6], driver arrival [8] &nbsp;·&nbsp; <strong>Right: Driver Agent</strong> (Telegram) — delivery request [6], acceptance [7–8], pickup [9], payout [10]</div>
+    </div>
+  </div>
+
+  <!-- APP SCREENSHOTS — DRIVER / MERCHANT / ADMIN -->
+  <div>
+    <div class="slbl">Driver, Restaurant &amp; Admin Apps — Real Screenshots from Running App</div>
+    <div class="app-grid">
+
+      <!-- Driver App -->
+      <div class="app-col driver">
+        <div class="app-col-hdr">🚗 Driver App</div>
+        <div class="app-screens">
+          <img src="demo/screenshots/app-driver.png" alt="Driver Dashboard — Online">
+          <img src="demo/screenshots/app-driver-earnings.png" alt="Driver Earnings">
+        </div>
+        <ul class="app-col-footer">
+          <li>Online/offline toggle — go available instantly</li>
+          <li>Order cards with delivery fee &amp; type</li>
+          <li>Accept or decline incoming deliveries</li>
+          <li>Earnings: week / month / year / all-time</li>
+          <li>Available balance + held reserve tracking</li>
+        </ul>
+      </div>
+
+      <!-- Restaurant / Merchant App -->
+      <div class="app-col merchant">
+        <div class="app-col-hdr">🍽️ Restaurant App</div>
+        <div class="app-screens">
+          <img src="demo/screenshots/app-merchant.png" alt="Restaurant Orders">
+          <img src="demo/screenshots/app-merchant-menu.png" alt="Menu Management">
+        </div>
+        <ul class="app-col-footer">
+          <li>Live order feed — In Progress + Completed</li>
+          <li>Confirm or reject new orders in one tap</li>
+          <li>Verify driver pickup with handover code</li>
+          <li>Menu management — toggle items on/off</li>
+          <li>Import menu via Excel, URL, or photo</li>
+        </ul>
+      </div>
+
+      <!-- Admin App -->
+      <div class="app-col admin">
+        <div class="app-col-hdr">⚙️ Admin App</div>
+        <div class="app-screens single">
+          <img src="demo/screenshots/app-admin.png" alt="Admin Dashboard">
+        </div>
+        <ul class="app-col-footer">
+          <li>Restaurant &amp; driver approval queues</li>
+          <li>Search across all users and orders</li>
+          <li>Platform stats: orders, GMV, cancellation rate</li>
+          <li>Manual override, refunds, audit log</li>
+          <li>Full web management console also available</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 
@@ -273,91 +393,51 @@
     </div>
   </div>
 
-  <!-- MCP STRIP -->
+  <!-- MCP API -->
   <div>
     <div class="slbl">MCP API — Agent-to-Agent Ordering (No App · No Account · Zero Friction)</div>
-    <div class="pstrip" style="flex-direction:column; align-items:flex-start; gap:5px; background:#f5f0ff; border-color:#d8b4fe;">
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%;">
-        <span class="plbl" style="color:#7c3aed;">New customer</span>
-        <div class="pdiv" style="background:#d8b4fe;"></div>
+    <div class="pstrip">
+      <div class="pstrip-row">
+        <span class="plbl">New customer</span>
+        <div class="pdiv"></div>
         <span class="pi">Agent calls <strong>place_order</strong> with <strong>customerInfo + confirmDataSharing: true</strong></span>
-        <span class="pdot" style="color:#d8b4fe;">→</span>
+        <span class="pdot">→</span>
         <span class="pi">DeliverOS creates profile, encrypts address, charges card</span>
-        <span class="pdot" style="color:#d8b4fe;">→</span>
+        <span class="pdot">→</span>
         <span class="pi">Returns live order ID + tracking</span>
       </div>
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%;">
-        <span class="plbl" style="color:#7c3aed;">Existing customer</span>
-        <div class="pdiv" style="background:#d8b4fe;"></div>
+      <div class="pstrip-row">
+        <span class="plbl">Existing customer</span>
+        <div class="pdiv"></div>
         <span class="pi">Agent calls <strong>place_order</strong> → OTP sent to customer's registered email</span>
-        <span class="pdot" style="color:#d8b4fe;">→</span>
+        <span class="pdot">→</span>
         <span class="pi">Customer shares code → agent calls <strong>verify_agent_identity</strong></span>
-        <span class="pdot" style="color:#d8b4fe;">→</span>
+        <span class="pdot">→</span>
         <span class="pi">15-min token returned → agent retries order, no re-verification needed</span>
       </div>
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-        <span class="plbl" style="color:#7c3aed;">5 Tools</span>
-        <div class="pdiv" style="background:#d8b4fe;"></div>
-        <span class="pi"><strong>list_restaurants</strong></span><span class="pdot" style="color:#d8b4fe;">·</span>
-        <span class="pi"><strong>get_menu</strong></span><span class="pdot" style="color:#d8b4fe;">·</span>
-        <span class="pi"><strong>place_order</strong> (zero-account)</span><span class="pdot" style="color:#d8b4fe;">·</span>
-        <span class="pi"><strong>get_order_status</strong></span><span class="pdot" style="color:#d8b4fe;">·</span>
-        <span class="pi"><strong>list_orders</strong></span><span class="pdot" style="color:#d8b4fe;">·</span>
-        <span class="pi" style="color:#7c3aed; font-weight:600;">Any agent — Claude, GPT, Gemini, custom</span>
+      <div class="pstrip-row">
+        <span class="plbl">5 Tools</span>
+        <div class="pdiv"></div>
+        <span class="pi"><strong>list_restaurants</strong></span><span class="pdot">·</span>
+        <span class="pi"><strong>get_menu</strong></span><span class="pdot">·</span>
+        <span class="pi"><strong>place_order</strong> (zero-account)</span><span class="pdot">·</span>
+        <span class="pi"><strong>get_order_status</strong></span><span class="pdot">·</span>
+        <span class="pi"><strong>list_orders</strong></span><span class="pdot">·</span>
+        <span class="pi" style="color:#7c3aed;font-weight:600;">Any agent — Claude, GPT, Gemini, custom</span>
       </div>
-    </div>
-  </div>
-
-  <!-- WEB MANAGEMENT PORTALS -->
-  <div>
-    <div class="slbl">Web Management Portals — Live Screenshots</div>
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-bottom:2px;">
-
-      <div style="border-radius:7px; border:1.5px solid #c7d2fe; overflow:hidden;">
-        <div style="background:#111827; color:#fff; padding:6px 10px; font-size:7pt; font-weight:700;">⚙️ Admin Portal</div>
-        <img src="demo/screenshots/admin-dashboard.png" style="width:100%; display:block; border-bottom:1px solid #e5e7eb;">
-        <img src="demo/screenshots/admin-restaurants.png" style="width:100%; display:block; border-bottom:1px solid #e5e7eb; opacity:0.9;">
-        <ul style="list-style:none; padding:6px 10px; background:#eef2ff; font-size:6.8pt; color:#374151;">
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#4f46e5;">✓</span> Restaurant &amp; driver approval queues</li>
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#4f46e5;">✓</span> Manual order override &amp; refund initiation</li>
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#4f46e5;">✓</span> Full audit log with CSV export</li>
-        </ul>
-      </div>
-
-      <div style="border-radius:7px; border:1.5px solid #86efac; overflow:hidden;">
-        <div style="background:#111827; color:#fff; padding:6px 10px; font-size:7pt; font-weight:700;">🍽️ Restaurant Portal</div>
-        <img src="demo/screenshots/restaurant-dashboard.png" style="width:100%; display:block; border-bottom:1px solid #e5e7eb;">
-        <img src="demo/screenshots/restaurant-menu.png" style="width:100%; display:block; border-bottom:1px solid #e5e7eb; opacity:0.9;">
-        <ul style="list-style:none; padding:6px 10px; background:#f0fdf4; font-size:6.8pt; color:#374151;">
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#16a34a;">✓</span> GMV, AOV, avg prep time, on-time rate</li>
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#16a34a;">✓</span> Menu upload via Excel — row-by-row validation</li>
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#16a34a;">✓</span> Stripe Connect payout status</li>
-        </ul>
-      </div>
-
-      <div style="border-radius:7px; border:1.5px solid #fcd34d; overflow:hidden;">
-        <div style="background:#111827; color:#fff; padding:6px 10px; font-size:7pt; font-weight:700;">🚗 Driver Portal</div>
-        <img src="demo/screenshots/driver-dashboard.png" style="width:100%; display:block; border-bottom:1px solid #e5e7eb;">
-        <ul style="list-style:none; padding:6px 10px; background:#fffbeb; font-size:6.8pt; color:#374151;">
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#d97706;">✓</span> Earnings: weekly / monthly / all-time</li>
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#d97706;">✓</span> Deliveries, balance, 7-day held amount</li>
-          <li style="padding:1.5px 0 1.5px 9px; position:relative;"><span style="position:absolute;left:0;color:#d97706;">✓</span> Stripe KYC status &amp; T&amp;C acceptance</li>
-        </ul>
-      </div>
-
     </div>
   </div>
 
   <!-- POWERED BY -->
-  <div class="pstrip">
-    <span class="plbl">Powered by</span>
-    <div class="pdiv"></div>
+  <div class="powered">
+    <span class="plbl" style="color:#6366f1;min-width:auto;">Powered by</span>
+    <div class="pdiv" style="background:#e0e7ff;"></div>
     <span class="pi"><strong>Claude</strong> by Anthropic (AI Assistants)</span>
-    <span class="pdot">·</span>
+    <span class="pdot" style="color:#c7d2fe;">·</span>
     <span class="pi"><strong>OpenAI + Pinecone</strong> (Semantic Search)</span>
-    <span class="pdot">·</span>
+    <span class="pdot" style="color:#c7d2fe;">·</span>
     <span class="pi"><strong>Stripe</strong> (Payments, Payouts &amp; Identity)</span>
-    <span class="pdot">·</span>
+    <span class="pdot" style="color:#c7d2fe;">·</span>
     <span class="pi"><strong>iOS · Android · Web · Telegram · MCP</strong></span>
   </div>
 
