@@ -14,7 +14,6 @@
     font-size:14px; line-height:1.55;
   }
 
-  /* ── Header ─── */
   .hdr {
     background:linear-gradient(135deg,#1e1b4b 0%,#312e81 55%,#4338ca 100%);
     padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
@@ -32,16 +31,13 @@
   .bi { background:rgba(165,180,252,0.18); color:#c7d2fe; border:1px solid rgba(165,180,252,0.3); }
   .hdr-desc { font-size:15px; color:rgba(255,255,255,0.82); line-height:1.6; max-width:820px; }
 
-  /* ── Main layout ─── */
   .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
 
-  /* ── Section label ─── */
   .slbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#4338ca; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #c7d2fe; display:flex; align-items:center; gap:7px; }
   .slbl::before { content:''; width:4px; height:14px; background:#4338ca; border-radius:2px; flex-shrink:0; }
 
-  /* ── Flow grid ─── */
+  .flow-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
   .flow-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .flow-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; max-width:640px; }
   .flow-step { display:flex; flex-direction:column; align-items:center; }
   .step-num { width:28px; height:28px; border-radius:50%; background:#4338ca; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-bottom:10px; flex-shrink:0; box-shadow:0 2px 8px rgba(67,56,202,0.4); }
   .flow-step img { width:100%; border-radius:20px; border:2.5px solid #c7d2fe; box-shadow:0 8px 32px rgba(0,0,0,0.14); display:block; }
@@ -49,7 +45,6 @@
   .flow-step .cap strong { color:#1e1b4b; font-weight:700; display:block; font-size:13px; margin-bottom:2px; }
   .flow-step .cap .tag { display:inline-block; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:10px; margin-top:4px; background:#e0e7ff; color:#3730a3; }
 
-  /* ── JTBDs grid ─── */
   .jtbd-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
   .jtbd { background:#fff; border:2px solid #c7d2fe; border-radius:10px; padding:14px 16px; }
   .jtbd-h { font-size:14px; font-weight:700; color:#4338ca; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
@@ -57,24 +52,26 @@
   .jtbd ul li { font-size:13px; color:#374151; padding:3px 0 3px 16px; position:relative; line-height:1.45; }
   .jtbd ul li::before { content:'✓'; position:absolute; left:0; font-size:11px; font-weight:700; color:#4338ca; }
 
-  /* ── Stats ─── */
   .stats { display:flex; gap:10px; flex-wrap:wrap; }
   .stat { flex:1; min-width:90px; background:linear-gradient(135deg,#1e1b4b,#312e81); color:#fff; border-radius:10px; padding:14px 12px; text-align:center; box-shadow:0 4px 16px rgba(30,27,75,0.25); }
   .stat .n { font-size:22px; font-weight:800; line-height:1; display:block; }
   .stat .l { font-size:10px; opacity:.75; text-transform:uppercase; letter-spacing:.6px; margin-top:4px; display:block; }
 
-  /* ── Footer ─── */
   .ftr { background:#1e1b4b; color:rgba(255,255,255,0.6); padding:16px 48px; display:flex; align-items:center; justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px; }
   .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
 
   .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
   .back-nav a { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#4338ca; text-decoration:none; padding:6px 14px; border-radius:20px; border:1px solid rgba(67,56,202,0.3); background:rgba(67,56,202,0.06); }
 
-  @media (max-width:900px) {
+  @media (max-width:1000px) {
+    .flow-4 { grid-template-columns:repeat(2,1fr); }
     .flow-3 { grid-template-columns:repeat(2,1fr); }
     .jtbd-grid { grid-template-columns:1fr; }
     .hdr { padding:24px 24px 20px; }
     .body { padding:20px 16px 32px; }
+  }
+  @media (max-width:560px) {
+    .flow-4,.flow-3 { grid-template-columns:1fr; }
   }
 </style>
 </head>
@@ -97,22 +94,51 @@
       <span class="badge bi">Full Audit Trail</span>
     </div>
   </div>
-  <div class="hdr-desc">Full platform visibility in one place — approve restaurants and drivers, monitor live order flow, search across all users, and intervene on any order state. Every action leaves an audit trail. Operators can run the entire marketplace without writing a single line of code or touching a database.</div>
+  <div class="hdr-desc">Full platform visibility in one place — approve restaurants and drivers, reject with a typed reason that's stored on the record, monitor live order flow, search across all users, and intervene on any order state. Every action leaves an audit trail. Operators run the entire marketplace without touching a database.</div>
 </div>
 
 <div class="body">
 
-  <!-- APP SCREENSHOTS -->
+  <!-- JOURNEY OVERVIEW -->
+  <div>
+    <div class="slbl">Key Admin Workflows — What an Operator Actually Does</div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:#6366f1; text-transform:uppercase; letter-spacing:.8px; margin-bottom:8px;">Onboarding</div>
+        <div style="display:flex; align-items:center; gap:0; flex-wrap:wrap; row-gap:6px;">
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">📝 Application</div>
+          <div style="font-size:18px; color:#c7d2fe; padding:0 4px;">→</div>
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">🔍 Review</div>
+          <div style="font-size:18px; color:#c7d2fe; padding:0 4px;">→</div>
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">✅ Approve</div>
+          <div style="font-size:18px; color:#c7d2fe; padding:0 4px;">/</div>
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">❌ Reject + Reason</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:#6366f1; text-transform:uppercase; letter-spacing:.8px; margin-bottom:8px;">Operations</div>
+        <div style="display:flex; align-items:center; gap:0; flex-wrap:wrap; row-gap:6px;">
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">🔍 Search</div>
+          <div style="font-size:18px; color:#c7d2fe; padding:0 4px;">→</div>
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">📋 Inspect</div>
+          <div style="font-size:18px; color:#c7d2fe; padding:0 4px;">→</div>
+          <div style="display:flex; align-items:center; gap:6px; padding:7px 12px; background:#fff; border:2px solid #c7d2fe; border-radius:10px; font-size:12px; font-weight:600; color:#4338ca; white-space:nowrap;">🔧 Intervene</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP SCREENSHOTS — row 1: 4 -->
   <div>
     <div class="slbl">Admin App Screens — Real Screenshots from the Running App</div>
-    <div class="flow-3">
+    <div class="flow-4">
 
       <div class="flow-step">
         <div class="step-num">1</div>
         <img src="demo/screenshots/wf-admin-01-dashboard.png" alt="Admin dashboard">
         <div class="cap">
-          <strong>Dashboard</strong>
-          Platform-wide stats at a glance: orders today, GMV, pending approvals, active restaurants and drivers, cancellation rate. Refreshes on every visit.
+          <strong>Platform Dashboard</strong>
+          GMV, order counts, pending approvals, active restaurants and drivers, cancellation and refund rates. One glance tells an operator if the platform is healthy.
           <span class="tag">Home</span>
         </div>
       </div>
@@ -122,13 +148,23 @@
         <img src="demo/screenshots/wf-admin-02-pending.png" alt="Pending approvals queue">
         <div class="cap">
           <strong>Pending Approvals</strong>
-          All new restaurant and driver applications in one queue. Cards show Stripe Identity status, bank verification, and docs submitted. Approve or reject with reason from the same screen.
+          All new restaurant and driver applications in one queue. Cards show Stripe Identity status, bank verification, and docs submitted.
           <span class="tag">Pending</span>
         </div>
       </div>
 
       <div class="flow-step">
         <div class="step-num">3</div>
+        <img src="demo/screenshots/wf-admin-02b-reject-modal.png" alt="Reject application with reason">
+        <div class="cap">
+          <strong>Reject with Reason</strong>
+          Tapping Reject opens a modal to type a reason. The reason is stored on the record and sent to the applicant — full paper trail for every decision.
+          <span class="tag">Reject Flow</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">4</div>
         <img src="demo/screenshots/wf-admin-03-restaurants.png" alt="Restaurant list">
         <div class="cap">
           <strong>All Restaurants</strong>
@@ -137,8 +173,13 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- row 2: 2 -->
+    <div class="flow-3" style="margin-top:16px; max-width:740px;">
+
       <div class="flow-step">
-        <div class="step-num">4</div>
+        <div class="step-num">5</div>
         <img src="demo/screenshots/wf-admin-04-drivers.png" alt="Drivers list">
         <div class="cap">
           <strong>All Drivers</strong>
@@ -148,11 +189,11 @@
       </div>
 
       <div class="flow-step">
-        <div class="step-num">5</div>
+        <div class="step-num">6</div>
         <img src="demo/screenshots/wf-admin-05-search.png" alt="Search functionality">
         <div class="cap">
           <strong>Platform Search</strong>
-          Search across restaurants, drivers, and customers by name, city, or ID. Results link directly to profile pages. Recent searches remembered.
+          Search across restaurants, drivers, and customers by name, city, or ID. Results link directly to profile pages for instant inspection.
           <span class="tag">Search</span>
         </div>
       </div>
@@ -178,11 +219,11 @@
       <div class="jtbd">
         <div class="jtbd-h">👥 Onboarding &amp; Trust</div>
         <ul>
-          <li>Review new restaurant applications</li>
+          <li>Review new restaurant and driver applications</li>
           <li>Check Stripe Identity verification status</li>
           <li>Verify bank account &amp; Stripe Connect linked</li>
-          <li>Approve or reject with reason (stored on record)</li>
-          <li>Bypass Stripe Identity for known partners</li>
+          <li>Approve or reject — rejection reason stored and sent</li>
+          <li>Bypass Stripe Identity for known partners (demo mode)</li>
           <li>Review and activate T&amp;C document versions</li>
         </ul>
       </div>
@@ -192,7 +233,7 @@
         <ul>
           <li>Override handover if pickup code is lost</li>
           <li>Manually advance stuck orders in any state</li>
-          <li>Initiate full or partial refunds</li>
+          <li>Initiate full or partial Stripe refunds</li>
           <li>Resolve disputes — unlock escrow or release payout</li>
           <li>Cancel orders and trigger customer refund flow</li>
           <li>View full order timeline with all timestamps</li>
@@ -203,11 +244,11 @@
         <div class="jtbd-h">🔍 Monitoring &amp; Search</div>
         <ul>
           <li>Search restaurants, drivers, customers by name or city</li>
-          <li>View platform stats: GMV, orders, active fleet</li>
+          <li>View platform GMV, orders, and active fleet in real time</li>
           <li>Monitor cancellation and refund rates</li>
-          <li>See top restaurants and drivers by volume</li>
-          <li>Export audit log (CSV) for compliance</li>
-          <li>View platform background job health</li>
+          <li>See top restaurants and drivers by order volume</li>
+          <li>Export audit log (CSV) for compliance review</li>
+          <li>View background job health dashboard</li>
         </ul>
       </div>
 
