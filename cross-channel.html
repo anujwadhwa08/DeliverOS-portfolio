@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeliverOS — Cross-Channel Consistency</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#ecfeff; color:#083344;
+    font-size:14px; line-height:1.55;
+  }
+
+  .hdr {
+    background:linear-gradient(135deg,#083344 0%,#0e7490 55%,#0891b2 100%);
+    padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
+  }
+  .hdr::after {
+    content:''; position:absolute; bottom:-80px; right:-60px;
+    width:320px; height:320px; border-radius:50%;
+    background:rgba(255,255,255,0.04);
+  }
+  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:12px; flex-wrap:wrap; }
+  .logo { display:flex; align-items:center; gap:14px; }
+  .lmark {
+    width:52px; height:52px; background:rgba(255,255,255,0.14);
+    border:2px solid rgba(255,255,255,0.28); border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; flex-shrink:0;
+  }
+  .ltxt h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .ltxt .sub { font-size:13px; color:rgba(255,255,255,0.65); margin-top:4px; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; letter-spacing:.3px; white-space:nowrap; }
+  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.25); }
+  .bc { background:rgba(103,232,249,0.18); color:#a5f3fc; border:1px solid rgba(103,232,249,0.3); }
+  .bg { background:rgba(74,222,128,0.18); color:#86efac; border:1px solid rgba(74,222,128,0.3); }
+  .hdr-desc { font-size:15px; color:rgba(255,255,255,0.82); line-height:1.6; max-width:820px; }
+
+  .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
+
+  .slbl {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
+    color:#0891b2; margin-bottom:16px; padding-bottom:8px;
+    border-bottom:2px solid #cffafe;
+    display:flex; align-items:center; gap:7px;
+  }
+  .slbl::before { content:''; width:4px; height:14px; background:#0891b2; border-radius:2px; flex-shrink:0; }
+
+  /* Channel grid */
+  .ch-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  .ch-card { border-radius:12px; border:2px solid; padding:16px 14px; text-align:center; }
+  .ch-card.tg  { border-color:#2196F3; background:#e3f2fd; }
+  .ch-card.app { border-color:#7C3AED; background:#f5f0ff; }
+  .ch-card.web { border-color:#059669; background:#f0fdf4; }
+  .ch-card.mcp { border-color:#7c3aed; background:#faf5ff; }
+  .ch-card.ai  { border-color:#f59e0b; background:#fffbeb; }
+  .ch-icon { font-size:28px; margin-bottom:8px; }
+  .ch-name { font-size:13px; font-weight:700; }
+  .ch-card.tg  .ch-name { color:#1565C0; }
+  .ch-card.app .ch-name { color:#5b21b6; }
+  .ch-card.web .ch-name { color:#065f46; }
+  .ch-card.mcp .ch-name { color:#6d28d9; }
+  .ch-card.ai  .ch-name { color:#92400e; }
+  .ch-users { font-size:11px; color:#6b7280; margin-top:4px; line-height:1.4; }
+  .ch-shared { margin-top:10px; display:flex; flex-direction:column; gap:3px; }
+  .ch-pill { font-size:10px; font-weight:600; padding:3px 8px; border-radius:8px; background:rgba(255,255,255,0.7); color:#374151; }
+
+  /* Shared state machine diagram */
+  .sm-wrap { background:#fff; border:2px solid #cffafe; border-radius:14px; padding:20px 24px; }
+  .sm-title { font-size:14px; font-weight:700; color:#083344; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .sm-states { display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+  .sm-state { font-size:11px; font-weight:600; padding:5px 10px; border-radius:6px; white-space:nowrap; }
+  .sm-state.cust  { background:#e0f2fe; color:#0369a1; }
+  .sm-state.rest  { background:#d1fae5; color:#065f46; }
+  .sm-state.driv  { background:#fef3c7; color:#92400e; }
+  .sm-state.sys   { background:#ede9fe; color:#5b21b6; }
+  .sm-state.term  { background:#fee2e2; color:#991b1b; }
+  .sm-arrow { color:#94a3b8; font-size:14px; }
+  .sm-note { margin-top:12px; font-size:12px; color:#6b7280; padding:10px 14px; background:#f0f9ff; border-radius:8px; border-left:3px solid #0891b2; }
+
+  /* Screenshots 2×2 grid */
+  .ss-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .ss-card { border-radius:12px; overflow:hidden; border:2px solid #cffafe; display:flex; flex-direction:column; }
+  .ss-card img { width:100%; display:block; }
+  .ss-hdr { padding:10px 14px; font-size:12px; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .ss-hdr.tg  { background:#2196F3; color:#fff; }
+  .ss-hdr.web { background:#0891b2; color:#fff; }
+  .ss-hdr.mcp { background:#7c3aed; color:#fff; }
+  .ss-hdr.ai  { background:#f59e0b; color:#fff; }
+  .ss-body { padding:12px 14px; background:#ecfeff; font-size:13px; color:#374151; line-height:1.55; flex:1; }
+  .ss-body strong { color:#0e7490; }
+
+  /* Identity table */
+  .id-table { width:100%; border-collapse:collapse; font-size:13px; border-radius:10px; overflow:hidden; }
+  .id-table th { padding:10px 16px; text-align:left; font-size:11px; font-weight:700; letter-spacing:.5px; background:#0891b2; color:#fff; }
+  .id-table td { padding:11px 16px; border-bottom:1px solid #cffafe; color:#374151; vertical-align:middle; }
+  .id-table tr:nth-child(even) td { background:#f0fdfe; }
+  .id-table tr:last-child td { border-bottom:none; }
+  .id-table td:first-child { font-weight:600; color:#083344; }
+  .ch-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; }
+  .dot-tg  { background:#2196F3; }
+  .dot-app { background:#7C3AED; }
+  .dot-web { background:#059669; }
+  .dot-mcp { background:#7c3aed; }
+  .dot-ai  { background:#f59e0b; }
+  .tick { color:#059669; font-weight:700; font-size:16px; }
+  .cross { color:#dc2626; font-weight:700; font-size:16px; }
+
+  /* Stats row */
+  .stats-row { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  .stat { background:#fff; border:2px solid #cffafe; border-radius:10px; padding:16px; text-align:center; }
+  .stat .n { font-size:26px; font-weight:800; color:#0891b2; line-height:1; }
+  .stat .l { font-size:12px; color:#6b7280; margin-top:4px; line-height:1.4; }
+
+  /* Highlight block */
+  .hl { background:linear-gradient(135deg,#083344,#0e7490); color:#fff; border-radius:12px; padding:24px 28px; }
+  .hl-t { font-size:18px; font-weight:700; margin-bottom:10px; }
+  .hl p { font-size:14px; color:rgba(255,255,255,0.82); line-height:1.65; }
+  .hl p+p { margin-top:10px; }
+  .hl strong { color:#fff; }
+
+  /* Key decisions */
+  .decisions { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .dec { background:#fff; border:2px solid #cffafe; border-radius:10px; padding:16px; }
+  .dec-h { font-size:14px; font-weight:700; color:#083344; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .dec p { font-size:13px; color:#374151; line-height:1.55; }
+
+  .ftr {
+    background:#083344; color:rgba(255,255,255,0.6);
+    padding:16px 48px; display:flex; align-items:center;
+    justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px;
+  }
+  .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
+
+  .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
+  .back-nav a {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13px; font-weight:600; color:#0891b2;
+    text-decoration:none; padding:6px 14px; border-radius:20px;
+    border:1px solid rgba(8,145,178,0.3); background:rgba(8,145,178,0.06);
+  }
+  .back-nav a:hover { background:rgba(8,145,178,0.14); }
+
+  @media (max-width:900px) {
+    .ch-grid    { grid-template-columns:1fr 1fr; }
+    .ss-grid    { grid-template-columns:1fr; }
+    .stats-row  { grid-template-columns:1fr 1fr; }
+    .decisions  { grid-template-columns:1fr; }
+    .hdr { padding:24px 24px 20px; }
+    .body { padding:20px 16px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-nav"><a href="platform.html">← Back to platform overview</a></div>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <div class="lmark">🔄</div>
+      <div class="ltxt">
+        <h1>Cross-Channel Consistency</h1>
+        <div class="sub">One order state machine. Five channels. Zero sync code.</div>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge bc">5 Live Channels</span>
+      <span class="badge bw">Shared Identity</span>
+      <span class="badge bg">Real Screenshots</span>
+    </div>
+  </div>
+  <div class="hdr-desc">Every user — customer, restaurant, driver — interacts through their preferred channel. Telegram bots, the mobile app, the web admin portal, the MCP API, and the AI agent chat all feed into one shared order state machine. An action in one channel instantly reflects in all others. There is no sync layer, no ETL, no eventual consistency — because the data was never separate.</div>
+</div>
+
+<div class="body">
+
+  <!-- FIVE CHANNELS GRID -->
+  <div>
+    <div class="slbl">Five Channels — One Platform</div>
+    <div class="ch-grid">
+      <div class="ch-card tg">
+        <div class="ch-icon">📱</div>
+        <div class="ch-name">Telegram Bots</div>
+        <div class="ch-users">Customer · Restaurant · Driver</div>
+        <div class="ch-shared">
+          <div class="ch-pill">Natural language</div>
+          <div class="ch-pill">Live order push</div>
+        </div>
+      </div>
+      <div class="ch-card app">
+        <div class="ch-icon">📲</div>
+        <div class="ch-name">Mobile App</div>
+        <div class="ch-users">Customer · Restaurant · Driver</div>
+        <div class="ch-shared">
+          <div class="ch-pill">React Native</div>
+          <div class="ch-pill">iOS + Android</div>
+        </div>
+      </div>
+      <div class="ch-card web">
+        <div class="ch-icon">🌐</div>
+        <div class="ch-name">Web Portals</div>
+        <div class="ch-users">Restaurant · Driver · Admin</div>
+        <div class="ch-shared">
+          <div class="ch-pill">Full dashboard</div>
+          <div class="ch-pill">Order override</div>
+        </div>
+      </div>
+      <div class="ch-card mcp">
+        <div class="ch-icon">🔌</div>
+        <div class="ch-name">MCP API</div>
+        <div class="ch-users">External AI agents</div>
+        <div class="ch-shared">
+          <div class="ch-pill">6 MCP tools</div>
+          <div class="ch-pill">OTP identity gate</div>
+        </div>
+      </div>
+      <div class="ch-card ai">
+        <div class="ch-icon">🤖</div>
+        <div class="ch-name">AI Agent Chat</div>
+        <div class="ch-users">Customer (web)</div>
+        <div class="ch-shared">
+          <div class="ch-pill">Conversational UI</div>
+          <div class="ch-pill">Same pipeline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHARED STATE MACHINE -->
+  <div>
+    <div class="slbl">The Shared Order State Machine</div>
+    <div class="sm-wrap">
+      <div class="sm-title">📦 Every channel updates the same 20+ state machine. No copies, no sync.</div>
+      <div class="sm-states">
+        <div class="sm-state cust">AwaitingPayment</div><div class="sm-arrow">→</div>
+        <div class="sm-state sys">PaymentAuthorized</div><div class="sm-arrow">→</div>
+        <div class="sm-state rest">RestaurantNotified</div><div class="sm-arrow">→</div>
+        <div class="sm-state rest">BeingPrepared</div><div class="sm-arrow">→</div>
+        <div class="sm-state sys">FindingDriver</div><div class="sm-arrow">→</div>
+        <div class="sm-state driv">DriverAssigned</div><div class="sm-arrow">→</div>
+        <div class="sm-state driv">DriverEnRoute</div><div class="sm-arrow">→</div>
+        <div class="sm-state driv">DriverAtRestaurant</div><div class="sm-arrow">→</div>
+        <div class="sm-state driv">CodeVerified</div><div class="sm-arrow">→</div>
+        <div class="sm-state driv">InTransit</div><div class="sm-arrow">→</div>
+        <div class="sm-state driv">Arrived</div><div class="sm-arrow">→</div>
+        <div class="sm-state cust">Delivered</div><div class="sm-arrow">→</div>
+        <div class="sm-state sys">Completed</div>
+      </div>
+      <div class="sm-note">
+        <strong>Colour key:</strong>
+        <span style="margin-left:8px;"><span class="ch-dot dot-app"></span> Customer-driven states</span>
+        <span style="margin-left:12px;"><span class="ch-dot" style="background:#059669;"></span> Restaurant-driven states</span>
+        <span style="margin-left:12px;"><span class="ch-dot" style="background:#f59e0b;"></span> Driver-driven states</span>
+        <span style="margin-left:12px;"><span class="ch-dot dot-mcp"></span> System-driven states</span>
+        <span style="margin-left:8px;">— all written to the same Supabase row by whichever channel acts first
+      </span></div>
+    </div>
+  </div>
+
+  <!-- SCREENSHOTS 2×2 -->
+  <div>
+    <div class="slbl">Cross-Channel Consistency — Real Screenshots</div>
+    <div class="ss-grid">
+      <div class="ss-card">
+        <div class="ss-hdr tg">📱 Telegram — Three Bots, Simultaneous</div>
+        <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordinating across Telegram channels">
+        <div class="ss-body">
+          <strong>One order, three Telegram conversations, zero coordination code.</strong> The customer messages the customer bot (left). Steps 6 and 8 fire simultaneously to the restaurant bot (centre) and driver bot (right). Each bot sees only its own conversation thread — the shared state machine connects them. When the restaurant confirms, the driver queue opens. When the driver accepts, the customer sees "DriverAssigned" in real time. No webhook chaining, no polling.
+        </div>
+      </div>
+      <div class="ss-card">
+        <div class="ss-hdr web">🌐 Web Simulator — All Channels Live</div>
+        <img src="screenshots/simulator.png" alt="Platform simulator showing all bot panels">
+        <div class="ss-body">
+          <strong>The platform simulator proves cross-channel consistency.</strong> The web simulator shows all three Telegram bot panels side-by-side alongside the web admin panel. A message sent to the customer panel flows into the restaurant and driver panels in milliseconds. No page refresh, no separate state — all panels subscribe to the same Supabase real-time feed. Used during development to verify that every state transition arrives in the right panels at the right time.
+        </div>
+      </div>
+      <div class="ss-card">
+        <div class="ss-hdr mcp">🔌 MCP — External Agent, Same Pipeline</div>
+        <img src="screenshots/mcp-demo.png" alt="MCP agent playground">
+        <div class="ss-body">
+          <strong>The fourth channel joins the same order pipeline.</strong> An external AI agent calls <code style="background:#ede9fe;padding:1px 5px;border-radius:3px;font-size:11px;">place_order</code> via MCP. The resulting order appears in the restaurant's Telegram bot instantly — the same notification the bot receives from a mobile app order. The admin portal shows the order in its live feed. The MCP agent can call <code style="background:#ede9fe;padding:1px 5px;border-radius:3px;font-size:11px;">check_order_status</code> and get the same real-time state any other channel reads.
+        </div>
+      </div>
+      <div class="ss-card">
+        <div class="ss-hdr ai">🤖 AI Agent Chat — Fifth Channel</div>
+        <img src="screenshots/agent-demo.png" alt="AI agent chat interface">
+        <div class="ss-body">
+          <strong>Conversational ordering, same shared identity.</strong> A customer registered via Telegram can log in to the AI agent chat with their email, and their saved address and order history are immediately available — no re-registration. An order placed here fires the same restaurant notification and appears in the driver queue. The agent chat resolves the customer's profile from the shared Users table the same way all other channels do: by email hash.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTITY CONSISTENCY TABLE -->
+  <div>
+    <div class="slbl">Shared Identity — What Travels Across Channels</div>
+    <table class="id-table">
+      <thead>
+        <tr>
+          <th style="width:22%">Data</th>
+          <th style="width:15%">Telegram</th>
+          <th style="width:15%">Mobile App</th>
+          <th style="width:15%">Web Portal</th>
+          <th style="width:15%">MCP API</th>
+          <th style="width:18%">AI Agent Chat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Customer profile</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+        </tr>
+        <tr>
+          <td>Saved delivery address</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+        </tr>
+        <tr>
+          <td>Stripe saved card</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td>—</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+        </tr>
+        <tr>
+          <td>Order history</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+        </tr>
+        <tr>
+          <td>T&amp;C acceptance</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+        </tr>
+        <tr>
+          <td>Live order state</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+        </tr>
+        <tr>
+          <td>Re-registration required?</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STATS -->
+  <div>
+    <div class="slbl">By the Numbers</div>
+    <div class="stats-row">
+      <div class="stat"><div class="n">5</div><div class="l">Channels sharing one state machine</div></div>
+      <div class="stat"><div class="n">20+</div><div class="l">Shared order states</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Sync layers between channels</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">Registration for all 5 channels</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">Supabase row per order, all channels read it</div></div>
+    </div>
+  </div>
+
+  <!-- KEY DESIGN DECISIONS -->
+  <div>
+    <div class="slbl">Key Product Decisions That Made This Work</div>
+    <div class="decisions">
+      <div class="dec">
+        <div class="dec-h">🆔 Single identity layer — email as the cross-channel key</div>
+        <p>Every user signs up once. Whether they first register via Telegram, the mobile app, or MCP, a SHA-256 hash of their email is stored in the Users table and used as the lookup key in every subsequent channel. No secondary registration, no profile merge, no account linking flow needed. Telegram's <code style="background:#cffafe;padding:1px 5px;border-radius:3px;font-size:11px;">channelUserId</code> and the app's JWT both resolve to the same Users row via email hash.</p>
+      </div>
+      <div class="dec">
+        <div class="dec-h">📋 Shared state machine with per-channel notification triggers</div>
+        <p>The order state machine lives in the database. Every channel writes to the same <code style="background:#cffafe;padding:1px 5px;border-radius:3px;font-size:11px;">Orders.Status</code> column. State transition handlers — written in the order watchdog service — fire the appropriate notification to the next actor's channel. When the restaurant confirms via Telegram, the same handler fires a driver assignment notification as it would if the confirmation came from the web portal or admin override.</p>
+      </div>
+      <div class="dec">
+        <div class="dec-h">🔒 MCP identity security without blocking the happy path</div>
+        <p>Adding an agent-accessible API created a new attack surface: a malicious agent with a victim's email could place orders and charge their saved card. The OTP gate for existing customers closes this without adding friction for new customers (who have nothing to protect yet). The 15-minute JWT expiry means a captured token can't be replayed hours later. The double-call pattern (trigger OTP → verify OTP → receive token) keeps the token off the wire until it's verified.</p>
+      </div>
+      <div class="dec">
+        <div class="dec-h">🏗️ Channel adapters with a shared SMF message format</div>
+        <p>Each channel (Telegram, web, MCP) translates incoming messages into a Standard Message Format before routing to an agent. The agents themselves are channel-agnostic — they receive an SMF and return a response. This means adding a sixth channel (WhatsApp, voice, email) requires writing a new adapter, not modifying any agent. The shared message format is the reason cross-channel identity works: the router extracts the user ID the same way regardless of which channel the message arrived from.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGHLIGHT -->
+  <div class="hl">
+    <div class="hl-t">Why cross-channel consistency is a product problem, not a technical one</div>
+    <p>Most platforms treat each channel as a separate product: the app team, the Telegram bot team, the web portal team each build their own state, their own user lookup, and their own notification system. Users who move between channels hit walls — re-registration screens, missing order history, "your cart isn't synced" messages.</p>
+    <p><strong>DeliverOS was designed from the start with the assumption that the same user will use multiple channels.</strong> A restaurant owner might onboard via Telegram and manage their menu via the web portal. A customer might place their first order via Telegram and later switch to the app. An enterprise customer might route orders through MCP while their human staff monitors the web admin panel. The data model — one Users table, one Orders table, one state machine — makes all of this work without a single line of sync code.</p>
+  </div>
+
+</div>
+
+<div class="ftr">
+  <span class="by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
+  <span>DeliverOS &nbsp;·&nbsp; Cross-Channel Consistency</span>
+</div>
+
+</body>
+</html>
