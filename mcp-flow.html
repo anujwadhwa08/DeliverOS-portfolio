@@ -178,7 +178,7 @@
       <span class="badge bg">Production-Ready</span>
     </div>
   </div>
-  <div class="hdr-desc">MCP turns DeliverOS into a first-class citizen of the agentic web. A user's AI assistant — in Claude Desktop, a voice interface, or a custom agent — can search restaurants, browse menus, and place a real charge-to-card order, auto-creating an account on first use. Existing customers are protected by OTP verification so no agent can impersonate them without access to their inbox.</div>
+  <div class="hdr-desc">MCP turns DeliverOS into a first-class citizen of the agentic web. A user's AI assistant — in Claude Desktop, a voice interface, or a custom agent — can search restaurants, browse menus, and place a real charge-to-card order. Both new and existing customers are protected by OTP verification: an agent cannot create an account or charge a card without the real human confirming via their inbox.</div>
 </div>
 
 <div class="body">
@@ -193,7 +193,7 @@
       <div class="jstep"><div class="jarrow">→</div></div>
       <div class="jstep"><div class="jchip">⏱️ get_delivery_estimate</div></div>
       <div class="jstep"><div class="jarrow">→</div></div>
-      <div class="jstep"><div class="jchip key">🔒 Identity Check</div></div>
+      <div class="jstep"><div class="jchip key">🔒 OTP Verification</div></div>
       <div class="jstep"><div class="jarrow">→</div></div>
       <div class="jstep"><div class="jchip key">📦 place_order</div></div>
       <div class="jstep"><div class="jarrow">→</div></div>
@@ -243,12 +243,13 @@ search_restaurants({ <span class="s">"query"</span>: <span class="s">"Thai food 
     <!-- FORK -->
     <div class="fork">
       <div class="fork-card newuser">
-        <div class="fork-h">🆕 New Customer — Auto-Onboard</div>
+        <div class="fork-h">🆕 New Customer — OTP Before Account Creation</div>
         <ol>
-          <li>Agent calls <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">place_order</code> with <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">newCustomer: true</code> + email + explicit T&amp;C consent flag</li>
-          <li>MCP server creates a new customer account, saves email (SHA-256 hashed for lookup)</li>
-          <li>Returns a signed 15-min JWT token — no OTP needed for first-time sign-up</li>
-          <li>Agent retries <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">place_order</code> with the token — order is placed and card is charged</li>
+          <li>Agent calls <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">place_order</code> with <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">customerInfo</code> (name + email) + <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">confirmDataSharing: true</code></li>
+          <li>MCP server sends a 6-digit OTP to that email — confirms the customer owns it before any account is created</li>
+          <li>Customer reads the code from their inbox and gives it to the agent</li>
+          <li>Agent calls <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">verify_agent_identity</code> with email + OTP → receives <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">mcp-new-customer</code> JWT (15 min)</li>
+          <li>Agent retries <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">place_order</code> with token + <code style="background:#d1fae5;padding:1px 5px;border-radius:3px;font-size:11px;">customerInfo.name</code> — account is created now, card charged</li>
         </ol>
       </div>
       <div class="fork-card existing">
@@ -352,9 +353,9 @@ place_order({ <span class="s">"restaurant_id"</span>: <span class="s">"r_abc123"
 
   <!-- HIGHLIGHT -->
   <div class="hl">
-    <div class="hl-t">Why OTP for existing customers — and not for new ones?</div>
-    <p>The security model is intentional. A <strong>new customer has no saved cards or order history</strong> to steal — so the risk of auto-creating an account on their behalf is low, and the friction cost is high. We require explicit T&amp;C consent and a valid email to create the account; no more trust than a standard sign-up form.</p>
-    <p><strong>An existing customer has saved payment methods and a history of real transactions.</strong> If any agent can order as them just by knowing their email, a malicious or misconfigured agent could charge their card without permission. The OTP step ensures the real human was present at the moment of authorisation — the same guarantee a one-time password provides on a bank login. The 15-minute JWT expiry means even a captured token has a narrow window of use.</p>
+    <div class="hl-t">Why OTP for both new and existing customers?</div>
+    <p>Both paths require OTP verification. For a <strong>new customer</strong>, the OTP confirms they own the email address before any account is created in their name — an agent can't silently register a customer without them knowing. The account is only created inside the second <code style="background:rgba(255,255,255,0.15);padding:1px 6px;border-radius:4px;font-size:12px;">place_order</code> call, after the OTP-issued token is verified. This means an agent that supplies someone else's email address cannot create an account for them.</p>
+    <p><strong>For an existing customer</strong>, the OTP confirms they still control their inbox. Without it, any agent that knows a customer's email could place orders against their saved card. The 15-minute JWT expiry and single-use OTP mean even a captured token has a narrow window of use — and can't be replayed hours later.</p>
   </div>
 
 </div>

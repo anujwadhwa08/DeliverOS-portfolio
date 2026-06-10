@@ -326,8 +326,8 @@
         </tr>
         <tr>
           <td>Agentic commerce requires an API contract external agents can call — but most platforms assume a human with a browser and an existing account.</td>
-          <td>MCP endpoint with two paths: new customers auto-onboard in one call (with explicit consent); existing customers verify via OTP email → 15-min signed token → agent retries order.</td>
-          <td>Any AI agent can place a real, tracked order. Existing accounts are protected by OTP — a malicious agent cannot impersonate a customer just by knowing their email.</td>
+          <td>MCP endpoint: all callers (new and existing) verify via OTP email before any account is created or card is charged. New customer OTP confirms email ownership before account creation; existing customer OTP prevents any agent impersonating them by email alone. Both paths → 15-min signed JWT → agent retries place_order.</td>
+          <td>Any AI agent can place a real, tracked order. Both new and existing accounts are protected by OTP — a malicious agent cannot create an account or charge a card without the customer confirming via their inbox.</td>
         </tr>
         <tr>
           <td>A customer who signed up on Telegram can't access their order history, saved cards, or account from the mobile app or web without re-registering.</td>
