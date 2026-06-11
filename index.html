@@ -128,28 +128,54 @@
       line-height: 1.65;
     }
 
-    /* ── Deep dive ── */
+    /* ── Deep dive section wrapper ── */
     .deepdive-section {
-      padding: 48px 48px 72px;
+      padding: 56px 48px 72px;
     }
 
-    .deepdive-label {
+    /* ── Card group ── */
+    .card-group {
+      margin-bottom: 48px;
+    }
+
+    .card-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .group-label {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .14em;
       text-transform: uppercase;
       color: #334155;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #1e1e2e;
     }
 
-    .cards {
+    /* ── Grid variants ── */
+    .cards-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .cards-3col {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
     }
 
-    @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+    @media (max-width: 860px) {
+      .cards-3col { grid-template-columns: repeat(2, 1fr); }
+    }
 
+    @media (max-width: 600px) {
+      .cards-2col,
+      .cards-3col { grid-template-columns: 1fr; }
+    }
+
+    /* ── Card ── */
     .card {
       background: rgba(99,102,241,0.06);
       border: 1px solid rgba(99,102,241,0.18);
@@ -168,6 +194,36 @@
       background: rgba(99,102,241,0.12);
       transform: translateY(-2px);
     }
+
+    /* Group-specific card accent colours */
+    .group-story .card {
+      background: rgba(99,102,241,0.06);
+      border-color: rgba(99,102,241,0.18);
+    }
+    .group-story .card:hover {
+      border-color: rgba(165,180,252,0.5);
+      background: rgba(99,102,241,0.12);
+    }
+
+    .group-workflows .card {
+      background: rgba(16,185,129,0.05);
+      border-color: rgba(16,185,129,0.15);
+    }
+    .group-workflows .card:hover {
+      border-color: rgba(52,211,153,0.45);
+      background: rgba(16,185,129,0.1);
+    }
+    .group-workflows .card-cta { color: #34d399; }
+
+    .group-ai .card {
+      background: rgba(245,158,11,0.05);
+      border-color: rgba(245,158,11,0.15);
+    }
+    .group-ai .card:hover {
+      border-color: rgba(251,191,36,0.45);
+      background: rgba(245,158,11,0.1);
+    }
+    .group-ai .card-cta { color: #fbbf24; }
 
     .card-icon { font-size: 1.6rem; }
 
@@ -251,7 +307,7 @@
           <div class="diff-icon">🔗</div>
           <div class="diff-content">
             <div class="diff-title">MCP — any AI agent can order</div>
-            <div class="diff-body">An MCP endpoint lets any external AI assistant browse restaurants, place a real order, charge a card, and track delivery — without a human opening the app. New customers auto-onboard in one call; existing users are protected by OTP verification.</div>
+            <div class="diff-body">An MCP endpoint lets any external AI assistant browse restaurants, place a real order, charge a card, and track delivery — without a human opening the app. New and existing customers are both protected by OTP verification.</div>
           </div>
         </div>
       </div>
@@ -261,27 +317,76 @@
   <!-- DEEP DIVE CARDS -->
   <div class="deepdive-section">
     <div class="inner">
-      <div class="deepdive-label">Read the full story</div>
-      <div class="cards">
-        <a href="platform.html" class="card">
-          <div class="card-icon">🏗️</div>
-          <div class="card-title">Platform Overview</div>
-          <div class="card-desc">App screenshots, the full customer journey, three-agent coordination flow, MCP API details, and what each user type gets.</div>
-          <div class="card-cta">View 1-pager →</div>
-        </a>
-        <a href="outcomes.html" class="card">
-          <div class="card-icon">📈</div>
-          <div class="card-title">Product &amp; Outcomes</div>
-          <div class="card-desc">Every problem the platform solves, outcomes by user type, and what the build demonstrates as a PM portfolio piece.</div>
-          <div class="card-cta">View 1-pager →</div>
-        </a>
-        <a href="agentic-ai.html" class="card">
-          <div class="card-icon">🧠</div>
-          <div class="card-title">Agentic AI Architecture</div>
-          <div class="card-desc">Full request lifecycle diagram. Six production AI patterns — RAG, LLM-as-a-Judge, multi-agent, tool use, PII routing, MCP — explained.</div>
-          <div class="card-cta">View 1-pager →</div>
-        </a>
+
+      <!-- GROUP 1: Platform story & outcomes -->
+      <div class="card-group group-story">
+        <div class="group-label">Platform story &amp; outcomes</div>
+        <div class="cards-2col">
+          <a href="platform.html" class="card">
+            <div class="card-icon">🏗️</div>
+            <div class="card-title">Platform Overview</div>
+            <div class="card-desc">10-step customer journey, three-agent coordination, driver/restaurant/admin app previews, MCP and cross-channel overview.</div>
+            <div class="card-cta">View 1-pager →</div>
+          </a>
+          <a href="outcomes.html" class="card">
+            <div class="card-icon">📈</div>
+            <div class="card-title">Product &amp; Outcomes</div>
+            <div class="card-desc">Every problem the platform solves, outcomes by user type, PM skills and design decisions.</div>
+            <div class="card-cta">View 1-pager →</div>
+          </a>
+        </div>
       </div>
+
+      <!-- GROUP 2: User workflows -->
+      <div class="card-group group-workflows">
+        <div class="group-label">User workflows — detailed screenshots</div>
+        <div class="cards-3col">
+          <a href="restaurant-flow.html" class="card">
+            <div class="card-icon">🍽️</div>
+            <div class="card-title">Restaurant App &amp; Portal</div>
+            <div class="card-desc">Onboarding flow, live order management, secure handover, menu import (URL / photo / spreadsheet), web portal.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+          <a href="driver-flow.html" class="card">
+            <div class="card-icon">🚗</div>
+            <div class="card-title">Driver App &amp; Portal</div>
+            <div class="card-desc">Job offer flow, GPS navigation, secure pickup code, earnings &amp; instant payout, web portal.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+          <a href="admin-flow.html" class="card">
+            <div class="card-icon">⚙️</div>
+            <div class="card-title">Admin App &amp; Portal</div>
+            <div class="card-desc">Platform dashboard, partner approvals, order override, platform search, audit log, 10 background jobs.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- GROUP 3: AI capabilities -->
+      <div class="card-group group-ai">
+        <div class="group-label">AI capabilities</div>
+        <div class="cards-3col">
+          <a href="agentic-ai.html" class="card">
+            <div class="card-icon">🧠</div>
+            <div class="card-title">Agentic AI Architecture</div>
+            <div class="card-desc">Full request lifecycle, RAG, LLM-as-a-Judge, multi-agent, tool use, PII routing, MCP, eval framework.</div>
+            <div class="card-cta">View architecture →</div>
+          </a>
+          <a href="mcp-flow.html" class="card">
+            <div class="card-icon">🔌</div>
+            <div class="card-title">MCP Agent Ordering</div>
+            <div class="card-desc">How any AI agent places a real order — 6 MCP tools, OTP identity gate for both new and existing customers.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+          <a href="cross-channel.html" class="card">
+            <div class="card-icon">🔄</div>
+            <div class="card-title">Cross-Channel Consistency</div>
+            <div class="card-desc">One state machine across Telegram, app, web, MCP and AI chat — real screenshots proving zero sync code.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 

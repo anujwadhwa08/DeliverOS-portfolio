@@ -1,286 +1,642 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DeliverOS — Restaurant App Flow</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-  * { margin:0; padding:0; box-sizing:border-box; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeliverOS — Restaurant App & Web Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    background:#faf5ff; color:#1a0633;
-    font-size:14px; line-height:1.55;
-  }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fe;
+      color: #1e1b4b;
+      min-height: 100vh;
+    }
 
-  .hdr {
-    background:linear-gradient(135deg,#7C3AED 0%,#6d28d9 55%,#5b21b6 100%);
-    padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
-  }
-  .hdr::after { content:''; position:absolute; bottom:-80px; right:-60px; width:320px; height:320px; border-radius:50%; background:rgba(255,255,255,0.05); }
-  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:12px; flex-wrap:wrap; }
-  .logo { display:flex; align-items:center; gap:14px; }
-  .lmark { width:52px; height:52px; background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.3); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
-  .ltxt h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; line-height:1; }
-  .ltxt .sub { font-size:13px; color:rgba(255,255,255,0.65); margin-top:4px; }
-  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
-  .badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; letter-spacing:.3px; white-space:nowrap; }
-  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.25); }
-  .bg { background:rgba(167,243,208,0.2); color:#a7f3d0; border:1px solid rgba(167,243,208,0.35); }
-  .bp { background:rgba(233,213,255,0.2); color:#e9d5ff; border:1px solid rgba(233,213,255,0.35); }
-  .hdr-desc { font-size:15px; color:rgba(255,255,255,0.85); line-height:1.6; max-width:820px; }
+    /* HEADER */
+    .hdr {
+      background: linear-gradient(135deg, #2e1065, #5b21b6, #7C3AED);
+      color: white;
+      padding: 36px 48px;
+    }
+    .hdr-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .back-nav {
+      display: inline-block;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+    .back-nav:hover { color: #fff; }
+    .hdr-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .hdr-logo-icon {
+      font-size: 36px;
+      line-height: 1;
+    }
+    .hdr-logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .hdr-subtitle {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+    .hdr-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .hdr-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.85);
+      max-width: 820px;
+      line-height: 1.7;
+      font-weight: 400;
+    }
 
-  .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
+    /* BODY */
+    .body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
 
-  .slbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#7C3AED; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #e9d5ff; display:flex; align-items:center; gap:7px; }
-  .slbl::before { content:''; width:4px; height:14px; background:#7C3AED; border-radius:2px; flex-shrink:0; }
+    /* SECTION LABEL */
+    .slbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #7C3AED;
+      border-bottom: 2px solid #ede9fe;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .slbl::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 14px;
+      background: #7C3AED;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
 
-  .flow-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-  .flow-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .flow-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-  .flow-step { display:flex; flex-direction:column; align-items:center; }
-  .step-num { width:28px; height:28px; border-radius:50%; background:#7C3AED; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-bottom:10px; flex-shrink:0; box-shadow:0 2px 8px rgba(124,58,237,0.4); }
-  .flow-step img { width:100%; border-radius:20px; border:2.5px solid #ddd6fe; box-shadow:0 8px 32px rgba(0,0,0,0.14); display:block; }
-  .flow-step .cap { font-size:12px; color:#64748b; text-align:center; margin-top:10px; line-height:1.45; }
-  .flow-step .cap strong { color:#1a0633; font-weight:700; display:block; font-size:13px; margin-bottom:2px; }
-  .flow-step .cap .status { display:inline-block; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:10px; margin-top:4px; }
-  .status.new  { background:#fee2e2; color:#b91c1c; }
-  .status.prep { background:#fef3c7; color:#92400e; }
-  .status.dash { background:#ede9fe; color:#6d28d9; }
-  .status.wait { background:#fef3c7; color:#92400e; }
-  .status.done { background:#d1fae5; color:#065f46; }
-  .status.menu { background:#ede9fe; color:#6d28d9; }
+    /* JOURNEY FLOWS */
+    .journey-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .journey-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+    .journey-steps {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+    }
+    .journey-step {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .step-pill {
+      background: #faf5ff;
+      border: 2px solid #ede9fe;
+      border-radius: 20px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e1b4b;
+      white-space: nowrap;
+    }
+    .step-pill-active {
+      background: #7C3AED;
+      color: #fff;
+      border-color: #7C3AED;
+    }
+    .step-arrow {
+      color: #7C3AED;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+    .journey-block {
+      background: #fff;
+      border: 2px solid #ede9fe;
+      border-radius: 14px;
+      padding: 20px 24px;
+    }
 
-  .journey { display:flex; align-items:center; gap:0; flex-wrap:wrap; row-gap:8px; }
-  .jstep { display:flex; align-items:center; gap:6px; padding:8px 14px; background:#fff; border:2px solid #ddd6fe; border-radius:10px; font-size:12px; font-weight:600; color:#7C3AED; white-space:nowrap; }
-  .jarrow { font-size:18px; color:#ddd6fe; padding:0 4px; flex-shrink:0; }
+    /* SCREENSHOT CARDS */
+    .sc-card {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid #ede9fe;
+    }
+    .sc-card img {
+      width: 100%;
+      display: block;
+    }
+    .sc-caption {
+      font-size: 12px;
+      color: #6b7280;
+      padding: 10px 14px;
+      background: #faf5ff;
+      line-height: 1.5;
+    }
+    .sc-caption strong {
+      color: #374151;
+    }
 
-  .feat-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
-  .feat { background:#fff; border:2px solid #ddd6fe; border-radius:10px; padding:14px 16px; }
-  .feat-h { font-size:14px; font-weight:700; color:#7C3AED; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
-  .feat ul { list-style:none; }
-  .feat ul li { font-size:13px; color:#374151; padding:3px 0 3px 16px; position:relative; line-height:1.45; }
-  .feat ul li::before { content:'✓'; position:absolute; left:0; font-size:11px; font-weight:700; color:#7C3AED; }
+    /* FULL WIDTH SCREENSHOT */
+    .sc-full { width: 100%; }
 
-  .stats { display:flex; gap:10px; flex-wrap:wrap; }
-  .stat { flex:1; min-width:90px; background:linear-gradient(135deg,#7C3AED,#6d28d9); color:#fff; border-radius:10px; padding:14px 12px; text-align:center; box-shadow:0 4px 16px rgba(124,58,237,0.25); }
-  .stat .n { font-size:22px; font-weight:800; line-height:1; display:block; }
-  .stat .l { font-size:10px; opacity:.75; text-transform:uppercase; letter-spacing:.6px; margin-top:4px; display:block; }
+    /* 3-COL GRID */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
-  .ftr { background:#1a0633; color:rgba(255,255,255,0.6); padding:16px 48px; display:flex; align-items:center; justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px; }
-  .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
+    /* NUMBERED SCREENSHOT */
+    .num-sc {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .num-sc-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .num-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #7C3AED;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .num-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e1b4b;
+    }
 
-  .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
-  .back-nav a { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#7C3AED; text-decoration:none; padding:6px 14px; border-radius:20px; border:1px solid rgba(124,58,237,0.3); background:rgba(124,58,237,0.06); }
+    /* TELEGRAM TEXT CARD */
+    .tg-card {
+      background: #faf5ff;
+      border-left: 4px solid #7C3AED;
+      border-radius: 0 12px 12px 0;
+      padding: 22px 24px;
+    }
+    .tg-card p {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .tg-actions-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7C3AED;
+      margin-bottom: 10px;
+    }
+    .tg-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tg-action {
+      background: #fff;
+      border: 1.5px solid #ede9fe;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e1b4b;
+    }
 
-  @media (max-width:1000px) {
-    .flow-4 { grid-template-columns:repeat(2,1fr); }
-    .flow-3 { grid-template-columns:repeat(2,1fr); }
-    .feat-grid { grid-template-columns:1fr; }
-    .hdr { padding:24px 24px 20px; }
-    .body { padding:20px 16px 32px; }
-  }
-  @media (max-width:560px) {
-    .flow-4,.flow-3,.flow-2 { grid-template-columns:1fr; }
-  }
-</style>
+    /* STATS ROW */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 2px solid #ede9fe;
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+    .stat-n {
+      font-size: 24px;
+      font-weight: 800;
+      color: #7C3AED;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* FEATURE GRID */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .feat-card {
+      background: #fff;
+      border: 2px solid #ede9fe;
+      border-radius: 14px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feat-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e1b4b;
+    }
+    .feat-body {
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.65;
+    }
+
+    /* FOOTER */
+    .ftr {
+      background: #2e1065;
+      color: rgba(255,255,255,0.6);
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+    .ftr strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hdr { padding: 28px 20px; }
+      .body { padding: 24px 16px 40px; }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .stats-row { grid-template-columns: repeat(3, 1fr); }
+      .feat-grid { grid-template-columns: 1fr; }
+      .ftr { flex-direction: column; gap: 10px; text-align: center; padding: 24px 20px; }
+    }
+    @media (max-width: 600px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .hdr-logo-text { font-size: 22px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="back-nav"><a href="platform.html">← Platform overview</a></div>
-
-<div class="hdr">
-  <div class="hdr-top">
-    <div class="logo">
-      <div class="lmark">🍽️</div>
-      <div class="ltxt">
-        <h1>Restaurant App</h1>
-        <div class="sub">DeliverOS · End-to-end restaurant experience</div>
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-inner">
+      <a href="platform.html" class="back-nav">&#8592; Back to platform overview</a>
+      <div class="hdr-logo">
+        <span class="hdr-logo-icon">&#127374;</span>
+        <div>
+          <div class="hdr-logo-text">Restaurant App &amp; Web Portal</div>
+          <div class="hdr-subtitle">End-to-end restaurant experience &#8212; onboarding to order management</div>
+        </div>
       </div>
+      <div class="hdr-badges">
+        <span class="badge">Real Screenshots</span>
+        <span class="badge">Live on iOS &middot; Android &middot; Web</span>
+        <span class="badge">Telegram also supported</span>
+        <span class="badge">AI Menu Import</span>
+      </div>
+      <p class="hdr-desc">
+        The restaurant app covers the complete journey: guided AI-powered onboarding, instant menu setup (from URL, photo, or spreadsheet), live order management with a real-time countdown, and secure driver handover via a 6-character code. Available on iOS, Android, web, and Telegram.
+      </p>
     </div>
-    <div class="badges">
-      <span class="badge bw">Real Screenshots</span>
-      <span class="badge bg">Live on iOS · Android · Web</span>
-      <span class="badge bp">Telegram also supported</span>
-    </div>
-  </div>
-  <div class="hdr-desc">One screen handles the whole order lifecycle — accept incoming orders with a custom prep time, watch the countdown tick down, mark the order ready, verify the driver's handover code, and watch completed orders stack up. No tablets, no fax machines. Menu imports in seconds from any URL, photo, or Excel file.</div>
-</div>
+  </header>
 
-<div class="body">
+  <!-- BODY -->
+  <main class="body">
 
-  <!-- JOURNEY OVERVIEW -->
-  <div>
-    <div class="slbl">Full Order Lifecycle — Every Step, End to End</div>
-    <div class="journey">
-      <div class="jstep">🔔 Order In</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">✅ Confirm + Set Prep Time</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">⏱ Prep Countdown</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">✅ Mark Ready</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">🚗 Driver Assigned</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">🔢 Enter Handover Code</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">🛵 Handed Over</div>
-      <div class="jarrow">→</div>
-      <div class="jstep">✔️ Completed</div>
-    </div>
-  </div>
+    <!-- JOURNEY FLOWS -->
+    <section>
+      <div class="slbl">Journey Flows</div>
+      <div class="journey-wrap">
 
-  <!-- ORDER FLOW SCREENSHOTS — top row: 4 -->
-  <div>
-    <div class="slbl">Order Management — Real Screenshots from the Running App</div>
-    <div class="flow-4">
+        <div class="journey-block">
+          <div class="journey-label">Onboarding</div>
+          <div class="journey-steps">
+            <div class="journey-step"><span class="step-pill">Business Details</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Owner Verification</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Stripe Identity</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Menu Setup</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Opening Hours</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill step-pill-active">Live!</span></div>
+          </div>
+        </div>
 
-      <div class="flow-step">
-        <div class="step-num">1</div>
-        <img src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Full order board">
-        <div class="cap">
-          <strong>Live Order Board</strong>
-          Three sections at a glance: "Needs confirmation" (red alert), "In progress" grouped by state, and "Completed". Every card shows ref, total, and type.
-          <span class="status new">Needs Confirmation</span>
+        <div class="journey-block">
+          <div class="journey-label">Order Lifecycle</div>
+          <div class="journey-steps">
+            <div class="journey-step"><span class="step-pill">Order In</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Confirm + Set Prep Time</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Prep Countdown</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Mark Ready</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Driver Assigned</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Enter Handover Code</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill">Handed Over</span><span class="step-arrow">&#8594;</span></div>
+            <div class="journey-step"><span class="step-pill step-pill-active">Completed</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ONBOARDING -->
+    <section>
+      <div class="slbl">Onboarding Flow &#8212; AI-Guided Setup (Real Screenshot)</div>
+      <div class="sc-card sc-full">
+        <img src="screenshots/restaurant-onboarding.png" alt="Restaurant onboarding flow" />
+        <div class="sc-caption">
+          <strong>AI-guided onboarding.</strong> The restaurant onboarding flow is a guided AI conversation &#8212; the assistant collects business name, cuisine type, owner details, and T&amp;C acceptance. Stripe Identity verifies the owner&#8217;s ID. Menu setup follows immediately: paste a website URL, photograph the physical menu, or upload an Excel spreadsheet &#8212; the AI parses and categorises every item automatically. A restaurant with a 100-item menu can go live in under 5 minutes.
         </div>
       </div>
+    </section>
 
-      <div class="flow-step">
-        <div class="step-num">2</div>
-        <img src="demo/screenshots/wf-merchant-01b-confirm-modal.png" alt="Confirm order modal with prep time">
-        <div class="cap">
-          <strong>Confirm + Set Prep Time</strong>
-          Tapping "Confirm →" opens a modal to set minutes. The "Ready by" time computes live as you type. Sends estimated time to the customer immediately.
-          <span class="status new">Setting Prep Time</span>
+    <!-- ORDER MANAGEMENT -->
+    <section>
+      <div class="slbl">Order Management &#8212; 6 Screens from the Running App</div>
+      <div class="grid-3">
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">1</div>
+            <div class="num-title">Live Order Board</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Live order board" />
+            <div class="sc-caption">All incoming orders in real time &#8212; order contents, customer name, delivery address. New orders pulse to draw attention.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">2</div>
+            <div class="num-title">Confirm + Set Prep Time</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-01b-confirm-modal.png" alt="Confirm and set prep time" />
+            <div class="sc-caption">Tap to confirm. Enter prep time in minutes &#8212; the countdown starts immediately and the customer sees the ETA update.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">3</div>
+            <div class="num-title">Prep Countdown + Mark Ready</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-01c-mark-ready.png" alt="Prep countdown and mark ready" />
+            <div class="sc-caption">Live countdown timer visible to both restaurant and customer. Restaurant taps &#8216;Ready&#8217; when food is packed &#8212; triggers driver dispatch.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">4</div>
+            <div class="num-title">Driver at Door</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-02-verify-btn.png" alt="Driver at door verify prompt" />
+            <div class="sc-caption">When the driver arrives to collect, restaurant sees a &#8216;Verify Driver&#8217; prompt. Tapping opens the code entry modal.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">5</div>
+            <div class="num-title">Handover Code Entry</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-03-verify-modal.png" alt="Handover code entry modal" />
+            <div class="sc-caption">Restaurant enters the 6-character code shown on the driver&#8217;s phone. Code is single-use and expires after entry &#8212; confirms physical handover.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">6</div>
+            <div class="num-title">Completed Orders</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-05-completed.png" alt="Completed orders history" />
+            <div class="sc-caption">Completed order history with timestamps, items, and payout status. Shows when the Stripe transfer was initiated.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MENU MANAGEMENT -->
+    <section>
+      <div class="slbl">Menu Management &#8212; Import, Browse &amp; Edit</div>
+      <div class="grid-3">
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">1</div>
+            <div class="num-title">Menu Browser</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-04-menu.png" alt="Menu browser" />
+            <div class="sc-caption">Full menu with categories, items, prices, and availability toggles. Restaurant can mark individual items as unavailable without removing them.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">2</div>
+            <div class="num-title">Import from Website URL</div>
+          </div>
+          <div class="sc-card">
+            <img src="demo/screenshots/wf-merchant-04b-url-import.png" alt="Import menu from URL" />
+            <div class="sc-caption">Paste any restaurant website URL &#8212; the AI scrapes the menu, infers categories, and creates all items. Review and confirm before publishing.</div>
+          </div>
+        </div>
+
+        <div class="num-sc">
+          <div class="num-sc-header">
+            <div class="num-circle">3</div>
+            <div class="num-title">Web Portal &#8212; Menu Editor</div>
+          </div>
+          <div class="sc-card">
+            <img src="screenshots/restaurant-menu.png" alt="Web portal menu editor" />
+            <div class="sc-caption">The web portal&#8217;s menu editor shows the full catalog with inline editing. Add categories, reorder items, bulk-update availability &#8212; larger viewport for complex menus.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WEB PORTAL -->
+    <section>
+      <div class="slbl">Restaurant Web Portal &#8212; Orders &amp; Analytics</div>
+      <div class="sc-card sc-full">
+        <img src="screenshots/restaurant-dashboard.png" alt="Restaurant web portal dashboard" />
+        <div class="sc-caption">
+          <strong>Full browser experience.</strong> The web portal gives restaurant owners a full view of live orders, daily revenue, completed order history, and menu status &#8212; all in a browser without the mobile app. The same order state machine drives both the app and portal &#8212; an order confirmed on Telegram appears in the web portal instantly.
         </div>
       </div>
+    </section>
 
-      <div class="flow-step">
-        <div class="step-num">3</div>
-        <img src="demo/screenshots/wf-merchant-01c-mark-ready.png" alt="BeingPrepared order with countdown and Mark Ready button">
-        <div class="cap">
-          <strong>Prep Countdown + Mark Ready</strong>
-          Confirmed orders show a live countdown timer. When food is done, one tap on "Mark ready ✓" notifies the driver and dispatches pickup.
-          <span class="status prep">Preparing</span>
+    <!-- TELEGRAM -->
+    <section>
+      <div class="slbl">Telegram Channel &#8212; Same Experience, No App Required</div>
+      <div class="tg-card">
+        <p>
+          Restaurants can manage their entire workflow via the Telegram bot &#8212; receive orders, confirm with prep time, mark ready, and verify driver handover &#8212; all through chat. The Telegram conversation and mobile app share the same order state &#8212; confirming an order via Telegram updates the customer&#8217;s tracking screen in real time.
+        </p>
+        <div class="tg-actions-label">Key Telegram Actions</div>
+        <div class="tg-actions">
+          <span class="tg-action">Receive new order notifications</span>
+          <span class="tg-action">Confirm order + set prep time</span>
+          <span class="tg-action">Mark order as ready</span>
+          <span class="tg-action">Verify driver handover code</span>
+          <span class="tg-action">Check completed orders</span>
         </div>
       </div>
+    </section>
 
-      <div class="flow-step">
-        <div class="step-num">4</div>
-        <img src="demo/screenshots/wf-merchant-02-verify-btn.png" alt="Driver arrived — verify button">
-        <div class="cap">
-          <strong>Driver at Door</strong>
-          When the driver arrives, "Verify driver →" appears on the card. The driver shows their phone — restaurant enters the code to release the order.
-          <span class="status wait">Driver Waiting</span>
+    <!-- STATS -->
+    <section>
+      <div class="slbl">By the Numbers</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-n">4</div>
+          <div class="stat-label">Import Methods<br/>(URL / Photo / Excel / Manual)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">Live</div>
+          <div class="stat-label">Prep Countdown Timer</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">6-char</div>
+          <div class="stat-label">Secure Handover Code</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">Auto</div>
+          <div class="stat-label">Driver Assignment on Ready</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">1-tap</div>
+          <div class="stat-label">Confirm or Reject</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n">Stripe</div>
+          <div class="stat-label">Instant Restaurant Payouts</div>
         </div>
       </div>
+    </section>
 
-    </div>
-
-    <!-- second row: 4 -->
-    <div class="flow-4" style="margin-top:16px;">
-
-      <div class="flow-step">
-        <div class="step-num">5</div>
-        <img src="demo/screenshots/wf-merchant-03-verify-modal.png" alt="Code verification modal">
-        <div class="cap">
-          <strong>Code Entry Modal</strong>
-          Restaurant enters the 6-character code shown on the driver's phone. Code mismatch blocks handover — no skipping, no workarounds.
-          <span class="status wait">Entering Code</span>
+    <!-- FEATURE GRID -->
+    <section>
+      <div class="slbl">Feature Highlights</div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-title">Order Management</div>
+          <div class="feat-body">
+            Live order board with real-time updates. Confirm with custom prep time. Countdown visible to customer. One-tap confirm or reject &#8212; decline triggers automatic cancellation and refund.
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-title">Secure Handover</div>
+          <div class="feat-body">
+            6-character single-use code on driver&#8217;s phone. Restaurant staff enters it to confirm physical handover. Prevents false delivery claims.
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-title">Menu &amp; Onboarding</div>
+          <div class="feat-body">
+            AI imports menu from URL, photo, or spreadsheet. Categories created automatically. Availability toggles per item. Opening hours and pausing built in.
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="flow-step">
-        <div class="step-num">6</div>
-        <img src="demo/screenshots/wf-merchant-04-menu.png" alt="Menu management">
-        <div class="cap">
-          <strong>Menu Management</strong>
-          Toggle items on/off, edit price, category, and per-dish prep time. Every toggle is optimistic — updates instantly on the server in the background.
-          <span class="status menu">Menu</span>
-        </div>
-      </div>
+  </main>
 
-      <div class="flow-step">
-        <div class="step-num">7</div>
-        <img src="demo/screenshots/wf-merchant-04b-url-import.png" alt="Menu URL import">
-        <div class="cap">
-          <strong>Import from Website</strong>
-          Paste any restaurant website URL. The platform scrapes the page and AI extracts item names, descriptions, and prices — no copy-paste required.
-          <span class="status menu">URL Import</span>
-        </div>
-      </div>
-
-      <div class="flow-step">
-        <div class="step-num">8</div>
-        <img src="demo/screenshots/wf-merchant-05-completed.png" alt="Completed orders">
-        <div class="cap">
-          <strong>Completed Orders</strong>
-          Full order history in the completed section. Every order shows timestamp, total, and delivery type. Cancelled orders logged with reason.
-          <span class="status done">Completed</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat"><span class="n">4</span><span class="l">Import Methods</span></div>
-    <div class="stat"><span class="n">Live</span><span class="l">Prep Countdown</span></div>
-    <div class="stat"><span class="n">6-char</span><span class="l">Handover Code</span></div>
-    <div class="stat"><span class="n">Auto</span><span class="l">Driver Assignment</span></div>
-    <div class="stat"><span class="n">1-tap</span><span class="l">Confirm or Reject</span></div>
-    <div class="stat"><span class="n">Stripe</span><span class="l">Instant Payouts</span></div>
-  </div>
-
-  <!-- FEATURE GRID -->
-  <div>
-    <div class="slbl">What the Restaurant App Does</div>
-    <div class="feat-grid">
-      <div class="feat">
-        <div class="feat-h">📋 Order Management</div>
-        <ul>
-          <li>New orders surface instantly with red alert</li>
-          <li>Confirm with custom prep time — ready-by shown to customer</li>
-          <li>Live countdown timer on every preparing order</li>
-          <li>"Mark Ready" dispatches driver pickup immediately</li>
-          <li>Reject with optional reason — customer notified at once</li>
-          <li>Pause restaurant for 15 / 30 / 60 min or indefinitely</li>
-        </ul>
-      </div>
-      <div class="feat">
-        <div class="feat-h">🔒 Secure Handover</div>
-        <ul>
-          <li>6-character code generated per order</li>
-          <li>Driver shows code on their phone at pickup</li>
-          <li>Restaurant enters code to confirm handover</li>
-          <li>Code mismatch blocks handover — audit trail created</li>
-          <li>Admin override available if code is lost</li>
-          <li>Status advances automatically on verified match</li>
-        </ul>
-      </div>
-      <div class="feat">
-        <div class="feat-h">🍜 Menu &amp; Onboarding</div>
-        <ul>
-          <li>Import menu from any restaurant website URL</li>
-          <li>Photo of physical menu — AI reads and structures it</li>
-          <li>Excel / PDF upload for bulk item entry</li>
-          <li>Per-item prep time for accurate order scheduling</li>
-          <li>Toggle items available / unavailable on the fly</li>
-          <li>Stripe Identity + Connect set up in guided onboarding</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<div class="ftr">
-  <span class="by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
-  <span>DeliverOS &nbsp;·&nbsp; Restaurant App Flow &nbsp;·&nbsp; Real Screenshots</span>
-</div>
+  <!-- FOOTER -->
+  <footer class="ftr">
+    <div><strong>Built by Anuj Wadhwa</strong> &middot; 2026</div>
+    <div><strong>DeliverOS</strong> &middot; Restaurant App &amp; Web Portal</div>
+  </footer>
 
 </body>
 </html>
