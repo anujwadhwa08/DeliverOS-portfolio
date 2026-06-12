@@ -1,756 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeliverOS — Platform Overview</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeliverOS — Platform Overview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, #f0effe 0%, #f8f9ff 100%);
-      color: #1e1b4b;
-      min-height: 100vh;
-    }
+  body {
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#f8f9fe; color:#1e1b4b;
+    font-size:14px; line-height:1.55;
+  }
 
-    a { color: inherit; text-decoration: none; }
+  /* ── Header ──────────────────────────────────────────────────────────── */
+  .hdr {
+    background:linear-gradient(135deg,#1e1b4b 0%,#312e81 55%,#4338ca 100%);
+    padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
+  }
+  .hdr::after {
+    content:''; position:absolute; bottom:-80px; right:-60px;
+    width:320px; height:320px; border-radius:50%;
+    background:rgba(255,255,255,0.04);
+  }
+  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:12px; flex-wrap:wrap; }
+  .logo { display:flex; align-items:center; gap:14px; }
+  .lmark {
+    width:52px; height:52px; background:rgba(255,255,255,0.14);
+    border:2px solid rgba(255,255,255,0.28); border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; flex-shrink:0;
+  }
+  .ltxt h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .ltxt .sub { font-size:13px; color:rgba(255,255,255,0.65); margin-top:4px; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .badge {
+    font-size:11px; font-weight:600; padding:4px 10px;
+    border-radius:20px; letter-spacing:.3px; white-space:nowrap;
+  }
+  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.25); }
+  .bg { background:rgba(74,222,128,0.18); color:#86efac; border:1px solid rgba(74,222,128,0.3); }
+  .ba { background:rgba(251,191,36,0.18); color:#fde68a; border:1px solid rgba(251,191,36,0.3); }
+  .bi { background:rgba(165,180,252,0.18); color:#c7d2fe; border:1px solid rgba(165,180,252,0.3); }
+  .hdr-desc { font-size:15px; color:rgba(255,255,255,0.82); line-height:1.6; max-width:820px; }
 
-    /* BACK NAV */
-    .back-nav {
-      background: transparent;
-      padding: 12px 48px;
-      border-bottom: 1px solid #e0e7ff;
-    }
-    .back-nav a {
-      font-size: 13px;
-      font-weight: 600;
-      color: #4f46e5;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: gap 0.15s;
-    }
-    .back-nav a:hover { gap: 10px; }
+  /* ── Main layout ─────────────────────────────────────────────────────── */
+  .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
 
-    /* HEADER */
-    .hdr {
-      background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 50%, #4f46e5 100%);
-      color: white;
-      padding: 36px 48px;
-    }
-    .hdr-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .hdr-logo {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .hdr-logo-icon {
-      font-size: 40px;
-      line-height: 1;
-    }
-    .hdr-logo-text h1 {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      line-height: 1.1;
-    }
-    .hdr-logo-text .subtitle {
-      font-size: 13px;
-      font-weight: 500;
-      opacity: 0.75;
-      margin-top: 3px;
-    }
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-    .badge {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
-    .badge.ai { background: rgba(167,139,250,0.3); border-color: rgba(167,139,250,0.5); }
-    .badge.prod { background: rgba(52,211,153,0.25); border-color: rgba(52,211,153,0.4); }
-    .badge.mcp { background: rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.4); }
-    .hdr-desc {
-      font-size: 15px;
-      font-weight: 400;
-      opacity: 0.88;
-      max-width: 700px;
-      line-height: 1.6;
-    }
+  /* ── Stats ──────────────────────────────────────────────────────────── */
+  .stats { display:flex; gap:10px; flex-wrap:wrap; }
+  .stat {
+    flex:1; min-width:90px;
+    background:linear-gradient(135deg,#1e1b4b,#312e81); color:#fff;
+    border-radius:10px; padding:14px 12px; text-align:center;
+    box-shadow:0 4px 16px rgba(30,27,75,0.18);
+  }
+  .stat .n { font-size:24px; font-weight:800; line-height:1; display:block; }
+  .stat .l { font-size:10px; opacity:.7; text-transform:uppercase; letter-spacing:.6px; margin-top:4px; display:block; }
 
-    /* BODY */
-    .body {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 32px 32px 48px;
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
-    }
+  /* ── Section label ───────────────────────────────────────────────────── */
+  .slbl {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
+    color:#6366f1; margin-bottom:16px; padding-bottom:8px;
+    border-bottom:2px solid #e0e7ff;
+    display:flex; align-items:center; gap:7px;
+  }
+  .slbl::before { content:''; width:4px; height:14px; background:#6366f1; border-radius:2px; flex-shrink:0; }
 
-    /* SECTION LABEL */
-    .slbl {
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      color: #4f46e5;
-      border-bottom: 2px solid #e0e7ff;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .slbl::before {
-      content: '';
-      width: 4px;
-      height: 18px;
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      border-radius: 2px;
-      flex-shrink: 0;
-      box-shadow: 0 0 12px rgba(124,58,237,0.4);
-    }
+  /* ── Customer App Flow ───────────────────────────────────────────────── */
+  .flow-grid {
+    display:grid; grid-template-columns:repeat(8,1fr); gap:10px; align-items:start;
+  }
+  .phone-cell { display:flex; flex-direction:column; align-items:center; }
+  .phone-num {
+    width:22px; height:22px; border-radius:50%;
+    background:#4338ca; color:#fff;
+    font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:6px; flex-shrink:0;
+  }
+  .phone-cell img {
+    width:100%; border-radius:14px;
+    border:1.5px solid #e5e7eb;
+    box-shadow:0 4px 16px rgba(0,0,0,0.12);
+    display:block;
+  }
+  .phone-cell .cap {
+    font-size:11px; color:#6b7280; text-align:center;
+    margin-top:7px; line-height:1.4;
+  }
+  .phone-cell .cap strong { color:#374151; font-weight:600; display:block; }
 
-    /* STATS ROW */
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 12px;
-    }
-    .stat-card {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.7);
-      box-shadow: 0 8px 32px rgba(99,102,241,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
-      border-radius: 16px;
-      padding: 20px 16px;
-      text-align: center;
-    }
-    .stat-card .n {
-      font-size: 32px;
-      font-weight: 900;
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .stat-card .l {
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.4;
-      font-weight: 500;
-    }
+  /* ── Agents flow ─────────────────────────────────────────────────────── */
+  .agents-wrap img {
+    width:100%; border-radius:12px;
+    border:1px solid #312e81;
+    box-shadow:0 6px 24px rgba(0,0,0,0.16);
+    display:block;
+  }
+  .agents-wrap .cap { font-size:12px; color:#6b7280; margin-top:8px; line-height:1.5; }
+  .agents-wrap .cap strong { color:#374151; font-weight:600; }
 
-    /* SHOWCASE WRAP — dark section for customer journey */
-    .showcase-wrap {
-      background: linear-gradient(145deg, #0f0c29 0%, #302b63 55%, #1a0533 100%);
-      border-radius: 24px;
-      padding: 40px 32px 48px;
-    }
+  /* ── App Screenshots (driver / merchant / admin) ─────────────────────── */
+  .app-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:start; }
+  .app-col { display:flex; flex-direction:column; gap:0; border-radius:14px; overflow:hidden; border:2px solid; }
+  .app-col.driver { border-color:#0284C7; }
+  .app-col.merchant { border-color:#7C3AED; }
+  .app-col.admin { border-color:#6366f1; }
 
-    /* FLOW GRID */
-    .flow-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-    }
-    .phone-cell {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .phone-num {
-      width: 28px;
-      height: 28px;
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      box-shadow: 0 4px 12px rgba(99,102,241,0.4);
-      color: white;
-      font-size: 13px;
-      font-weight: 800;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 8px;
-      flex-shrink: 0;
-    }
-    .phone-cell img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.08);
-    }
-    .phone-cell .step-label {
-      margin-top: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.95);
-      text-align: center;
-    }
-    .phone-cell .step-sub {
-      font-size: 11px;
-      color: rgba(255,255,255,0.55);
-      text-align: center;
-      margin-top: 2px;
-    }
+  .app-col-hdr {
+    padding:10px 14px; font-size:13px; font-weight:700;
+    display:flex; align-items:center; gap:8px;
+  }
+  .app-col.driver  .app-col-hdr { background:#0284C7; color:#fff; }
+  .app-col.merchant .app-col-hdr { background:#7C3AED; color:#fff; }
+  .app-col.admin    .app-col-hdr { background:#4338ca; color:#fff; }
 
-    /* AGENTS SECTION */
-    .agents-section {
-      background: linear-gradient(135deg, #fafafa 0%, #f0effe 100%);
-      border-radius: 20px;
-      padding: 28px;
-      border: 1px solid #e0e7ff;
-    }
-    .agents-img-wrap {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 2px solid #e0e7ff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    .agents-img-wrap img {
-      width: 100%;
-      display: block;
-    }
-    .agents-caption {
-      margin-top: 12px;
-      font-size: 13px;
-      color: #4b5563;
-      line-height: 1.6;
-      background: white;
-      border: 1px solid #e0e7ff;
-      border-radius: 10px;
-      padding: 12px 16px;
-    }
-    .agents-caption strong { color: #1e1b4b; }
+  .app-screens { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .app-screens.single { grid-template-columns:1fr; }
+  .app-screens img { width:100%; display:block; border-right:1px solid rgba(0,0,0,0.06); }
+  .app-screens img:last-child { border-right:none; }
 
-    /* APP CARDS ROW */
-    .app-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .app-card {
-      border-radius: 20px;
-      border: 1.5px solid transparent;
-      background: linear-gradient(white, white) padding-box,
-                  linear-gradient(135deg, #e0e7ff, #ede9fe) border-box;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .app-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
-    }
-    .app-card-hdr {
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .app-card-body {
-      padding: 16px;
-      background: white;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .app-card-screenshots {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .app-card-screenshots img {
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid #e0e7ff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      display: block;
-    }
-    .app-card-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .app-card-bullets li {
-      font-size: 12.5px;
-      color: #374151;
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-      line-height: 1.4;
-    }
-    .driver-bullets li::before {
-      content: '✓';
-      font-size: 11px;
-      font-weight: 800;
-      color: #0284c7;
-      margin-top: 1px;
-      flex-shrink: 0;
-    }
-    .restaurant-bullets li::before {
-      content: '✓';
-      font-size: 11px;
-      font-weight: 800;
-      color: #7c3aed;
-      margin-top: 1px;
-      flex-shrink: 0;
-    }
-    .admin-bullets li::before {
-      content: '✓';
-      font-size: 11px;
-      font-weight: 800;
-      color: #4338ca;
-      margin-top: 1px;
-      flex-shrink: 0;
-    }
-    .app-card-link {
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: auto;
-      padding-top: 4px;
-    }
-    .app-card-link:hover { text-decoration: underline; }
+  .app-col-footer {
+    padding:10px 14px; font-size:12px; line-height:1.6;
+    list-style:none;
+  }
+  .app-col.driver  .app-col-footer { background:#F0F9FF; color:#374151; }
+  .app-col.merchant .app-col-footer { background:#F5F3FF; color:#374151; }
+  .app-col.admin    .app-col-footer { background:#EEF2FF; color:#374151; }
 
-    /* FCARD ROW */
-    .fcard-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .fcard {
-      border-radius: 20px;
-      background: white;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      border: none;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .fcard img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 0;
-    }
-    .fcard-body {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-    .fcard-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: #1e1b4b;
-    }
-    .fcard-desc {
-      font-size: 13px;
-      color: #4b5563;
-      line-height: 1.6;
-    }
-    .fcard-link {
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: auto;
-      padding-top: 4px;
-    }
-    .fcard-link:hover { text-decoration: underline; }
+  .app-col-footer li { padding:2px 0 2px 14px; position:relative; }
+  .app-col-footer li::before { content:'✓'; position:absolute; left:0; font-weight:700; font-size:11px; }
+  .app-col.driver  .app-col-footer li::before { color:#0284C7; }
+  .app-col.merchant .app-col-footer li::before { color:#7C3AED; }
+  .app-col.admin    .app-col-footer li::before { color:#4338ca; }
 
-    /* POWERED BY */
-    .powered {
-      background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
-      border: 1px solid #e0e7ff;
-      border-radius: 16px;
-      padding: 20px 28px;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .powered-by-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #4f46e5;
-      flex-shrink: 0;
-    }
-    .powered-by-divider {
-      width: 1px;
-      height: 14px;
-      background: #c7d2fe;
-      flex-shrink: 0;
-    }
-    .powered-by-items {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-    .tech-pill {
-      font-size: 12px;
-      font-weight: 600;
-      color: #3730a3;
-      background: white;
-      border: 1px solid #c7d2fe;
-      border-radius: 20px;
-      padding: 4px 12px;
-    }
+  /* ── User cards ──────────────────────────────────────────────────────── */
+  .ucards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  .uc { border-radius:10px; padding:16px 18px; border:2px solid; }
+  .uc.cu { background:#eef2ff; border-color:#a5b4fc; }
+  .uc.re { background:#f0fdf4; border-color:#86efac; }
+  .uc.dr { background:#fffbeb; border-color:#fcd34d; }
+  .uc .uh { font-size:15px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+  .uc.cu .uh { color:#3730a3; } .uc.re .uh { color:#15803d; } .uc.dr .uh { color:#92400e; }
+  .uc .ur { font-size:12px; color:#6b7280; font-style:italic; margin-bottom:10px; }
+  .uc ul { list-style:none; }
+  .uc ul li { font-size:13px; color:#374151; padding:3px 0 3px 16px; position:relative; line-height:1.45; }
+  .uc ul li::before { content:'✓'; position:absolute; left:0; font-size:11px; font-weight:700; }
+  .uc.cu ul li::before { color:#4f46e5; } .uc.re ul li::before { color:#16a34a; } .uc.dr ul li::before { color:#d97706; }
 
-    /* FOOTER */
-    .ftr {
-      background: #1e1b4b;
-      color: white;
-      padding: 16px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .ftr-left {
-      font-size: 13px;
-      opacity: 0.75;
-    }
-    .ftr-right {
-      font-size: 13px;
-      opacity: 0.55;
-    }
+  /* ── MCP strip ───────────────────────────────────────────────────────── */
+  .pstrip {
+    background:#f5f0ff; border:2px solid #d8b4fe; border-radius:12px;
+    padding:18px 22px; display:flex; flex-direction:column; gap:10px;
+  }
+  .pstrip-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .plbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#7c3aed; flex-shrink:0; min-width:110px; }
+  .pdiv { width:1px; height:14px; background:#d8b4fe; flex-shrink:0; }
+  .pi { font-size:13px; color:#374151; }
+  .pi strong { color:#312e81; font-weight:600; }
+  .pdot { color:#d8b4fe; font-weight:700; }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .hdr { padding: 24px 20px; }
-      .back-nav { padding: 12px 20px; }
-      .body { padding: 20px 16px 36px; gap: 28px; }
-      .stat-row { grid-template-columns: repeat(4, 1fr); }
-      .flow-grid { grid-template-columns: repeat(3, 1fr); }
-      .app-row { grid-template-columns: 1fr; }
-      .fcard-row { grid-template-columns: 1fr; }
-      .hdr-top { flex-direction: column; }
-      .ftr { padding: 16px 20px; flex-direction: column; align-items: flex-start; }
-      .showcase-wrap { padding: 24px 16px 32px; }
-    }
+  /* ── Powered by ──────────────────────────────────────────────────────── */
+  .powered {
+    background:#f5f6ff; border:2px solid #e0e7ff; border-radius:12px;
+    padding:14px 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .powered .plbl { color:#6366f1; min-width:auto; }
+  .powered .pi { font-size:13px; }
 
-    @media (max-width: 600px) {
-      .stat-row { grid-template-columns: repeat(2, 1fr); }
-      .flow-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
+  /* ── Footer ──────────────────────────────────────────────────────────── */
+  .ftr {
+    background:#1e1b4b; color:rgba(255,255,255,0.6);
+    padding:16px 48px; display:flex; align-items:center;
+    justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px;
+  }
+  .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
+
+  .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
+  .back-nav a {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13px; font-weight:600; color:#6366f1;
+    text-decoration:none; padding:6px 14px; border-radius:20px;
+    border:1px solid rgba(99,102,241,0.3); background:rgba(99,102,241,0.06);
+  }
+  .back-nav a:hover { background:rgba(99,102,241,0.14); }
+
+  @media (max-width:900px) {
+    .flow-grid { grid-template-columns:repeat(4,1fr); }
+    .app-grid  { grid-template-columns:1fr; }
+    .ucards    { grid-template-columns:1fr; }
+    .hdr { padding:24px 24px 20px; }
+    .body { padding:20px 16px 32px; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- BACK NAV -->
-  <div class="back-nav">
-    <a href="index.html">← Back to overview</a>
+<div class="back-nav"><a href="index.html">← Back to overview</a></div>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <div class="lmark">🚀</div>
+      <div class="ltxt">
+        <h1>DeliverOS</h1>
+        <div class="sub">Food delivery marketplace — designed, built, and shipped end to end</div>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge bw">AI-Native</span>
+      <span class="badge bg">Production-Ready</span>
+      <span class="badge bw">Solo Build</span>
+      <span class="badge ba">Full Platform</span>
+      <span class="badge bi">MCP API</span>
+    </div>
+  </div>
+  <div class="hdr-desc">A fully operational food delivery platform where every customer, restaurant, and driver interaction is handled by a real AI assistant — not a scripted menu. Three user types. Three AI agents. One shared platform. And an MCP endpoint any external agent can connect to — no app, no account, no friction.</div>
+</div>
+
+<div class="body">
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><span class="n">3</span><span class="l">User Types</span></div>
+    <div class="stat"><span class="n">3</span><span class="l">AI Assistants</span></div>
+    <div class="stat"><span class="n">5</span><span class="l">Channels</span></div>
+    <div class="stat"><span class="n">15+</span><span class="l">Order States</span></div>
+    <div class="stat"><span class="n">10</span><span class="l">Auto Workflows</span></div>
+    <div class="stat"><span class="n">5</span><span class="l">AI Capabilities</span></div>
+    <div class="stat"><span class="n">100%</span><span class="l">Generative AI</span></div>
   </div>
 
-  <!-- HEADER -->
-  <div class="hdr">
-    <div class="hdr-top">
-      <div class="hdr-logo">
-        <div class="hdr-logo-icon">📦</div>
-        <div class="hdr-logo-text">
-          <h1>DeliverOS</h1>
-          <div class="subtitle">Platform Overview — what was built, how it works</div>
-        </div>
+  <!-- CUSTOMER APP FLOW -->
+  <div>
+    <div class="slbl">Customer App — End-to-End Journey (Real Screenshots)</div>
+    <div class="flow-grid">
+
+      <div class="phone-cell">
+        <div class="phone-num">1</div>
+        <img src="demo/screenshots/flow-01-home.png" alt="Home">
+        <div class="cap"><strong>Home</strong>Browse restaurants, search by craving</div>
       </div>
-      <div class="badge-row">
-        <span class="badge ai">AI-Native</span>
-        <span class="badge prod">Production-Ready</span>
-        <span class="badge">Solo Build</span>
-        <span class="badge">Full Platform</span>
-        <span class="badge mcp">MCP API</span>
+
+      <div class="phone-cell">
+        <div class="phone-num">2</div>
+        <img src="demo/screenshots/flow-02-restaurant.png" alt="Restaurant">
+        <div class="cap"><strong>Restaurant</strong>Cover, ratings, delivery info</div>
       </div>
+
+      <div class="phone-cell">
+        <div class="phone-num">3</div>
+        <img src="demo/screenshots/flow-03-menu.png" alt="Menu">
+        <div class="cap"><strong>Menu</strong>Photos, prices, one-tap add</div>
+      </div>
+
+      <div class="phone-cell">
+        <div class="phone-num">4</div>
+        <img src="demo/screenshots/flow-04-cart.png" alt="Cart">
+        <div class="cap"><strong>Cart</strong>Items, fees, total</div>
+      </div>
+
+      <div class="phone-cell">
+        <div class="phone-num">5</div>
+        <img src="demo/screenshots/flow-05-checkout.png" alt="Checkout">
+        <div class="cap"><strong>Checkout</strong>Address, tip, confirm</div>
+      </div>
+
+      <div class="phone-cell">
+        <div class="phone-num">6</div>
+        <img src="demo/screenshots/flow-07-tracking.png" alt="Tracking">
+        <div class="cap"><strong>Live Tracking</strong>Driver ETA, every stage</div>
+      </div>
+
+      <div class="phone-cell">
+        <div class="phone-num">7</div>
+        <img src="demo/screenshots/flow-09-chat-response.png" alt="AI Chat">
+        <div class="cap"><strong>In-App AI</strong>Track, reorder, ask anything</div>
+      </div>
+
+      <div class="phone-cell">
+        <div class="phone-num">8</div>
+        <img src="demo/screenshots/flow-08-completed.png" alt="Delivered">
+        <div class="cap"><strong>Delivered!</strong>Confirmation + summary</div>
+      </div>
+
     </div>
-    <p class="hdr-desc">
-      Multi-bot Telegram + mobile app + web + MCP. Three AI assistants (customer, restaurant, driver), 5 channels, one shared state machine. Every user interaction — from ordering to earning to managing — is handled entirely by generative AI.
-    </p>
   </div>
 
-  <!-- BODY -->
-  <div class="body">
-
-    <!-- STATS ROW -->
-    <div class="section">
-      <div class="slbl">Platform at a Glance</div>
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="n">3</div>
-          <div class="l">User Types</div>
-        </div>
-        <div class="stat-card">
-          <div class="n">3</div>
-          <div class="l">AI Assistants</div>
-        </div>
-        <div class="stat-card">
-          <div class="n">5</div>
-          <div class="l">Channels<br>Telegram / App / Web / MCP / AI Chat</div>
-        </div>
-        <div class="stat-card">
-          <div class="n">20+</div>
-          <div class="l">Order States</div>
-        </div>
-        <div class="stat-card">
-          <div class="n">10</div>
-          <div class="l">Auto Workflows</div>
-        </div>
-        <div class="stat-card">
-          <div class="n">1,300+</div>
-          <div class="l">Tests</div>
-        </div>
-        <div class="stat-card">
-          <div class="n">100%</div>
-          <div class="l">Generative AI</div>
-        </div>
-      </div>
+  <!-- THREE AI AGENTS -->
+  <div>
+    <div class="slbl">Three AI Agents — Complete Order Coordination (16 Messages · 0 Human Interventions)</div>
+    <div class="agents-wrap">
+      <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordination flow">
+      <div class="cap"><strong>Left: Customer Agent</strong> (app channel) — natural language ordering, steps 1–4 &nbsp;·&nbsp; <strong>Centre: Restaurant Agent</strong> (Telegram) — order notification [5], confirmation [6], driver arrival [8] &nbsp;·&nbsp; <strong>Right: Driver Agent</strong> (Telegram) — delivery request [6], acceptance [7–8], pickup [9], payout [10]</div>
     </div>
-
-    <!-- CUSTOMER APP JOURNEY -->
-    <div class="section">
-      <div class="slbl">Customer App — Full 9-Step Journey (Real Screenshots)</div>
-      <div class="showcase-wrap">
-        <div class="flow-grid">
-          <div class="phone-cell">
-            <div class="phone-num">1</div>
-            <img src="demo/screenshots/flow-01-home.png" alt="Home screen" />
-            <div class="step-label">Home</div>
-            <div class="step-sub">Browse restaurants</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">2</div>
-            <img src="demo/screenshots/flow-02-restaurant.png" alt="Restaurant screen" />
-            <div class="step-label">Restaurant</div>
-            <div class="step-sub">Menu &amp; ratings</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">3</div>
-            <img src="demo/screenshots/flow-03-menu.png" alt="Menu screen" />
-            <div class="step-label">Add to Cart</div>
-            <div class="step-sub">Build your order item by item</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">4</div>
-            <img src="demo/screenshots/flow-04-cart.png" alt="Cart screen" />
-            <div class="step-label">Cart</div>
-            <div class="step-sub">Review order</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">5</div>
-            <img src="demo/screenshots/flow-05-checkout.png" alt="Checkout screen" />
-            <div class="step-label">Checkout</div>
-            <div class="step-sub">Address &amp; delivery</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">6</div>
-            <img src="demo/screenshots/flow-07-tracking.png" alt="Live tracking screen" />
-            <div class="step-label">Live Tracking</div>
-            <div class="step-sub">Driver on the way</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">7</div>
-            <img src="demo/screenshots/flow-08-completed.png" alt="Order delivered screen" />
-            <div class="step-label">Delivered!</div>
-            <div class="step-sub">Order complete</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">8</div>
-            <img src="demo/screenshots/flow-09-chat-response.png" alt="AI chat screen" />
-            <div class="step-label">AI Chat</div>
-            <div class="step-sub">Ask anything about the order</div>
-          </div>
-          <div class="phone-cell">
-            <div class="phone-num">9</div>
-            <img src="demo/screenshots/flow-10-orders.png" alt="Order history screen" />
-            <div class="step-label">Order History</div>
-            <div class="step-sub">Past orders &amp; ratings</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- THREE AI AGENTS -->
-    <div class="section">
-      <div class="slbl">Three AI Agents — Complete Order Coordination</div>
-      <div class="agents-section">
-        <div class="agents-img-wrap">
-          <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordinating an order" />
-        </div>
-        <div class="agents-caption">
-          <strong>Customer agent (app)</strong> orders in natural language [1–4] &nbsp;·&nbsp;
-          <strong>Restaurant agent (Telegram)</strong> receives order [5], confirms [6] &nbsp;·&nbsp;
-          <strong>Driver agent (Telegram)</strong> gets delivery request [6], accepts [7–8], picks up [9], delivers + earns [10]
-          &nbsp;—&nbsp; steps 6 &amp; 8 fire simultaneously across all 3 agents
-        </div>
-      </div>
-    </div>
-
-    <!-- DRIVER, RESTAURANT & ADMIN APPS -->
-    <div class="section">
-      <div class="slbl">Driver, Restaurant &amp; Admin — Each with a Full App &amp; Web Portal</div>
-      <div class="app-row">
-
-        <!-- Driver Card -->
-        <div class="app-card">
-          <div class="app-card-hdr" style="background: #0284c7;">
-            🚗 Driver App
-          </div>
-          <div class="app-card-body">
-            <div class="app-card-screenshots">
-              <img src="demo/screenshots/wf-driver-01-available.png" alt="Driver available screen" />
-              <img src="demo/screenshots/wf-driver-06-earnings.png" alt="Driver earnings screen" />
-            </div>
-            <ul class="app-card-bullets driver-bullets">
-              <li>Accept/decline live orders</li>
-              <li>Secure pickup code handover</li>
-              <li>GPS live location tracking</li>
-              <li>Earnings &amp; instant payout</li>
-              <li>Telegram or app</li>
-            </ul>
-            <a class="app-card-link" style="color: #0284c7;" href="driver-flow.html">See full workflow →</a>
-          </div>
-        </div>
-
-        <!-- Restaurant Card -->
-        <div class="app-card">
-          <div class="app-card-hdr" style="background: #7c3aed;">
-            🍽️ Restaurant App
-          </div>
-          <div class="app-card-body">
-            <div class="app-card-screenshots">
-              <img src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Restaurant orders board" />
-              <img src="demo/screenshots/wf-merchant-04-menu.png" alt="Restaurant menu screen" />
-            </div>
-            <ul class="app-card-bullets restaurant-bullets">
-              <li>Live order board with confirm/reject</li>
-              <li>Prep countdown timer</li>
-              <li>Secure driver handover code</li>
-              <li>Menu import: URL / photo / spreadsheet</li>
-              <li>Stripe instant payouts</li>
-            </ul>
-            <a class="app-card-link" style="color: #7c3aed;" href="restaurant-flow.html">See full workflow →</a>
-          </div>
-        </div>
-
-        <!-- Admin Card -->
-        <div class="app-card">
-          <div class="app-card-hdr" style="background: #4338ca;">
-            🛡️ Admin Portal
-          </div>
-          <div class="app-card-body">
-            <div class="app-card-screenshots">
-              <img src="demo/screenshots/wf-admin-01-dashboard.png" alt="Admin dashboard" />
-              <img src="demo/screenshots/wf-admin-02-pending.png" alt="Admin pending approvals" />
-            </div>
-            <ul class="app-card-bullets admin-bullets">
-              <li>Platform dashboard with live stats</li>
-              <li>Approve restaurants &amp; drivers</li>
-              <li>Override any order state</li>
-              <li>Full audit log</li>
-              <li>10 background automation jobs</li>
-            </ul>
-            <a class="app-card-link" style="color: #4338ca;" href="admin-flow.html">See full workflow →</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- MCP + CROSS-CHANNEL CARDS -->
-    <div class="section">
-      <div class="slbl">MCP Agent Ordering &amp; Cross-Channel Consistency</div>
-      <div class="fcard-row">
-
-        <!-- MCP Card -->
-        <div class="fcard">
-          <img src="screenshots/mcp-demo.png" alt="MCP demo" />
-          <div class="fcard-body">
-            <div class="fcard-title">MCP — Any AI Agent Can Order</div>
-            <div class="fcard-desc">
-              Any AI assistant (Claude Desktop, voice, custom agent) can search restaurants, place a real order, and charge a card via 6 MCP tools. Both new and existing customers go through OTP verification.
-            </div>
-            <a class="fcard-link" style="color: #7c3aed;" href="mcp-flow.html">See full MCP flow →</a>
-          </div>
-        </div>
-
-        <!-- Cross-channel Card -->
-        <div class="fcard">
-          <img src="screenshots/simulator.png" alt="Multi-channel simulator" />
-          <div class="fcard-body">
-            <div class="fcard-title">Five Channels, One State Machine</div>
-            <div class="fcard-desc">
-              Telegram bots, mobile app, web portals, MCP API, and AI agent chat all write to the same order state machine. An action in one channel instantly reflects in all others.
-            </div>
-            <a class="fcard-link" style="color: #0891b2;" href="cross-channel.html">See cross-channel proof →</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- POWERED BY -->
-    <div class="powered">
-      <span class="powered-by-label">Powered by</span>
-      <div class="powered-by-divider"></div>
-      <div class="powered-by-items">
-        <span class="tech-pill">Claude by Anthropic</span>
-        <span class="tech-pill">Supabase</span>
-        <span class="tech-pill">Stripe</span>
-        <span class="tech-pill">OpenAI Embeddings</span>
-        <span class="tech-pill">Pinecone</span>
-        <span class="tech-pill">React Native</span>
-        <span class="tech-pill">Express.js</span>
-        <span class="tech-pill">Railway</span>
-      </div>
-    </div>
-
   </div>
 
-  <!-- FOOTER -->
-  <div class="ftr">
-    <div class="ftr-left">Built by Anuj Wadhwa · 2026</div>
-    <div class="ftr-right">DeliverOS · Platform Overview</div>
+  <!-- APP SCREENSHOTS — DRIVER / MERCHANT / ADMIN -->
+  <div>
+    <div class="slbl">Driver, Restaurant &amp; Admin Apps — Real Screenshots · Full Workflow Pages Linked Below</div>
+    <div class="app-grid">
+
+      <!-- Driver App -->
+      <div class="app-col driver">
+        <div class="app-col-hdr">🚗 Driver App</div>
+        <div class="app-screens">
+          <img src="demo/screenshots/wf-driver-01-available.png" alt="Driver — available order">
+          <img src="demo/screenshots/wf-driver-calls.png" alt="Driver — live map + masked call buttons">
+        </div>
+        <ul class="app-col-footer">
+          <li>Go online — available orders appear instantly</li>
+          <li>Accept or decline with auto-reassignment on decline</li>
+          <li>Live route map · 6-char pickup code verified at restaurant</li>
+          <li>One-tap masked calls to restaurant and customer — real numbers never exposed</li>
+          <li>85% instant payout · 15% held 7 days in escrow</li>
+        </ul>
+        <div style="padding:8px 14px 12px; text-align:center;">
+          <a href="driver-flow.html" style="display:inline-block; font-size:12px; font-weight:700; color:#0284C7; text-decoration:none; padding:6px 16px; border:2px solid #0284C7; border-radius:20px; background:rgba(2,132,199,0.06);">See full driver workflow →</a>
+        </div>
+      </div>
+
+      <!-- Restaurant / Merchant App -->
+      <div class="app-col merchant">
+        <div class="app-col-hdr">🍽️ Restaurant App</div>
+        <div class="app-screens">
+          <img src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Restaurant — order board">
+          <img src="demo/screenshots/wf-merchant-calls.png" alt="Restaurant — order detail with call buttons and driver map">
+        </div>
+        <ul class="app-col-footer">
+          <li>Live order board: needs confirm / in-progress / done</li>
+          <li>Driver location map polling every 30 s when driver approaching</li>
+          <li>Call customer or driver via company number — privacy preserved</li>
+          <li>Menu: toggle items, import via URL / photo / Excel</li>
+          <li>Pause restaurant for 15/30/60 min or indefinitely</li>
+        </ul>
+        <div style="padding:8px 14px 12px; text-align:center;">
+          <a href="restaurant-flow.html" style="display:inline-block; font-size:12px; font-weight:700; color:#7C3AED; text-decoration:none; padding:6px 16px; border:2px solid #7C3AED; border-radius:20px; background:rgba(124,58,237,0.06);">See full restaurant workflow →</a>
+        </div>
+      </div>
+
+      <!-- Admin App -->
+      <div class="app-col admin">
+        <div class="app-col-hdr">⚙️ Admin App</div>
+        <div class="app-screens">
+          <img src="demo/screenshots/wf-admin-01-dashboard.png" alt="Admin — dashboard">
+          <img src="demo/screenshots/wf-admin-order.png" alt="Admin — order detail with driver map and call buttons">
+        </div>
+        <ul class="app-col-footer">
+          <li>Platform stats: GMV, orders, fleet, cancel rate</li>
+          <li>Real-time driver location map for every active order</li>
+          <li>Direct call to restaurant, driver, or customer — decrypted contacts</li>
+          <li>Override any order state, initiate refunds</li>
+          <li>Full audit trail on every admin action</li>
+        </ul>
+        <div style="padding:8px 14px 12px; text-align:center;">
+          <a href="admin-flow.html" style="display:inline-block; font-size:12px; font-weight:700; color:#4338ca; text-decoration:none; padding:6px 16px; border:2px solid #4338ca; border-radius:20px; background:rgba(67,56,202,0.06);">See full admin workflow →</a>
+        </div>
+      </div>
+
+    </div>
   </div>
+
+  <!-- WHAT EACH USER GETS -->
+  <div>
+    <div class="slbl">What Each User Gets</div>
+    <div class="ucards">
+      <div class="uc cu">
+        <div class="uh">🛍️ Customers</div>
+        <div class="ur">Mobile app · Web · Telegram</div>
+        <ul>
+          <li>Order in plain language — no menus to tap</li>
+          <li>Search by craving ("light, under $12")</li>
+          <li>Real-time tracking at every stage</li>
+          <li>Ask the AI anything mid-delivery</li>
+          <li>Same experience on app, chat, or Telegram</li>
+        </ul>
+      </div>
+      <div class="uc re">
+        <div class="uh">🍽️ Restaurants</div>
+        <div class="ur">Telegram · Mobile app</div>
+        <ul>
+          <li>Confirm orders in Telegram or mobile app</li>
+          <li>Import menu from any website URL — AI scrapes it</li>
+          <li>Or photograph a physical menu — AI reads it</li>
+          <li>Guided setup: T&amp;Cs, photos, Stripe payouts</li>
+          <li>Pause / unpause with one message or tap</li>
+        </ul>
+      </div>
+      <div class="uc dr">
+        <div class="uh">🚗 Drivers</div>
+        <div class="ur">Telegram · Mobile app</div>
+        <ul>
+          <li>Job offers with full delivery details</li>
+          <li>Decline → auto-reassignment to next driver</li>
+          <li>Secure handover code confirms delivery</li>
+          <li>Identity check handled in-app</li>
+          <li>Live earnings and instant payout requests</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MCP API -->
+  <div>
+    <div class="slbl">MCP API — Agent-to-Agent Ordering (No App · No Account · Zero Friction)</div>
+    <div class="pstrip">
+      <div class="pstrip-row">
+        <span class="plbl">New customer</span>
+        <div class="pdiv"></div>
+        <span class="pi">Agent calls <strong>place_order</strong> with <strong>customerInfo + confirmDataSharing: true</strong></span>
+        <span class="pdot">→</span>
+        <span class="pi">DeliverOS creates profile, encrypts address, charges card</span>
+        <span class="pdot">→</span>
+        <span class="pi">Returns live order ID + tracking</span>
+      </div>
+      <div class="pstrip-row">
+        <span class="plbl">Existing customer</span>
+        <div class="pdiv"></div>
+        <span class="pi">Agent calls <strong>place_order</strong> → OTP sent to customer's registered email</span>
+        <span class="pdot">→</span>
+        <span class="pi">Customer shares code → agent calls <strong>verify_agent_identity</strong></span>
+        <span class="pdot">→</span>
+        <span class="pi">15-min token returned → agent retries order, no re-verification needed</span>
+      </div>
+      <div class="pstrip-row">
+        <span class="plbl">5 Tools</span>
+        <div class="pdiv"></div>
+        <span class="pi"><strong>list_restaurants</strong></span><span class="pdot">·</span>
+        <span class="pi"><strong>get_menu</strong></span><span class="pdot">·</span>
+        <span class="pi"><strong>place_order</strong> (zero-account)</span><span class="pdot">·</span>
+        <span class="pi"><strong>get_order_status</strong></span><span class="pdot">·</span>
+        <span class="pi"><strong>list_orders</strong></span><span class="pdot">·</span>
+        <span class="pi" style="color:#7c3aed;font-weight:600;">Any agent — Claude, GPT, Gemini, custom</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- POWERED BY -->
+  <div class="powered">
+    <span class="plbl" style="color:#6366f1;min-width:auto;">Powered by</span>
+    <div class="pdiv" style="background:#e0e7ff;"></div>
+    <span class="pi"><strong>Claude</strong> by Anthropic (AI Assistants)</span>
+    <span class="pdot" style="color:#c7d2fe;">·</span>
+    <span class="pi"><strong>OpenAI + Pinecone</strong> (Semantic Search)</span>
+    <span class="pdot" style="color:#c7d2fe;">·</span>
+    <span class="pi"><strong>Stripe</strong> (Payments, Payouts &amp; Identity)</span>
+    <span class="pdot" style="color:#c7d2fe;">·</span>
+    <span class="pi"><strong>iOS · Android · Web · Telegram · MCP</strong></span>
+  </div>
+
+</div>
+
+<div class="ftr">
+  <span class="by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
+  <span>DeliverOS &nbsp;·&nbsp; AI-Native Food Delivery Platform &nbsp;·&nbsp; Platform Overview</span>
+</div>
 
 </body>
 </html>
