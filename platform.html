@@ -12,7 +12,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f8f9fe;
+      background: linear-gradient(180deg, #f0effe 0%, #f8f9ff 100%);
       color: #1e1b4b;
       min-height: 100vh;
     }
@@ -21,7 +21,7 @@
 
     /* BACK NAV */
     .back-nav {
-      background: #f8f9fe;
+      background: transparent;
       padding: 12px 48px;
       border-bottom: 1px solid #e0e7ff;
     }
@@ -111,10 +111,10 @@
 
     /* SECTION LABEL */
     .slbl {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.4px;
       color: #4f46e5;
       border-bottom: 2px solid #e0e7ff;
       margin-bottom: 16px;
@@ -126,10 +126,11 @@
     .slbl::before {
       content: '';
       width: 4px;
-      height: 14px;
-      background: #4f46e5;
+      height: 18px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
       border-radius: 2px;
       flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(124,58,237,0.4);
     }
 
     /* STATS ROW */
@@ -139,23 +140,37 @@
       gap: 12px;
     }
     .stat-card {
-      background: white;
-      border: 2px solid #e0e7ff;
-      border-radius: 10px;
-      padding: 16px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 20px 16px;
       text-align: center;
     }
     .stat-card .n {
-      font-size: 26px;
-      font-weight: 800;
-      color: #4f46e5;
-      line-height: 1.1;
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
     }
     .stat-card .l {
-      font-size: 11px;
+      font-size: 12px;
       color: #6b7280;
-      margin-top: 4px;
       line-height: 1.4;
+      font-weight: 500;
+    }
+
+    /* SHOWCASE WRAP — dark section for customer journey */
+    .showcase-wrap {
+      background: linear-gradient(145deg, #0f0c29 0%, #302b63 55%, #1a0533 100%);
+      border-radius: 24px;
+      padding: 40px 32px 48px;
     }
 
     /* FLOW GRID */
@@ -170,11 +185,12 @@
       align-items: center;
     }
     .phone-num {
-      width: 24px;
-      height: 24px;
-      background: #4f46e5;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      box-shadow: 0 4px 12px rgba(99,102,241,0.4);
       color: white;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
       border-radius: 50%;
       display: flex;
@@ -185,26 +201,32 @@
     }
     .phone-cell img {
       width: 100%;
-      border-radius: 16px;
-      border: 2px solid #e0e7ff;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      height: auto;
       display: block;
+      border-radius: 12px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.08);
     }
     .phone-cell .step-label {
       margin-top: 8px;
       font-size: 12px;
       font-weight: 700;
-      color: #1e1b4b;
+      color: rgba(255,255,255,0.95);
       text-align: center;
     }
     .phone-cell .step-sub {
       font-size: 11px;
-      color: #6b7280;
+      color: rgba(255,255,255,0.55);
       text-align: center;
       margin-top: 2px;
     }
 
     /* AGENTS SECTION */
+    .agents-section {
+      background: linear-gradient(135deg, #fafafa 0%, #f0effe 100%);
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid #e0e7ff;
+    }
     .agents-img-wrap {
       border-radius: 14px;
       overflow: hidden;
@@ -234,10 +256,19 @@
       gap: 20px;
     }
     .app-card {
-      border-radius: 14px;
+      border-radius: 20px;
+      border: 1.5px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+                  linear-gradient(135deg, #e0e7ff, #ede9fe) border-box;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .app-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
     }
     .app-card-hdr {
       padding: 10px 14px;
@@ -324,19 +355,26 @@
       gap: 20px;
     }
     .fcard {
-      border-radius: 14px;
-      border: 2px solid;
-      padding: 20px;
+      border-radius: 20px;
       background: white;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      border: none;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 14px;
     }
     .fcard img {
       width: 100%;
-      border-radius: 10px;
+      height: auto;
       display: block;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      border-radius: 0;
+    }
+    .fcard-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
     }
     .fcard-title {
       font-size: 15px;
@@ -354,14 +392,17 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      margin-top: auto;
+      padding-top: 4px;
     }
     .fcard-link:hover { text-decoration: underline; }
 
     /* POWERED BY */
-    .powered-by {
-      background: #eef2ff;
-      border-radius: 12px;
-      padding: 16px 24px;
+    .powered {
+      background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+      border: 1px solid #e0e7ff;
+      border-radius: 16px;
+      padding: 20px 28px;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -428,6 +469,7 @@
       .fcard-row { grid-template-columns: 1fr; }
       .hdr-top { flex-direction: column; }
       .ftr { padding: 16px 20px; flex-direction: column; align-items: flex-start; }
+      .showcase-wrap { padding: 24px 16px 32px; }
     }
 
     @media (max-width: 600px) {
@@ -506,67 +548,63 @@
 
     <!-- CUSTOMER APP JOURNEY -->
     <div class="section">
-      <div class="slbl">Customer App — Full 10-Step Journey (Real Screenshots)</div>
-      <div class="flow-grid">
-        <div class="phone-cell">
-          <div class="phone-num">1</div>
-          <img src="demo/screenshots/flow-01-home.png" alt="Home screen" />
-          <div class="step-label">Home</div>
-          <div class="step-sub">Browse restaurants</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">2</div>
-          <img src="demo/screenshots/flow-02-restaurant.png" alt="Restaurant screen" />
-          <div class="step-label">Restaurant</div>
-          <div class="step-sub">Menu &amp; ratings</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">3</div>
-          <img src="demo/screenshots/flow-03-menu.png" alt="Menu screen" />
-          <div class="step-label">Menu</div>
-          <div class="step-sub">Browse items</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">4</div>
-          <img src="demo/screenshots/flow-04-cart.png" alt="Cart screen" />
-          <div class="step-label">Cart</div>
-          <div class="step-sub">Review order</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">5</div>
-          <img src="demo/screenshots/flow-05-checkout.png" alt="Checkout screen" />
-          <div class="step-label">Checkout</div>
-          <div class="step-sub">Address &amp; delivery</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">6</div>
-          <img src="demo/screenshots/flow-06-payment.png" alt="Payment screen" />
-          <div class="step-label">Payment</div>
-          <div class="step-sub">Stripe checkout</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">7</div>
-          <img src="demo/screenshots/flow-07-tracking.png" alt="Live tracking screen" />
-          <div class="step-label">Live Tracking</div>
-          <div class="step-sub">Driver on the way</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">8</div>
-          <img src="demo/screenshots/flow-08-completed.png" alt="Order delivered screen" />
-          <div class="step-label">Delivered!</div>
-          <div class="step-sub">Order complete</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">9</div>
-          <img src="demo/screenshots/flow-09-chat-response.png" alt="AI chat screen" />
-          <div class="step-label">AI Chat</div>
-          <div class="step-sub">Ask anything about the order</div>
-        </div>
-        <div class="phone-cell">
-          <div class="phone-num">10</div>
-          <img src="demo/screenshots/flow-10-orders.png" alt="Order history screen" />
-          <div class="step-label">Order History</div>
-          <div class="step-sub">Past orders &amp; ratings</div>
+      <div class="slbl">Customer App — Full 9-Step Journey (Real Screenshots)</div>
+      <div class="showcase-wrap">
+        <div class="flow-grid">
+          <div class="phone-cell">
+            <div class="phone-num">1</div>
+            <img src="demo/screenshots/flow-01-home.png" alt="Home screen" />
+            <div class="step-label">Home</div>
+            <div class="step-sub">Browse restaurants</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">2</div>
+            <img src="demo/screenshots/flow-02-restaurant.png" alt="Restaurant screen" />
+            <div class="step-label">Restaurant</div>
+            <div class="step-sub">Menu &amp; ratings</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">3</div>
+            <img src="demo/screenshots/flow-03-menu.png" alt="Menu screen" />
+            <div class="step-label">Add to Cart</div>
+            <div class="step-sub">Build your order item by item</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">4</div>
+            <img src="demo/screenshots/flow-04-cart.png" alt="Cart screen" />
+            <div class="step-label">Cart</div>
+            <div class="step-sub">Review order</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">5</div>
+            <img src="demo/screenshots/flow-05-checkout.png" alt="Checkout screen" />
+            <div class="step-label">Checkout</div>
+            <div class="step-sub">Address &amp; delivery</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">6</div>
+            <img src="demo/screenshots/flow-07-tracking.png" alt="Live tracking screen" />
+            <div class="step-label">Live Tracking</div>
+            <div class="step-sub">Driver on the way</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">7</div>
+            <img src="demo/screenshots/flow-08-completed.png" alt="Order delivered screen" />
+            <div class="step-label">Delivered!</div>
+            <div class="step-sub">Order complete</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">8</div>
+            <img src="demo/screenshots/flow-09-chat-response.png" alt="AI chat screen" />
+            <div class="step-label">AI Chat</div>
+            <div class="step-sub">Ask anything about the order</div>
+          </div>
+          <div class="phone-cell">
+            <div class="phone-num">9</div>
+            <img src="demo/screenshots/flow-10-orders.png" alt="Order history screen" />
+            <div class="step-label">Order History</div>
+            <div class="step-sub">Past orders &amp; ratings</div>
+          </div>
         </div>
       </div>
     </div>
@@ -574,14 +612,16 @@
     <!-- THREE AI AGENTS -->
     <div class="section">
       <div class="slbl">Three AI Agents — Complete Order Coordination</div>
-      <div class="agents-img-wrap">
-        <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordinating an order" />
-      </div>
-      <div class="agents-caption">
-        <strong>Customer agent (app)</strong> orders in natural language [1–4] &nbsp;·&nbsp;
-        <strong>Restaurant agent (Telegram)</strong> receives order [5], confirms [6] &nbsp;·&nbsp;
-        <strong>Driver agent (Telegram)</strong> gets delivery request [6], accepts [7–8], picks up [9], delivers + earns [10]
-        &nbsp;—&nbsp; steps 6 &amp; 8 fire simultaneously across all 3 agents
+      <div class="agents-section">
+        <div class="agents-img-wrap">
+          <img src="demo/screenshots/flow-agents.png" alt="Three AI agents coordinating an order" />
+        </div>
+        <div class="agents-caption">
+          <strong>Customer agent (app)</strong> orders in natural language [1–4] &nbsp;·&nbsp;
+          <strong>Restaurant agent (Telegram)</strong> receives order [5], confirms [6] &nbsp;·&nbsp;
+          <strong>Driver agent (Telegram)</strong> gets delivery request [6], accepts [7–8], picks up [9], delivers + earns [10]
+          &nbsp;—&nbsp; steps 6 &amp; 8 fire simultaneously across all 3 agents
+        </div>
       </div>
     </div>
 
@@ -591,7 +631,7 @@
       <div class="app-row">
 
         <!-- Driver Card -->
-        <div class="app-card" style="border: 2px solid #0284c7;">
+        <div class="app-card">
           <div class="app-card-hdr" style="background: #0284c7;">
             🚗 Driver App
           </div>
@@ -612,7 +652,7 @@
         </div>
 
         <!-- Restaurant Card -->
-        <div class="app-card" style="border: 2px solid #7c3aed;">
+        <div class="app-card">
           <div class="app-card-hdr" style="background: #7c3aed;">
             🍽️ Restaurant App
           </div>
@@ -633,7 +673,7 @@
         </div>
 
         <!-- Admin Card -->
-        <div class="app-card" style="border: 2px solid #4338ca;">
+        <div class="app-card">
           <div class="app-card-hdr" style="background: #4338ca;">
             🛡️ Admin Portal
           </div>
@@ -662,30 +702,34 @@
       <div class="fcard-row">
 
         <!-- MCP Card -->
-        <div class="fcard" style="border-color: #7c3aed;">
+        <div class="fcard">
           <img src="demo/screenshots/mcp-demo.png" alt="MCP demo" />
-          <div class="fcard-title">MCP — Any AI Agent Can Order</div>
-          <div class="fcard-desc">
-            Any AI assistant (Claude Desktop, voice, custom agent) can search restaurants, place a real order, and charge a card via 6 MCP tools. Both new and existing customers go through OTP verification.
+          <div class="fcard-body">
+            <div class="fcard-title">MCP — Any AI Agent Can Order</div>
+            <div class="fcard-desc">
+              Any AI assistant (Claude Desktop, voice, custom agent) can search restaurants, place a real order, and charge a card via 6 MCP tools. Both new and existing customers go through OTP verification.
+            </div>
+            <a class="fcard-link" style="color: #7c3aed;" href="mcp-flow.html">See full MCP flow →</a>
           </div>
-          <a class="fcard-link" style="color: #7c3aed;" href="mcp-flow.html">See full MCP flow →</a>
         </div>
 
         <!-- Cross-channel Card -->
-        <div class="fcard" style="border-color: #0891b2;">
+        <div class="fcard">
           <img src="demo/screenshots/simulator.png" alt="Multi-channel simulator" />
-          <div class="fcard-title">Five Channels, One State Machine</div>
-          <div class="fcard-desc">
-            Telegram bots, mobile app, web portals, MCP API, and AI agent chat all write to the same order state machine. An action in one channel instantly reflects in all others.
+          <div class="fcard-body">
+            <div class="fcard-title">Five Channels, One State Machine</div>
+            <div class="fcard-desc">
+              Telegram bots, mobile app, web portals, MCP API, and AI agent chat all write to the same order state machine. An action in one channel instantly reflects in all others.
+            </div>
+            <a class="fcard-link" style="color: #0891b2;" href="cross-channel.html">See cross-channel proof →</a>
           </div>
-          <a class="fcard-link" style="color: #0891b2;" href="cross-channel.html">See cross-channel proof →</a>
         </div>
 
       </div>
     </div>
 
     <!-- POWERED BY -->
-    <div class="powered-by">
+    <div class="powered">
       <span class="powered-by-label">Powered by</span>
       <div class="powered-by-divider"></div>
       <div class="powered-by-items">

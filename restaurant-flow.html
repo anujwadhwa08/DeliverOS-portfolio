@@ -12,7 +12,8 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f8f9fe;
+      background: linear-gradient(180deg, #faf5ff 0%, #f5f0ff 40%, #fdf8ff 100%);
+      background-attachment: fixed;
       color: #1e1b4b;
       min-height: 100vh;
     }
@@ -101,21 +102,24 @@
       text-transform: uppercase;
       letter-spacing: 1.2px;
       color: #7C3AED;
-      border-bottom: 2px solid #ede9fe;
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, #7C3AED, #a855f7, transparent) 1;
       margin-bottom: 16px;
       padding-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 7px;
+      text-shadow: 0 0 20px rgba(124,58,237,0.3);
     }
     .slbl::before {
       content: '';
       display: inline-block;
       width: 4px;
       height: 14px;
-      background: #7C3AED;
+      background: linear-gradient(180deg, #7C3AED, #a855f7);
       border-radius: 2px;
       flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(124,58,237,0.5);
     }
 
     /* JOURNEY FLOWS */
@@ -144,19 +148,30 @@
       gap: 0;
     }
     .step-pill {
-      background: #faf5ff;
-      border: 2px solid #ede9fe;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(124,58,237,0.2);
       border-radius: 20px;
       padding: 7px 16px;
       font-size: 13px;
       font-weight: 600;
       color: #1e1b4b;
       white-space: nowrap;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .step-pill:hover {
+      border-color: rgba(124,58,237,0.5);
+      box-shadow: 0 2px 12px rgba(124,58,237,0.12);
     }
     .step-pill-active {
-      background: #7C3AED;
+      background: linear-gradient(135deg, #7C3AED, #a855f7);
       color: #fff;
-      border-color: #7C3AED;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(124,58,237,0.4);
+    }
+    .step-pill-active:hover {
+      border-color: transparent;
+      box-shadow: 0 6px 18px rgba(124,58,237,0.5);
     }
     .step-arrow {
       color: #7C3AED;
@@ -166,13 +181,69 @@
       flex-shrink: 0;
     }
     .journey-block {
-      background: #fff;
-      border: 2px solid #ede9fe;
-      border-radius: 14px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(124,58,237,0.06);
+      border-radius: 16px;
       padding: 20px 24px;
+      transition: box-shadow 0.2s;
+    }
+    .journey-block:hover {
+      box-shadow: 0 12px 40px rgba(124,58,237,0.1);
     }
 
-    /* SCREENSHOT CARDS */
+    /* DARK SHOWCASE WRAP */
+    .showcase-wrap {
+      background: linear-gradient(145deg, #1a0533 0%, #3b1060 55%, #2e0d50 100%);
+      border-radius: 24px;
+      padding: 40px 28px 48px;
+    }
+    .showcase-wrap .num-title {
+      color: #fff;
+    }
+    .showcase-wrap .sc-caption {
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.75);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .showcase-wrap .sc-caption strong {
+      color: rgba(255,255,255,0.95);
+    }
+
+    /* PHONE IMAGE */
+    .phone-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    /* SINGLE IMAGE CARD (onboarding / web portal) */
+    .img-dark-card {
+      background: linear-gradient(135deg, #1a0533, #3b1060);
+      border-radius: 20px;
+      padding: 28px;
+    }
+    .img-dark-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .img-dark-card .sc-caption {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      padding: 16px 4px 0;
+      border-top: none;
+    }
+    .img-dark-card .sc-caption strong {
+      color: rgba(255,255,255,0.95);
+    }
+
+    /* SCREENSHOT CARDS (generic, for non-dark contexts) */
     .sc-card {
       border-radius: 14px;
       overflow: hidden;
@@ -192,9 +263,6 @@
     .sc-caption strong {
       color: #374151;
     }
-
-    /* FULL WIDTH SCREENSHOT */
-    .sc-full { width: 100%; }
 
     /* 3-COL GRID */
     .grid-3 {
@@ -218,7 +286,8 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #7C3AED;
+      background: linear-gradient(135deg, #7C3AED, #a855f7);
+      box-shadow: 0 4px 12px rgba(124,58,237,0.4);
       color: #fff;
       font-size: 13px;
       font-weight: 700;
@@ -235,10 +304,17 @@
 
     /* TELEGRAM TEXT CARD */
     .tg-card {
-      background: #faf5ff;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
       border-left: 4px solid #7C3AED;
-      border-radius: 0 12px 12px 0;
+      border-radius: 0 16px 16px 0;
       padding: 22px 24px;
+      box-shadow: 0 8px 32px rgba(124,58,237,0.06);
+      transition: box-shadow 0.2s;
+    }
+    .tg-card:hover {
+      box-shadow: 0 12px 40px rgba(124,58,237,0.1);
     }
     .tg-card p {
       font-size: 14px;
@@ -260,13 +336,18 @@
       gap: 8px;
     }
     .tg-action {
-      background: #fff;
-      border: 1.5px solid #ede9fe;
+      background: rgba(255,255,255,0.9);
+      border: 1.5px solid rgba(124,58,237,0.2);
       border-radius: 20px;
       padding: 5px 14px;
       font-size: 12px;
       font-weight: 600;
       color: #1e1b4b;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .tg-action:hover {
+      border-color: rgba(124,58,237,0.5);
+      box-shadow: 0 2px 8px rgba(124,58,237,0.1);
     }
 
     /* STATS ROW */
@@ -276,20 +357,30 @@
       gap: 14px;
     }
     .stat-card {
-      background: #fff;
-      border: 2px solid #ede9fe;
-      border-radius: 12px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(124,58,237,0.08);
+      border-radius: 16px;
       padding: 18px 14px;
       text-align: center;
       display: flex;
       flex-direction: column;
       gap: 6px;
       align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(124,58,237,0.14);
     }
     .stat-n {
-      font-size: 24px;
-      font-weight: 800;
-      color: #7C3AED;
+      background: linear-gradient(135deg, #7C3AED 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 32px;
+      font-weight: 900;
       line-height: 1;
     }
     .stat-label {
@@ -307,13 +398,21 @@
       gap: 18px;
     }
     .feat-card {
-      background: #fff;
-      border: 2px solid #ede9fe;
-      border-radius: 14px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(124,58,237,0.15);
+      box-shadow: 0 4px 20px rgba(124,58,237,0.06);
+      border-radius: 16px;
       padding: 22px 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .feat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(124,58,237,0.12);
+      border-color: rgba(124,58,237,0.3);
     }
     .feat-title {
       font-size: 14px;
@@ -354,6 +453,7 @@
       .grid-3 { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: repeat(2, 1fr); }
       .hdr-logo-text { font-size: 22px; }
+      .showcase-wrap { padding: 28px 16px 36px; }
     }
   </style>
 </head>
@@ -422,7 +522,7 @@
     <!-- ONBOARDING -->
     <section>
       <div class="slbl">Onboarding Flow &#8212; AI-Guided Setup (Real Screenshot)</div>
-      <div class="sc-card sc-full">
+      <div class="img-dark-card">
         <img src="screenshots/restaurant-onboarding.png" alt="Restaurant onboarding flow" />
         <div class="sc-caption">
           <strong>AI-guided onboarding.</strong> The restaurant onboarding flow is a guided AI conversation &#8212; the assistant collects business name, cuisine type, owner details, and T&amp;C acceptance. Stripe Identity verifies the owner&#8217;s ID. Menu setup follows immediately: paste a website URL, photograph the physical menu, or upload an Excel spreadsheet &#8212; the AI parses and categorises every item automatically. A restaurant with a 100-item menu can go live in under 5 minutes.
@@ -433,122 +533,126 @@
     <!-- ORDER MANAGEMENT -->
     <section>
       <div class="slbl">Order Management &#8212; 6 Screens from the Running App</div>
-      <div class="grid-3">
+      <div class="showcase-wrap">
+        <div class="grid-3">
 
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">1</div>
-            <div class="num-title">Live Order Board</div>
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">1</div>
+              <div class="num-title">Live Order Board</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Live order board" />
+              <div class="sc-caption">All incoming orders in real time &#8212; order contents, customer name, delivery address. New orders pulse to draw attention.</div>
+            </div>
           </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Live order board" />
-            <div class="sc-caption">All incoming orders in real time &#8212; order contents, customer name, delivery address. New orders pulse to draw attention.</div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">2</div>
+              <div class="num-title">Confirm + Set Prep Time</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-01b-confirm-modal.png" alt="Confirm and set prep time" />
+              <div class="sc-caption">Tap to confirm. Enter prep time in minutes &#8212; the countdown starts immediately and the customer sees the ETA update.</div>
+            </div>
           </div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">3</div>
+              <div class="num-title">Prep Countdown + Mark Ready</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-01c-mark-ready.png" alt="Prep countdown and mark ready" />
+              <div class="sc-caption">Live countdown timer visible to both restaurant and customer. Restaurant taps &#8216;Ready&#8217; when food is packed &#8212; triggers driver dispatch.</div>
+            </div>
+          </div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">4</div>
+              <div class="num-title">Driver at Door</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-02-verify-btn.png" alt="Driver at door verify prompt" />
+              <div class="sc-caption">When the driver arrives to collect, restaurant sees a &#8216;Verify Driver&#8217; prompt. Tapping opens the code entry modal.</div>
+            </div>
+          </div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">5</div>
+              <div class="num-title">Handover Code Entry</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-03-verify-modal.png" alt="Handover code entry modal" />
+              <div class="sc-caption">Restaurant enters the 6-character code shown on the driver&#8217;s phone. Code is single-use and expires after entry &#8212; confirms physical handover.</div>
+            </div>
+          </div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">6</div>
+              <div class="num-title">Completed Orders</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-05-completed.png" alt="Completed orders history" />
+              <div class="sc-caption">Completed order history with timestamps, items, and payout status. Shows when the Stripe transfer was initiated.</div>
+            </div>
+          </div>
+
         </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">2</div>
-            <div class="num-title">Confirm + Set Prep Time</div>
-          </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-01b-confirm-modal.png" alt="Confirm and set prep time" />
-            <div class="sc-caption">Tap to confirm. Enter prep time in minutes &#8212; the countdown starts immediately and the customer sees the ETA update.</div>
-          </div>
-        </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">3</div>
-            <div class="num-title">Prep Countdown + Mark Ready</div>
-          </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-01c-mark-ready.png" alt="Prep countdown and mark ready" />
-            <div class="sc-caption">Live countdown timer visible to both restaurant and customer. Restaurant taps &#8216;Ready&#8217; when food is packed &#8212; triggers driver dispatch.</div>
-          </div>
-        </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">4</div>
-            <div class="num-title">Driver at Door</div>
-          </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-02-verify-btn.png" alt="Driver at door verify prompt" />
-            <div class="sc-caption">When the driver arrives to collect, restaurant sees a &#8216;Verify Driver&#8217; prompt. Tapping opens the code entry modal.</div>
-          </div>
-        </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">5</div>
-            <div class="num-title">Handover Code Entry</div>
-          </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-03-verify-modal.png" alt="Handover code entry modal" />
-            <div class="sc-caption">Restaurant enters the 6-character code shown on the driver&#8217;s phone. Code is single-use and expires after entry &#8212; confirms physical handover.</div>
-          </div>
-        </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">6</div>
-            <div class="num-title">Completed Orders</div>
-          </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-05-completed.png" alt="Completed orders history" />
-            <div class="sc-caption">Completed order history with timestamps, items, and payout status. Shows when the Stripe transfer was initiated.</div>
-          </div>
-        </div>
-
       </div>
     </section>
 
     <!-- MENU MANAGEMENT -->
     <section>
       <div class="slbl">Menu Management &#8212; Import, Browse &amp; Edit</div>
-      <div class="grid-3">
+      <div class="showcase-wrap">
+        <div class="grid-3">
 
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">1</div>
-            <div class="num-title">Menu Browser</div>
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">1</div>
+              <div class="num-title">Menu Browser</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-04-menu.png" alt="Menu browser" />
+              <div class="sc-caption">Full menu with categories, items, prices, and availability toggles. Restaurant can mark individual items as unavailable without removing them.</div>
+            </div>
           </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-04-menu.png" alt="Menu browser" />
-            <div class="sc-caption">Full menu with categories, items, prices, and availability toggles. Restaurant can mark individual items as unavailable without removing them.</div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">2</div>
+              <div class="num-title">Import from Website URL</div>
+            </div>
+            <div>
+              <img class="phone-img" src="demo/screenshots/wf-merchant-04b-url-import.png" alt="Import menu from URL" />
+              <div class="sc-caption">Paste any restaurant website URL &#8212; the AI scrapes the menu, infers categories, and creates all items. Review and confirm before publishing.</div>
+            </div>
           </div>
+
+          <div class="num-sc">
+            <div class="num-sc-header">
+              <div class="num-circle">3</div>
+              <div class="num-title">Web Portal &#8212; Menu Editor</div>
+            </div>
+            <div>
+              <img class="phone-img" src="screenshots/restaurant-menu.png" alt="Web portal menu editor" />
+              <div class="sc-caption">The web portal&#8217;s menu editor shows the full catalog with inline editing. Add categories, reorder items, bulk-update availability &#8212; larger viewport for complex menus.</div>
+            </div>
+          </div>
+
         </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">2</div>
-            <div class="num-title">Import from Website URL</div>
-          </div>
-          <div class="sc-card">
-            <img src="demo/screenshots/wf-merchant-04b-url-import.png" alt="Import menu from URL" />
-            <div class="sc-caption">Paste any restaurant website URL &#8212; the AI scrapes the menu, infers categories, and creates all items. Review and confirm before publishing.</div>
-          </div>
-        </div>
-
-        <div class="num-sc">
-          <div class="num-sc-header">
-            <div class="num-circle">3</div>
-            <div class="num-title">Web Portal &#8212; Menu Editor</div>
-          </div>
-          <div class="sc-card">
-            <img src="screenshots/restaurant-menu.png" alt="Web portal menu editor" />
-            <div class="sc-caption">The web portal&#8217;s menu editor shows the full catalog with inline editing. Add categories, reorder items, bulk-update availability &#8212; larger viewport for complex menus.</div>
-          </div>
-        </div>
-
       </div>
     </section>
 
     <!-- WEB PORTAL -->
     <section>
       <div class="slbl">Restaurant Web Portal &#8212; Orders &amp; Analytics</div>
-      <div class="sc-card sc-full">
+      <div class="img-dark-card">
         <img src="screenshots/restaurant-dashboard.png" alt="Restaurant web portal dashboard" />
         <div class="sc-caption">
           <strong>Full browser experience.</strong> The web portal gives restaurant owners a full view of live orders, daily revenue, completed order history, and menu status &#8212; all in a browser without the mobile app. The same order state machine drives both the app and portal &#8212; an order confirmed on Telegram appears in the web portal instantly.

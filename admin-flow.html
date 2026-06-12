@@ -12,7 +12,8 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f8f9fe;
+      background: linear-gradient(180deg, #eef2ff 0%, #f0effe 40%, #f8f9ff 100%);
+      background-attachment: fixed;
       color: #1e1b4b;
       line-height: 1.5;
     }
@@ -98,30 +99,34 @@
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #4f46e5;
-      border-bottom: 2px solid #e0e7ff;
+      letter-spacing: 1.4px;
+      color: white;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      box-shadow: 0 2px 12px rgba(99,102,241,0.35);
       margin-bottom: 16px;
-      padding-bottom: 8px;
-      display: flex;
+      padding: 9px 16px;
+      border-radius: 8px;
+      display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
     }
     .slbl::before {
       content: '';
       display: inline-block;
       width: 4px;
       height: 14px;
-      background: #4f46e5;
+      background: rgba(255,255,255,0.6);
       border-radius: 2px;
       flex-shrink: 0;
     }
 
     /* JOURNEY FLOW */
     .journey-block {
-      background: white;
-      border: 2px solid #e0e7ff;
-      border-radius: 14px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.08);
+      border-radius: 16px;
       padding: 24px 28px;
     }
     .journey-row {
@@ -151,6 +156,17 @@
       padding: 6px 14px;
       border-radius: 20px;
       white-space: nowrap;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99,102,241,0.18);
+    }
+    .chip-active {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 3px 10px rgba(99,102,241,0.35);
     }
     .chip-arrow {
       color: #a5b4fc;
@@ -183,30 +199,36 @@
       color: #9a3412;
     }
 
-    /* SCREENSHOT GRID 3-col */
+    /* DARK SHOWCASE — phone screenshots */
+    .showcase-wrap {
+      background: linear-gradient(145deg, #0f0c29 0%, #1e1b4b 55%, #16133a 100%);
+      border-radius: 24px;
+      padding: 40px 28px 48px;
+    }
     .screen-grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 24px;
     }
     .screen-card {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 2px solid #e0e7ff;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-      background: white;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .screen-card:hover {
+      transform: translateY(-4px);
     }
     .screen-num-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 14px 0;
-      background: white;
+      gap: 10px;
+      margin-bottom: 12px;
     }
     .screen-num {
-      width: 22px;
-      height: 22px;
-      background: #4f46e5;
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      box-shadow: 0 4px 12px rgba(99,102,241,0.4);
       color: white;
       font-size: 11px;
       font-weight: 800;
@@ -217,72 +239,113 @@
       flex-shrink: 0;
     }
     .screen-title-inline {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      color: #1e1b4b;
+      color: rgba(255,255,255,0.9);
     }
-    .screen-card img {
+    .phone-img {
       width: 100%;
+      height: auto;
       display: block;
+      border-radius: 12px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
     }
     .screen-caption {
       font-size: 12px;
-      color: #6b7280;
-      padding: 10px 14px;
-      background: #f8f9fe;
+      color: rgba(255,255,255,0.55);
+      padding: 12px 2px 0;
       line-height: 1.5;
-      border-top: 1px solid #e0e7ff;
     }
     .screen-caption strong {
-      color: #374151;
+      color: rgba(255,255,255,0.85);
     }
 
-    /* SCREENSHOT GRID 2-col */
+    /* WEB PORTAL SCREENSHOTS */
     .screen-grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+    }
+    .web-card {
+      background: linear-gradient(135deg, #0f0c29, #1e1b4b);
+      border-radius: 20px;
+      padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .web-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+    }
+    .web-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .web-caption {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      padding: 14px 2px 0;
+      line-height: 1.5;
+    }
+    .web-caption strong {
+      color: rgba(255,255,255,0.85);
     }
 
     /* JOBS GRID */
     .jobs-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 14px;
     }
     .job-card {
-      background: white;
-      border: 2px solid #e0e7ff;
-      border-radius: 10px;
-      padding: 14px 16px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.06);
+      border-radius: 14px;
+      padding: 18px 20px;
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .job-num {
-      width: 24px;
-      height: 24px;
-      background: #eef2ff;
-      color: #4f46e5;
-      font-size: 11px;
-      font-weight: 800;
-      border-radius: 6px;
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(99,102,241,0.14);
+    }
+    .job-icon {
+      font-size: 22px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .job-content { flex: 1; }
+    .job-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+    .job-badge {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.3px;
     }
     .job-name {
       font-size: 13px;
       font-weight: 700;
       color: #1e1b4b;
-      margin-bottom: 3px;
     }
     .job-desc {
       font-size: 12px;
       color: #6b7280;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     /* STATS ROW */
@@ -292,16 +355,26 @@
       gap: 12px;
     }
     .stat-card {
-      background: white;
-      border: 2px solid #e0e7ff;
-      border-radius: 10px;
-      padding: 16px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.08);
+      border-radius: 16px;
+      padding: 20px 16px;
       text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .stat-card .n {
-      font-size: 26px;
-      font-weight: 800;
-      color: #4f46e5;
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(99,102,241,0.14);
+    }
+    .stat-n {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 32px;
+      font-weight: 900;
       line-height: 1.1;
       margin-bottom: 6px;
     }
@@ -318,16 +391,24 @@
       gap: 16px;
     }
     .feature-card {
-      background: white;
-      border: 2px solid #e0e7ff;
-      border-radius: 10px;
-      padding: 16px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(99,102,241,0.15);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.07);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(99,102,241,0.14);
+      border-color: rgba(99,102,241,0.3);
     }
     .feature-card-hdr {
       font-size: 15px;
       font-weight: 700;
       color: #1e1b4b;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -368,6 +449,7 @@
       .stat-row { grid-template-columns: repeat(3, 1fr); }
       .feature-grid { grid-template-columns: 1fr; }
       .jobs-grid { grid-template-columns: 1fr; }
+      .showcase-wrap { padding: 28px 18px 36px; }
     }
 
     @media (max-width: 560px) {
@@ -420,7 +502,7 @@
           <span class="chip-sep">or</span>
           <span class="chip chip-red">Reject (with reason)</span>
           <span class="chip-arrow">→</span>
-          <span class="chip">Partner Notified</span>
+          <span class="chip chip-active">Partner Notified</span>
         </div>
       </div>
       <div class="journey-row">
@@ -441,74 +523,76 @@
   <!-- ADMIN MOBILE APP SCREENSHOTS -->
   <div>
     <div class="slbl">Admin Mobile App — 6 Screens from the Running App</div>
-    <div class="screen-grid-3">
+    <div class="showcase-wrap">
+      <div class="screen-grid-3">
 
-      <div class="screen-card">
-        <div class="screen-num-wrap">
-          <div class="screen-num">1</div>
-          <div class="screen-title-inline">Platform Dashboard</div>
+        <div class="screen-card">
+          <div class="screen-num-wrap">
+            <div class="screen-num">1</div>
+            <div class="screen-title-inline">Platform Dashboard</div>
+          </div>
+          <img class="phone-img" src="demo/screenshots/wf-admin-01-dashboard.png" alt="Platform Dashboard" />
+          <div class="screen-caption">
+            <strong>Platform Dashboard.</strong> Live stats: active restaurants, online drivers, orders today, revenue.
+          </div>
         </div>
-        <img src="demo/screenshots/wf-admin-01-dashboard.png" alt="Platform Dashboard" />
-        <div class="screen-caption">
-          <strong>Platform Dashboard.</strong> Live stats: active restaurants, online drivers, orders today, revenue.
+
+        <div class="screen-card">
+          <div class="screen-num-wrap">
+            <div class="screen-num">2</div>
+            <div class="screen-title-inline">Pending Approvals</div>
+          </div>
+          <img class="phone-img" src="demo/screenshots/wf-admin-02-pending.png" alt="Pending Approvals" />
+          <div class="screen-caption">
+            <strong>Pending Approvals.</strong> Restaurant and driver applications awaiting review — name, submission date, action buttons.
+          </div>
         </div>
+
+        <div class="screen-card">
+          <div class="screen-num-wrap">
+            <div class="screen-num">3</div>
+            <div class="screen-title-inline">Reject with Reason</div>
+          </div>
+          <img class="phone-img" src="demo/screenshots/wf-admin-02b-reject-modal.png" alt="Reject with Reason" />
+          <div class="screen-caption">
+            <strong>Reject with Reason.</strong> Admin enters rejection reason — automatically sent to the applicant.
+          </div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-num-wrap">
+            <div class="screen-num">4</div>
+            <div class="screen-title-inline">All Restaurants</div>
+          </div>
+          <img class="phone-img" src="demo/screenshots/wf-admin-03-restaurants.png" alt="All Restaurants" />
+          <div class="screen-caption">
+            <strong>All Restaurants.</strong> Full list with status, cuisine type, approval date — tap to inspect or override.
+          </div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-num-wrap">
+            <div class="screen-num">5</div>
+            <div class="screen-title-inline">All Drivers</div>
+          </div>
+          <img class="phone-img" src="demo/screenshots/wf-admin-04-drivers.png" alt="All Drivers" />
+          <div class="screen-caption">
+            <strong>All Drivers.</strong> Driver roster with status, vehicle type, online/offline — approve, suspend, or edit.
+          </div>
+        </div>
+
+        <div class="screen-card">
+          <div class="screen-num-wrap">
+            <div class="screen-num">6</div>
+            <div class="screen-title-inline">Platform Search</div>
+          </div>
+          <img class="phone-img" src="demo/screenshots/wf-admin-05-search.png" alt="Platform Search" />
+          <div class="screen-caption">
+            <strong>Platform Search.</strong> Search by name, email, order reference, or phone — resolves across users, orders, and restaurants.
+          </div>
+        </div>
+
       </div>
-
-      <div class="screen-card">
-        <div class="screen-num-wrap">
-          <div class="screen-num">2</div>
-          <div class="screen-title-inline">Pending Approvals</div>
-        </div>
-        <img src="demo/screenshots/wf-admin-02-pending.png" alt="Pending Approvals" />
-        <div class="screen-caption">
-          <strong>Pending Approvals.</strong> Restaurant and driver applications awaiting review — name, submission date, action buttons.
-        </div>
-      </div>
-
-      <div class="screen-card">
-        <div class="screen-num-wrap">
-          <div class="screen-num">3</div>
-          <div class="screen-title-inline">Reject with Reason</div>
-        </div>
-        <img src="demo/screenshots/wf-admin-02b-reject-modal.png" alt="Reject with Reason" />
-        <div class="screen-caption">
-          <strong>Reject with Reason.</strong> Admin enters rejection reason — automatically sent to the applicant.
-        </div>
-      </div>
-
-      <div class="screen-card">
-        <div class="screen-num-wrap">
-          <div class="screen-num">4</div>
-          <div class="screen-title-inline">All Restaurants</div>
-        </div>
-        <img src="demo/screenshots/wf-admin-03-restaurants.png" alt="All Restaurants" />
-        <div class="screen-caption">
-          <strong>All Restaurants.</strong> Full list with status, cuisine type, approval date — tap to inspect or override.
-        </div>
-      </div>
-
-      <div class="screen-card">
-        <div class="screen-num-wrap">
-          <div class="screen-num">5</div>
-          <div class="screen-title-inline">All Drivers</div>
-        </div>
-        <img src="demo/screenshots/wf-admin-04-drivers.png" alt="All Drivers" />
-        <div class="screen-caption">
-          <strong>All Drivers.</strong> Driver roster with status, vehicle type, online/offline — approve, suspend, or edit.
-        </div>
-      </div>
-
-      <div class="screen-card">
-        <div class="screen-num-wrap">
-          <div class="screen-num">6</div>
-          <div class="screen-title-inline">Platform Search</div>
-        </div>
-        <img src="demo/screenshots/wf-admin-05-search.png" alt="Platform Search" />
-        <div class="screen-caption">
-          <strong>Platform Search.</strong> Search by name, email, order reference, or phone — resolves across users, orders, and restaurants.
-        </div>
-      </div>
-
     </div>
   </div>
 
@@ -517,16 +601,16 @@
     <div class="slbl">Admin Web Portal — Dashboard &amp; Audit Log</div>
     <div class="screen-grid-2">
 
-      <div class="screen-card">
-        <img src="screenshots/admin-restaurants.png" alt="Restaurant Management Dashboard" />
-        <div class="screen-caption">
+      <div class="web-card">
+        <img class="web-img" src="screenshots/admin-restaurants.png" alt="Restaurant Management Dashboard" />
+        <div class="web-caption">
           <strong>Restaurant Management Dashboard.</strong> Full restaurant roster with status filters, revenue, and one-click approval / suspension controls. The web portal gives operators a larger viewport for bulk operations.
         </div>
       </div>
 
-      <div class="screen-card">
-        <img src="screenshots/admin-audit.png" alt="Immutable Audit Log" />
-        <div class="screen-caption">
+      <div class="web-card">
+        <img class="web-img" src="screenshots/admin-audit.png" alt="Immutable Audit Log" />
+        <div class="web-caption">
           <strong>Immutable Audit Log.</strong> Every admin action — approval, rejection, order override, refund, manual state change — is logged with timestamp, actor, and payload. Read-only. Cannot be deleted.
         </div>
       </div>
@@ -540,81 +624,111 @@
     <div class="jobs-grid">
 
       <div class="job-card">
-        <div class="job-num">1</div>
-        <div>
-          <div class="job-name">Order Watchdog</div>
+        <div class="job-icon">🐕</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">01</span>
+            <div class="job-name">Order Watchdog</div>
+          </div>
           <div class="job-desc">Detects stuck orders and escalates automatically.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">2</div>
-        <div>
-          <div class="job-name">Driver Timeout</div>
+        <div class="job-icon">⏱️</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">02</span>
+            <div class="job-name">Driver Timeout</div>
+          </div>
           <div class="job-desc">Reassigns order if driver doesn't respond within threshold.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">3</div>
-        <div>
-          <div class="job-name">Restaurant Timeout</div>
+        <div class="job-icon">🍽️</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">03</span>
+            <div class="job-name">Restaurant Timeout</div>
+          </div>
           <div class="job-desc">Cancels and refunds if restaurant doesn't confirm in time.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">4</div>
-        <div>
-          <div class="job-name">Payout Scheduler</div>
+        <div class="job-icon">💸</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">04</span>
+            <div class="job-name">Payout Scheduler</div>
+          </div>
           <div class="job-desc">Triggers driver earnings transfers on a regular cadence.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">5</div>
-        <div>
-          <div class="job-name">Pickup Code Expiry</div>
+        <div class="job-icon">🔐</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">05</span>
+            <div class="job-name">Pickup Code Expiry</div>
+          </div>
           <div class="job-desc">Auto-cancels order if pickup code not scanned within window.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">6</div>
-        <div>
-          <div class="job-name">Rating Prompt</div>
+        <div class="job-icon">⭐</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">06</span>
+            <div class="job-name">Rating Prompt</div>
+          </div>
           <div class="job-desc">Sends post-delivery rating request after order completes.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">7</div>
-        <div>
-          <div class="job-name">Promo Expiry</div>
+        <div class="job-icon">🏷️</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">07</span>
+            <div class="job-name">Promo Expiry</div>
+          </div>
           <div class="job-desc">Deactivates expired promotions automatically.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">8</div>
-        <div>
-          <div class="job-name">Offline Restaurant Cleanup</div>
+        <div class="job-icon">📴</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">08</span>
+            <div class="job-name">Offline Restaurant Cleanup</div>
+          </div>
           <div class="job-desc">Pauses ordering for restaurants that have been offline too long.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">9</div>
-        <div>
-          <div class="job-name">Refund Processor</div>
+        <div class="job-icon">↩️</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">09</span>
+            <div class="job-name">Refund Processor</div>
+          </div>
           <div class="job-desc">Queues and retries failed Stripe refunds automatically.</div>
         </div>
       </div>
 
       <div class="job-card">
-        <div class="job-num">10</div>
-        <div>
-          <div class="job-name">Notification Retry</div>
+        <div class="job-icon">🔔</div>
+        <div class="job-content">
+          <div class="job-header">
+            <span class="job-badge">10</span>
+            <div class="job-name">Notification Retry</div>
+          </div>
           <div class="job-desc">Retries failed push/Telegram notifications with exponential backoff.</div>
         </div>
       </div>
@@ -625,27 +739,27 @@
   <!-- STATS ROW -->
   <div class="stat-row">
     <div class="stat-card">
-      <div class="n">20+</div>
+      <div class="stat-n">20+</div>
       <div class="l">Order States Overridable</div>
     </div>
     <div class="stat-card">
-      <div class="n">10</div>
+      <div class="stat-n">10</div>
       <div class="l">Background Jobs</div>
     </div>
     <div class="stat-card">
-      <div class="n">100%</div>
+      <div class="stat-n">100%</div>
       <div class="l">Actions Audit-Logged</div>
     </div>
     <div class="stat-card">
-      <div class="n">&lt;2s</div>
+      <div class="stat-n">&lt;2s</div>
       <div class="l">Search Response</div>
     </div>
     <div class="stat-card">
-      <div class="n">2</div>
+      <div class="stat-n">2</div>
       <div class="l">Rejection Reason Required</div>
     </div>
     <div class="stat-card">
-      <div class="n">1</div>
+      <div class="stat-n">1</div>
       <div class="l">Admin Portal + App</div>
     </div>
   </div>
