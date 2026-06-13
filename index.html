@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deliver OS — Product Portfolio</title>
+  <title>DeliverOS — Product Portfolio</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0f;
+      background: #07070d;
       color: #e2e8f0;
       min-height: 100vh;
     }
 
-    .wrap {
-      max-width: 720px;
-      width: 100%;
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 48px 56px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 64px 24px 80px;
     }
 
-    /* ── Top meta ── */
     .meta {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
 
     .badge {
@@ -43,216 +42,355 @@
 
     .author {
       font-size: 12px;
-      color: #475569;
+      color: #334155;
     }
 
-    /* ── Hero ── */
     h1 {
-      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-size: clamp(2.6rem, 5vw, 4rem);
       font-weight: 800;
       letter-spacing: -.04em;
-      background: linear-gradient(135deg, #e2e8f0 0%, #a5b4fc 100%);
+      background: linear-gradient(135deg, #e2e8f0 0%, #a5b4fc 60%, #818cf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       line-height: 1.05;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .sub {
-      font-size: 1.08rem;
-      color: #94a3b8;
-      line-height: 1.7;
-      margin-bottom: 56px;
-      max-width: 560px;
+      font-size: 1.05rem;
+      color: #64748b;
+      line-height: 1.75;
+      max-width: 600px;
     }
 
     /* ── Differentiators ── */
+    .diffs-section {
+      background: #0d0d17;
+      border-top: 1px solid #1e1e2e;
+      border-bottom: 1px solid #1e1e2e;
+      padding: 48px 48px;
+    }
+
+    .inner { max-width: 1100px; margin: 0 auto; }
+
     .section-label {
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      color: #475569;
-      margin-bottom: 20px;
+      color: #334155;
+      margin-bottom: 24px;
     }
 
     .diffs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 48px;
+      gap: 14px;
     }
 
-    @media (max-width: 520px) { .diffs { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .diffs { grid-template-columns: 1fr; } }
 
     .diff {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      padding: 22px 20px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 3px solid;
+      border-radius: 0 12px 12px 0;
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
     }
+
+    .diff:nth-child(1) { border-left-color: #6366f1; }
+    .diff:nth-child(2) { border-left-color: #10b981; }
+    .diff:nth-child(3) { border-left-color: #f59e0b; }
+    .diff:nth-child(4) { border-left-color: #ec4899; }
 
     .diff-icon {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
+    .diff-content {}
+
     .diff-title {
-      font-size: .92rem;
+      font-size: .9rem;
       font-weight: 700;
       color: #e2e8f0;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .diff-body {
       font-size: .8rem;
-      color: #64748b;
-      line-height: 1.6;
+      color: #475569;
+      line-height: 1.65;
     }
 
-    /* ── Deep-dive links ── */
-    .section-label-2 {
+    /* ── Deep dive section wrapper ── */
+    .deepdive-section {
+      padding: 56px 48px 72px;
+    }
+
+    /* ── Card group ── */
+    .card-group {
+      margin-bottom: 48px;
+    }
+
+    .card-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .group-label {
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      color: #475569;
-      margin-bottom: 20px;
+      color: #334155;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #1e1e2e;
     }
 
-    .cards {
+    /* ── Grid variants ── */
+    .cards-2col {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
 
-    @media (max-width: 520px) { .cards { grid-template-columns: 1fr; } }
+    .cards-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
 
+    @media (max-width: 860px) {
+      .cards-3col { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .cards-2col,
+      .cards-3col { grid-template-columns: 1fr; }
+    }
+
+    /* ── Card ── */
     .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(99,102,241,0.06);
+      border: 1px solid rgba(99,102,241,0.18);
       border-radius: 14px;
-      padding: 24px 20px;
+      padding: 26px 22px 22px;
       text-decoration: none;
       color: inherit;
       transition: border-color .2s, background .2s, transform .15s;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
+      gap: 10px;
     }
 
     .card:hover {
-      border-color: rgba(165,180,252,0.35);
-      background: rgba(99,102,241,0.07);
+      border-color: rgba(165,180,252,0.5);
+      background: rgba(99,102,241,0.12);
       transform: translateY(-2px);
     }
 
-    .card-icon { font-size: 1.4rem; }
+    /* Group-specific card accent colours */
+    .group-story .card {
+      background: rgba(99,102,241,0.06);
+      border-color: rgba(99,102,241,0.18);
+    }
+    .group-story .card:hover {
+      border-color: rgba(165,180,252,0.5);
+      background: rgba(99,102,241,0.12);
+    }
+
+    .group-workflows .card {
+      background: rgba(16,185,129,0.05);
+      border-color: rgba(16,185,129,0.15);
+    }
+    .group-workflows .card:hover {
+      border-color: rgba(52,211,153,0.45);
+      background: rgba(16,185,129,0.1);
+    }
+    .group-workflows .card-cta { color: #34d399; }
+
+    .group-ai .card {
+      background: rgba(245,158,11,0.05);
+      border-color: rgba(245,158,11,0.15);
+    }
+    .group-ai .card:hover {
+      border-color: rgba(251,191,36,0.45);
+      background: rgba(245,158,11,0.1);
+    }
+    .group-ai .card-cta { color: #fbbf24; }
+
+    .card-icon { font-size: 1.6rem; }
 
     .card-title {
-      font-size: .92rem;
+      font-size: .95rem;
       font-weight: 700;
       color: #e2e8f0;
     }
 
     .card-desc {
-      font-size: .78rem;
+      font-size: .8rem;
       color: #64748b;
-      line-height: 1.55;
+      line-height: 1.6;
+      flex: 1;
     }
 
-    .arrow {
-      margin-top: auto;
-      padding-top: 8px;
-      font-size: .75rem;
-      color: #a5b4fc;
-      letter-spacing: .03em;
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #818cf8;
+      letter-spacing: .02em;
     }
 
     footer {
-      margin-top: 56px;
+      padding: 0 48px 40px;
       font-size: .75rem;
       color: #1e293b;
+      max-width: 1100px;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
 
+  <!-- HERO -->
+  <div class="hero">
     <div class="meta">
       <div class="badge">Product Portfolio</div>
       <div class="author">Anuj Wadhwa</div>
     </div>
 
-    <h1>Deliver OS</h1>
+    <h1>DeliverOS</h1>
     <p class="sub">
-      A multi-channel food delivery platform designed from the ground up around
-      one idea: a customer should get the exact same experience whether they order
-      via chat, mobile app, or AI — and operators should never need a technical
-      team to run it.
+      A multi-channel, AI-native food delivery platform built from the ground up.
+      Every customer, restaurant, and driver interaction is handled by a purpose-built
+      AI assistant — across Telegram, iOS, Android, web, and any external AI agent via MCP.
     </p>
-
-    <div class="section-label">What makes it different</div>
-    <div class="diffs">
-      <div class="diff">
-        <div class="diff-icon">🪪</div>
-        <div class="diff-title">One identity, every channel</div>
-        <div class="diff-body">A single customer profile follows users across Telegram, mobile app, web, and AI agents — order history, saved addresses, and preferences unified regardless of where they ordered last.</div>
-      </div>
-      <div class="diff">
-        <div class="diff-icon">🔄</div>
-        <div class="diff-title">Consistent experience, any channel</div>
-        <div class="diff-body">Menu availability, delivery estimates, and pricing are identical across every surface. No channel gets stale data or a degraded flow — the logic lives once and serves all.</div>
-      </div>
-      <div class="diff">
-        <div class="diff-icon">⚡</div>
-        <div class="diff-title">Zero-friction partner onboarding</div>
-        <div class="diff-body">Restaurants and drivers onboard entirely through conversation — no portals, no forms, no ops handoff. An AI-driven flow handles verification, menu setup, and compliance from first message to live.</div>
-      </div>
-      <div class="diff">
-        <div class="diff-icon">🤖</div>
-        <div class="diff-title">Three purpose-built AI assistants</div>
-        <div class="diff-body">Separate AI assistants for restaurants, drivers, and customers — each with deep context about that role's workflow, never a generic chatbot. Support escalation and order disputes handled the same way.</div>
-      </div>
-    </div>
-
-    <div class="section-label-2">Go deeper</div>
-    <div class="cards">
-      <a href="platform.html" class="card">
-        <div class="card-icon">🏗️</div>
-        <div class="card-title">Platform Overview</div>
-        <div class="card-desc">Channels, surfaces, integrations, and how the pieces fit together end to end.</div>
-        <div class="arrow">View →</div>
-      </a>
-      <a href="outcomes.html" class="card">
-        <div class="card-icon">📈</div>
-        <div class="card-title">Product &amp; Outcomes</div>
-        <div class="card-desc">What gets unlocked for restaurants, drivers, customers, and operators.</div>
-        <div class="arrow">View →</div>
-      </a>
-      <a href="restaurant-flow.html" class="card">
-        <div class="card-icon">🍽️</div>
-        <div class="card-title">Restaurant App Flow</div>
-        <div class="card-desc">Full restaurant journey: onboarding, menu setup, order management, live driver tracking, and masked calls.</div>
-        <div class="arrow">View →</div>
-      </a>
-      <a href="driver-flow.html" class="card">
-        <div class="card-icon">🚗</div>
-        <div class="card-title">Driver App Flow</div>
-        <div class="card-desc">Driver onboarding, live order dispatch, real-time navigation, pickup code verification, and earnings.</div>
-        <div class="arrow">View →</div>
-      </a>
-      <a href="admin-flow.html" class="card">
-        <div class="card-icon">🛡️</div>
-        <div class="card-title">Admin Dashboard Flow</div>
-        <div class="card-desc">Orders list, order detail with progress bar and 3 contact tiles, driver tracking, approvals, and search.</div>
-        <div class="arrow">View →</div>
-      </a>
-    </div>
-
-    <footer>Built by Anuj Wadhwa · 2026</footer>
   </div>
+
+  <!-- DIFFERENTIATORS -->
+  <div class="diffs-section">
+    <div class="inner">
+      <div class="section-label">What makes it different</div>
+      <div class="diffs">
+        <div class="diff">
+          <div class="diff-icon">🪪</div>
+          <div class="diff-content">
+            <div class="diff-title">One identity, every channel</div>
+            <div class="diff-body">A single profile follows users across Telegram, mobile app, web, and external AI agents — order history, addresses, and preferences unified regardless of where they ordered last.</div>
+          </div>
+        </div>
+        <div class="diff">
+          <div class="diff-icon">🤖</div>
+          <div class="diff-content">
+            <div class="diff-title">Three purpose-built AI assistants</div>
+            <div class="diff-body">Separate AI agents for restaurants, drivers, and customers — each with deep context about its own workflow. A second AI fact-checks every response before it reaches the user.</div>
+          </div>
+        </div>
+        <div class="diff">
+          <div class="diff-icon">⚡</div>
+          <div class="diff-content">
+            <div class="diff-title">Zero-friction partner onboarding</div>
+            <div class="diff-body">Restaurants import menus from a website URL, a photo of a physical menu, or a spreadsheet — AI handles the rest. Drivers and restaurants go live through a guided conversation, no portals or ops handoff.</div>
+          </div>
+        </div>
+        <div class="diff">
+          <div class="diff-icon">🔗</div>
+          <div class="diff-content">
+            <div class="diff-title">MCP — any AI agent can order</div>
+            <div class="diff-body">An MCP endpoint lets any external AI assistant browse restaurants, place a real order, charge a card, and track delivery — without a human opening the app. New and existing customers are both protected by OTP verification.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEEP DIVE CARDS -->
+  <div class="deepdive-section">
+    <div class="inner">
+
+      <!-- GROUP 1: Platform story & outcomes -->
+      <div class="card-group group-story">
+        <div class="group-label">Platform story &amp; outcomes</div>
+        <div class="cards-2col">
+          <a href="platform.html" class="card">
+            <div class="card-icon">🏗️</div>
+            <div class="card-title">Platform Overview</div>
+            <div class="card-desc">10-step customer journey, three-agent coordination, driver/restaurant/admin app previews, MCP and cross-channel overview.</div>
+            <div class="card-cta">View 1-pager →</div>
+          </a>
+          <a href="outcomes.html" class="card">
+            <div class="card-icon">📈</div>
+            <div class="card-title">Product &amp; Outcomes</div>
+            <div class="card-desc">Every problem the platform solves, outcomes by user type, PM skills and design decisions.</div>
+            <div class="card-cta">View 1-pager →</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- GROUP 2: User workflows -->
+      <div class="card-group group-workflows">
+        <div class="group-label">User workflows — detailed screenshots</div>
+        <div class="cards-3col">
+          <a href="restaurant-flow.html" class="card">
+            <div class="card-icon">🍽️</div>
+            <div class="card-title">Restaurant App &amp; Portal</div>
+            <div class="card-desc">Onboarding flow, live order management, secure handover, menu import (URL / photo / spreadsheet), web portal.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+          <a href="driver-flow.html" class="card">
+            <div class="card-icon">🚗</div>
+            <div class="card-title">Driver App &amp; Portal</div>
+            <div class="card-desc">Job offer flow, GPS navigation, secure pickup code, earnings &amp; instant payout, web portal.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+          <a href="admin-flow.html" class="card">
+            <div class="card-icon">⚙️</div>
+            <div class="card-title">Admin App &amp; Portal</div>
+            <div class="card-desc">Platform dashboard, partner approvals, order override, platform search, audit log, 10 background jobs.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- GROUP 3: AI capabilities -->
+      <div class="card-group group-ai">
+        <div class="group-label">AI capabilities</div>
+        <div class="cards-3col">
+          <a href="agentic-ai.html" class="card">
+            <div class="card-icon">🧠</div>
+            <div class="card-title">Agentic AI Architecture</div>
+            <div class="card-desc">Full request lifecycle, RAG, LLM-as-a-Judge, multi-agent, tool use, PII routing, MCP, eval framework.</div>
+            <div class="card-cta">View architecture →</div>
+          </a>
+          <a href="mcp-flow.html" class="card">
+            <div class="card-icon">🔌</div>
+            <div class="card-title">MCP Agent Ordering</div>
+            <div class="card-desc">How any AI agent places a real order — 6 MCP tools, OTP identity gate for both new and existing customers.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+          <a href="cross-channel.html" class="card">
+            <div class="card-icon">🔄</div>
+            <div class="card-title">Cross-Channel Consistency</div>
+            <div class="card-desc">One state machine across Telegram, app, web, MCP and AI chat — real screenshots proving zero sync code.</div>
+            <div class="card-cta">View flow →</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="inner">Built by Anuj Wadhwa · 2026</footer>
+
 </body>
 </html>

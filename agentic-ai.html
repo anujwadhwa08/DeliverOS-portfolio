@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeliverOS — Agentic AI Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fff;
+    color: #1e1b4b;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 8.8pt;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Header ────────────────────────────────────── */
+  .header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #4338ca 100%);
+    padding: 20px 28px 16px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .header-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; margin-bottom: 8px;
+  }
+  .logo-area { display: flex; align-items: center; gap: 11px; }
+  .logo-mark {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.28);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .logo-text h1 { font-size: 21pt; font-weight: 800; letter-spacing: -0.6px; line-height: 1; }
+  .logo-text .sub { font-size: 8pt; color: rgba(255,255,255,0.6); margin-top: 3px; }
+  .header-badges { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .badge { font-size: 7pt; font-weight: 600; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.3px; white-space: nowrap; }
+  .b-white  { background: rgba(255,255,255,0.16); color:#fff;    border:1px solid rgba(255,255,255,0.22); }
+  .b-green  { background: rgba(74,222,128,0.18);  color:#86efac; border:1px solid rgba(74,222,128,0.28); }
+  .b-amber  { background: rgba(251,191,36,0.18);  color:#fde68a; border:1px solid rgba(251,191,36,0.28); }
+  .b-rose   { background: rgba(251,113,133,0.18); color:#fecdd3; border:1px solid rgba(251,113,133,0.28); }
+  .header-tagline { font-size: 9pt; color: rgba(255,255,255,0.78); line-height: 1.55; max-width: 82%; margin-top: 5px; }
+
+  /* ── Content ────────────────────────────────────── */
+  .content { padding: 14px 28px 10px; flex: 1; }
+
+  .sec-label {
+    font-size: 6.2pt; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.1px;
+    color: #6366f1; margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid #e0e7ff;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sec-label::before {
+    content: '';
+    width: 3px; height: 10px;
+    background: #6366f1; border-radius: 2px; flex-shrink: 0;
+  }
+
+  /* ── Pipeline diagram ───────────────────────────── */
+  .pipeline {
+    margin-bottom: 13px;
+    background: #f8f9ff;
+    border: 1.5px solid #e0e7ff;
+    border-radius: 10px;
+    padding: 12px 16px 10px;
+  }
+
+  .pipe-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  /* Down connector with label */
+  .pipe-down {
+    display: flex; align-items: center; justify-content: center;
+    gap: 5px; margin: 3px 0;
+    font-size: 6.2pt; color: #9ca3af; font-style: italic;
+  }
+  .pipe-down-arrow { font-size: 10pt; color: #a5b4fc; font-style: normal; }
+
+  /* Arrow between nodes in same row */
+  .arr {
+    width: 20px; flex-shrink: 0;
+    text-align: center; color: #a5b4fc;
+    font-size: 10pt; font-weight: 700;
+  }
+  .arr-dot { width: 16px; flex-shrink: 0; text-align: center; color: #d1d5db; font-size: 8pt; }
+
+  /* Base node */
+  .pnode {
+    border-radius: 7px;
+    padding: 5px 9px;
+    font-size: 7pt;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.35;
+    flex-shrink: 0;
+  }
+  .pnode .sub {
+    font-size: 5.8pt; font-weight: 400;
+    opacity: 0.75; display: block; margin-top: 1px;
+  }
+
+  /* Node colours */
+  .ch-tg  { background:#e0f2fe; border:1.5px solid #7dd3fc; color:#075985; }
+  .ch-app { background:#fce7f3; border:1.5px solid #f9a8d4; color:#9d174d; }
+  .ch-web { background:#fef3c7; border:1.5px solid #fcd34d; color:#92400e; }
+  .ch-mcp { background:#d1fae5; border:1.5px solid #6ee7b7; color:#065f46; }
+
+  .n-router   { background:#ede9fe; border:1.5px solid #a78bfa; color:#5b21b6; min-width:120px; }
+  .n-dispatch { background:#1e1b4b; border:1.5px solid #4338ca; color:#fff;    min-width:110px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  .n-agent-c { background:#eef2ff; border:1.5px solid #a5b4fc; color:#3730a3; min-width:105px; }
+  .n-agent-r { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; min-width:105px; }
+  .n-agent-d { background:#fffbeb; border:1.5px solid #fcd34d; color:#92400e; min-width:105px; }
+
+  .n-rag     { background:#eff6ff; border:1.5px solid #93c5fd; color:#1d4ed8; min-width:120px; }
+  .n-claude  { background:#fff7ed; border:1.5px solid #fdba74; color:#c2410c; min-width:120px; }
+  .n-judge   { background:#fdf4ff; border:1.5px solid #d8b4fe; color:#7e22ce; min-width:100px; }
+  .n-resp    { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; min-width:100px; }
+
+  /* ── Concept cards ───────────────────────────────── */
+  .concepts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+
+  .concept {
+    background: #f5f6ff;
+    border: 1px solid #e0e7ff;
+    border-radius: 9px;
+    padding: 9px 11px;
+  }
+  .concept-head {
+    font-size: 7.8pt; font-weight: 700;
+    color: #312e81; margin-bottom: 5px;
+    display: flex; align-items: flex-start; gap: 5px;
+  }
+  .concept-head .emo { font-size: 12pt; line-height: 1.1; flex-shrink: 0; }
+  .concept-head .tw { line-height: 1.3; }
+  .concept-head .ptag {
+    display: block; font-size: 5.8pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #6366f1; margin-bottom: 1px;
+  }
+  .concept p { font-size: 7.3pt; color: #374151; line-height: 1.5; }
+  .concept p + p { margin-top: 3px; }
+  .concept .how { color: #4f46e5; font-weight: 500; font-style: italic; }
+
+  /* ── Footer ────────────────────────────────────── */
+  .footer {
+    background: #1e1b4b; color: rgba(255,255,255,0.55);
+    padding: 7px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 7pt; flex-shrink: 0;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .footer .built-by { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  .back-nav {
+    padding: 10px 0 6px;
+    display: flex; align-items: center;
+  }
+  .back-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; color: #6366f1;
+    text-decoration: none; letter-spacing: .01em;
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid rgba(99,102,241,0.3);
+    background: rgba(99,102,241,0.06);
+    transition: background .15s, border-color .15s;
+  }
+  .back-nav a:hover { background: rgba(99,102,241,0.14); border-color: rgba(99,102,241,0.5); }
+
+  @media print {
+    body { margin:0; width:210mm; padding:0; max-width:none; }
+    .back-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BACK NAV -->
+<nav class="back-nav"><a href="index.html">← Back to overview</a></nav>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo-area">
+      <div class="logo-mark">🧠</div>
+      <div class="logo-text">
+        <h1>DeliverOS</h1>
+        <div class="sub">Agentic AI architecture — six patterns working together in a live platform</div>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="badge b-white">Multi-Agent</span>
+      <span class="badge b-green">RAG</span>
+      <span class="badge b-white">LLM-as-a-Judge</span>
+      <span class="badge b-amber">Tool Use</span>
+      <span class="badge b-rose">MCP</span>
+      <span class="badge b-amber">Evals</span>
+    </div>
+  </div>
+  <div class="header-tagline">
+    DeliverOS doesn't use AI as a chatbot. Seven production-grade agentic patterns work in sequence on every message — from routing user intent and retrieving live context, to taking real-world actions, fact-checking the response, and running an eval suite that catches regressions in agent reasoning before they ship.
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="sec-label">Request Lifecycle — Every Message Through the Platform</div>
+
+  <div class="pipeline">
+
+    <!-- Row 1: Input channels -->
+    <div class="pipe-row" style="gap:7px">
+      <div class="pnode ch-tg">📱 Telegram<span class="sub">3 bots · customer, restaurant, driver</span></div>
+      <div class="pnode ch-app">📲 iOS &amp; Android<span class="sub">React Native app</span></div>
+      <div class="pnode ch-web">🌐 Web<span class="sub">Browser chat</span></div>
+      <div class="pnode ch-mcp">🔗 MCP Server<span class="sub">External AI agents</span></div>
+    </div>
+
+    <div class="pipe-down">
+      <span class="pipe-down-arrow">↓</span>
+      all channels convert to Standard Message Format (SMF) before any processing
+    </div>
+
+    <!-- Row 2: PII Router → Agent Dispatch -->
+    <div class="pipe-row">
+      <div class="pnode n-router">🔒 PII Router<span class="sub">intercept names/addresses · AES-256-GCM encrypt · store · strip from message</span></div>
+      <div class="arr">→</div>
+      <div class="pnode n-dispatch">⚡ Agent Dispatch<span class="sub">route to customer · restaurant · or driver agent</span></div>
+    </div>
+
+    <div class="pipe-down">
+      <span class="pipe-down-arrow">↓</span>
+      agent selected · user profile &amp; active order context loaded
+    </div>
+
+    <!-- Row 3: Three agents -->
+    <div class="pipe-row" style="gap:8px">
+      <div class="pnode n-agent-c">🛍️ Customer Agent<span class="sub">browse · order · track · support</span></div>
+      <div class="pnode n-agent-r">🍽️ Restaurant Agent<span class="sub">accept · menu · handover · pause</span></div>
+      <div class="pnode n-agent-d">🚗 Driver Agent<span class="sub">jobs · pickup · earnings · payout</span></div>
+    </div>
+
+    <div class="pipe-down">
+      <span class="pipe-down-arrow">↓</span>
+      each agent builds a live context block before calling Claude
+    </div>
+
+    <!-- Row 4: RAG → Claude → Judge → Response -->
+    <div class="pipe-row">
+      <div class="pnode n-rag">🔍 RAG Pipeline<span class="sub">Supabase live data + Pinecone vectors</span></div>
+      <div class="arr">→</div>
+      <div class="pnode n-claude">✦ Claude Sonnet + Tools<span class="sub">generate reply · create orders · trigger payments</span></div>
+      <div class="arr">→</div>
+      <div class="pnode n-judge">⚖️ LLM Judge<span class="sub">Haiku fact-checks every response</span></div>
+      <div class="arr">→</div>
+      <div class="pnode n-resp">✅ Response<span class="sub">+ push · Telegram · Stripe · DB</span></div>
+    </div>
+
+  </div>
+
+  <!-- Seven concept cards -->
+  <div class="sec-label">Seven Agentic Patterns — What Each One Does</div>
+  <div class="concepts">
+
+    <div class="concept">
+      <div class="concept-head">
+        <span class="emo">🤖</span>
+        <div class="tw">
+          <span class="ptag">Pattern 1 — Architecture</span>
+          Multi-Agent Specialization
+        </div>
+      </div>
+      <p>Three separate AI agents replace one generic assistant. Each is tuned to its user's context, vocabulary, and workflow. The customer agent handles ordering and tracking. The restaurant agent handles order confirmation, menu queries, and handover codes. The driver agent handles jobs, pickup, and earnings.</p>
+      <p class="how">Why: a single generic AI gives worse answers to everyone. Specialisation means each agent stays in context, avoids confusion, and never leaks one user's information to another.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-head">
+        <span class="emo">🔍</span>
+        <div class="tw">
+          <span class="ptag">Pattern 2 — Retrieval</span>
+          RAG with Two-Tier Retrieval
+        </div>
+      </div>
+      <p>Before any agent calls Claude, it runs a two-tier retrieval. Tier 1 (always): Supabase fetches all active restaurants and menus — nothing is silently missing. Tier 2 (query): Pinecone vector search finds the most semantically similar items using OpenAI embeddings.</p>
+      <p class="how">Why: Claude can only reference what was retrieved. If a restaurant isn't in the context block, the agent cannot mention it — preventing confident hallucinations about menus or prices.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-head">
+        <span class="emo">⚖️</span>
+        <div class="tw">
+          <span class="ptag">Pattern 3 — Verification</span>
+          LLM-as-a-Judge
+        </div>
+      </div>
+      <p>Every Sonnet response — across all three agents — is passed to Claude Haiku before reaching the user. The judge has one narrow task: check whether every restaurant name and menu item in the response actually appears in the retrieved context JSON. Any invented detail gets corrected before delivery.</p>
+      <p class="how">Why Haiku, not a stronger model: this is a structured grounding check, not quality evaluation — essentially "does string X exist in list Y?" Haiku handles it in ~200ms at a fraction of Sonnet's cost. A larger judge would be overkill for a deterministic lookup task.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-head">
+        <span class="emo">🔧</span>
+        <div class="tw">
+          <span class="ptag">Pattern 4 — Action</span>
+          Agentic Tool Use
+        </div>
+      </div>
+      <p>Agents don't just respond — they take real actions by calling structured tools. When a customer confirms an order, the agent: creates the order record in the database, authorises the payment via Stripe, notifies the restaurant, and starts the driver assignment workflow — all within a single conversational turn.</p>
+      <p class="how">Why: information exchange alone isn't useful. Agentic tool use means one user message produces real-world outcomes.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-head">
+        <span class="emo">🔒</span>
+        <div class="tw">
+          <span class="ptag">Pattern 5 — Privacy</span>
+          PII-Aware Routing
+        </div>
+      </div>
+      <p>A dedicated router layer runs before any agent. It intercepts messages containing names, addresses, or contact details — encrypts them with AES-256-GCM, stores the ciphertext, and strips the raw PII from the message. Agents receive structured context objects, never the raw personal data. Claude processes zero unencrypted PII.</p>
+      <p class="how">Why: privacy enforced by architecture, not by policy — the AI physically cannot see what isn't passed to it.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-head">
+        <span class="emo">🔗</span>
+        <div class="tw">
+          <span class="ptag">Pattern 6 — Ecosystem</span>
+          MCP — Composable AI
+        </div>
+      </div>
+      <p>The platform exposes a Model Context Protocol (MCP) server — a standard interface any external AI agent can call to browse restaurants, place orders, and track deliveries on behalf of a user. The same ordering logic, safety checks, and payment flows apply regardless of which AI triggered the request.</p>
+      <p class="how">Why: makes the platform a reusable capability inside the broader AI ecosystem, not just a standalone app.</p>
+    </div>
+
+    <div class="concept" style="grid-column: 1 / -1">
+      <div class="concept-head">
+        <span class="emo">🧪</span>
+        <div class="tw">
+          <span class="ptag">Pattern 7 — Quality Assurance</span>
+          Eval Framework — Testing AI Behaviour, Not Just Code
+        </div>
+      </div>
+      <p>Unit tests verify that code runs correctly. They do not verify that an AI agent behaves correctly — a test that mocks the Claude API will pass even if the real model refuses, hallucinates, or misreads the state machine. DeliverOS has a separate eval suite that sends real prompts to real models and checks the outputs against expected behaviours.</p>
+      <p class="how">58 eval cases across 6 agents: state machine correctness (does the agent advance the order to the right next state?), hallucination detection (does the judge catch invented restaurant names?), order flow edge cases, payment failure paths, safety (does the agent refuse PII requests?), and driver and merchant conversation flows. Evals run as part of the pre-deploy checklist — a regression in agent reasoning fails the suite before any code ships.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="built-by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
+  <span>DeliverOS &nbsp;·&nbsp; AI-Native Food Delivery Platform &nbsp;·&nbsp; Agentic AI Architecture</span>
+</div>
+
+</body>
+</html>
