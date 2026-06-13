@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeliverOS — Restaurant App Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#faf5ff; color:#1a0633;
+    font-size:14px; line-height:1.55;
+  }
+
+  .hdr {
+    background:linear-gradient(135deg,#7C3AED 0%,#6d28d9 55%,#5b21b6 100%);
+    padding:36px 48px 30px; color:#fff; position:relative; overflow:hidden;
+  }
+  .hdr::after { content:''; position:absolute; bottom:-80px; right:-60px; width:320px; height:320px; border-radius:50%; background:rgba(255,255,255,0.05); }
+  .hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:12px; flex-wrap:wrap; }
+  .logo { display:flex; align-items:center; gap:14px; }
+  .lmark { width:52px; height:52px; background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.3); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+  .ltxt h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .ltxt .sub { font-size:13px; color:rgba(255,255,255,0.65); margin-top:4px; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; letter-spacing:.3px; white-space:nowrap; }
+  .bw { background:rgba(255,255,255,0.16); color:#fff; border:1px solid rgba(255,255,255,0.25); }
+  .bg { background:rgba(167,243,208,0.2); color:#a7f3d0; border:1px solid rgba(167,243,208,0.35); }
+  .bp { background:rgba(233,213,255,0.2); color:#e9d5ff; border:1px solid rgba(233,213,255,0.35); }
+  .hdr-desc { font-size:15px; color:rgba(255,255,255,0.85); line-height:1.6; max-width:820px; }
+
+  .body { max-width:1100px; margin:0 auto; padding:32px 32px 48px; display:flex; flex-direction:column; gap:36px; }
+
+  .slbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#7C3AED; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #e9d5ff; display:flex; align-items:center; gap:7px; }
+  .slbl::before { content:''; width:4px; height:14px; background:#7C3AED; border-radius:2px; flex-shrink:0; }
+
+  .flow-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .flow-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .flow-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .flow-step { display:flex; flex-direction:column; align-items:center; }
+  .step-num { width:28px; height:28px; border-radius:50%; background:#7C3AED; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-bottom:10px; flex-shrink:0; box-shadow:0 2px 8px rgba(124,58,237,0.4); }
+  .flow-step img { width:100%; border-radius:20px; border:2.5px solid #ddd6fe; box-shadow:0 8px 32px rgba(0,0,0,0.14); display:block; }
+  .flow-step .cap { font-size:12px; color:#64748b; text-align:center; margin-top:10px; line-height:1.45; }
+  .flow-step .cap strong { color:#1a0633; font-weight:700; display:block; font-size:13px; margin-bottom:2px; }
+  .flow-step .cap .status { display:inline-block; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:10px; margin-top:4px; }
+  .status.new  { background:#fee2e2; color:#b91c1c; }
+  .status.prep { background:#fef3c7; color:#92400e; }
+  .status.dash { background:#ede9fe; color:#6d28d9; }
+  .status.wait { background:#fef3c7; color:#92400e; }
+  .status.done { background:#d1fae5; color:#065f46; }
+  .status.menu { background:#ede9fe; color:#6d28d9; }
+
+  .journey { display:flex; align-items:center; gap:0; flex-wrap:wrap; row-gap:8px; }
+  .jstep { display:flex; align-items:center; gap:6px; padding:8px 14px; background:#fff; border:2px solid #ddd6fe; border-radius:10px; font-size:12px; font-weight:600; color:#7C3AED; white-space:nowrap; }
+  .jarrow { font-size:18px; color:#ddd6fe; padding:0 4px; flex-shrink:0; }
+
+  .feat-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .feat { background:#fff; border:2px solid #ddd6fe; border-radius:10px; padding:14px 16px; }
+  .feat-h { font-size:14px; font-weight:700; color:#7C3AED; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .feat ul { list-style:none; }
+  .feat ul li { font-size:13px; color:#374151; padding:3px 0 3px 16px; position:relative; line-height:1.45; }
+  .feat ul li::before { content:'✓'; position:absolute; left:0; font-size:11px; font-weight:700; color:#7C3AED; }
+
+  .stats { display:flex; gap:10px; flex-wrap:wrap; }
+  .stat { flex:1; min-width:90px; background:linear-gradient(135deg,#7C3AED,#6d28d9); color:#fff; border-radius:10px; padding:14px 12px; text-align:center; box-shadow:0 4px 16px rgba(124,58,237,0.25); }
+  .stat .n { font-size:22px; font-weight:800; line-height:1; display:block; }
+  .stat .l { font-size:10px; opacity:.75; text-transform:uppercase; letter-spacing:.6px; margin-top:4px; display:block; }
+
+  .ftr { background:#1a0633; color:rgba(255,255,255,0.6); padding:16px 48px; display:flex; align-items:center; justify-content:space-between; font-size:13px; flex-wrap:wrap; gap:8px; }
+  .ftr .by { color:rgba(255,255,255,0.9); font-weight:600; }
+
+  .back-nav { padding:16px 32px 0; max-width:1100px; margin:0 auto; }
+  .back-nav a { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#7C3AED; text-decoration:none; padding:6px 14px; border-radius:20px; border:1px solid rgba(124,58,237,0.3); background:rgba(124,58,237,0.06); }
+
+  @media (max-width:1000px) {
+    .flow-4 { grid-template-columns:repeat(2,1fr); }
+    .flow-3 { grid-template-columns:repeat(2,1fr); }
+    .feat-grid { grid-template-columns:1fr; }
+    .hdr { padding:24px 24px 20px; }
+    .body { padding:20px 16px 32px; }
+  }
+  @media (max-width:560px) {
+    .flow-4,.flow-3,.flow-2 { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-nav"><a href="platform.html">← Platform overview</a></div>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <div class="lmark">🍽️</div>
+      <div class="ltxt">
+        <h1>Restaurant App</h1>
+        <div class="sub">DeliverOS · End-to-end restaurant experience</div>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge bw">Real Screenshots</span>
+      <span class="badge bg">Live on iOS · Android · Web</span>
+      <span class="badge bp">Telegram also supported</span>
+    </div>
+  </div>
+  <div class="hdr-desc">One screen handles the whole order lifecycle — accept incoming orders with a custom prep time, watch the countdown tick down, mark the order ready, verify the driver's handover code, and watch completed orders stack up. No tablets, no fax machines. Menu imports in seconds from any URL, photo, or Excel file.</div>
+</div>
+
+<div class="body">
+
+  <!-- JOURNEY OVERVIEW -->
+  <div>
+    <div class="slbl">Full Order Lifecycle — Every Step, End to End</div>
+    <div class="journey">
+      <div class="jstep">🔔 Order In</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">✅ Confirm + Set Prep Time</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">⏱ Prep Countdown</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">✅ Mark Ready</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🚗 Driver Assigned</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🔢 Enter Handover Code</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">🛵 Handed Over</div>
+      <div class="jarrow">→</div>
+      <div class="jstep">✔️ Completed</div>
+    </div>
+  </div>
+
+  <!-- ORDER FLOW SCREENSHOTS — top row: 4 -->
+  <div>
+    <div class="slbl">Order Management — Real Screenshots from the Running App</div>
+    <div class="flow-4">
+
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <img src="demo/screenshots/wf-merchant-01-orders-full.png" alt="Full order board">
+        <div class="cap">
+          <strong>Live Order Board</strong>
+          Three sections at a glance: "Needs confirmation" (red alert), "In progress" grouped by state, and "Completed". Every card shows ref, total, and type.
+          <span class="status new">Needs Confirmation</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <img src="demo/screenshots/wf-merchant-01b-confirm-modal.png" alt="Confirm order modal with prep time">
+        <div class="cap">
+          <strong>Confirm + Set Prep Time</strong>
+          Tapping "Confirm →" opens a modal to set minutes. The "Ready by" time computes live as you type. Sends estimated time to the customer immediately.
+          <span class="status new">Setting Prep Time</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <img src="demo/screenshots/wf-merchant-01c-mark-ready.png" alt="BeingPrepared — step 2 progress bar active, countdown, mark ready">
+        <div class="cap">
+          <strong>Prep Countdown + Mark Ready</strong>
+          Step 2 of 4 is active in the progress bar. Live countdown timer ticks down. One tap on "Mark ready ✓" advances to step 3, notifies the driver, and dispatches pickup.
+          <span class="status prep">Step 2 — Preparing</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <img src="demo/screenshots/wf-merchant-02-verify-btn.png" alt="Driver Arrived — handover code revealed + call buttons">
+        <div class="cap">
+          <strong>Driver Arrived — Handover Code Revealed</strong>
+          Header switches to "Driver Arrived" the moment the driver marks themselves as arrived. The handover code appears only at this point — not before. Both call buttons are visible.
+          <span class="status wait">Step 3 — Driver Arrived</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- second row: 4 -->
+    <div class="flow-4" style="margin-top:16px;">
+
+      <div class="flow-step">
+        <div class="step-num">5</div>
+        <img src="demo/screenshots/wf-merchant-03-verify-modal.png" alt="Code verification modal">
+        <div class="cap">
+          <strong>Code Entry Modal</strong>
+          Restaurant enters the 6-character code shown on the driver's phone. Code mismatch blocks handover — no skipping, no workarounds.
+          <span class="status wait">Entering Code</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">6</div>
+        <img src="demo/screenshots/wf-merchant-04-menu.png" alt="Menu management">
+        <div class="cap">
+          <strong>Menu Management</strong>
+          Toggle items on/off, edit price, category, and per-dish prep time. Every toggle is optimistic — updates instantly on the server in the background.
+          <span class="status menu">Menu</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">7</div>
+        <img src="demo/screenshots/wf-merchant-04b-url-import.png" alt="Menu URL import">
+        <div class="cap">
+          <strong>Import from Website</strong>
+          Paste any restaurant website URL. The platform scrapes the page and AI extracts item names, descriptions, and prices — no copy-paste required.
+          <span class="status menu">URL Import</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">8</div>
+        <img src="demo/screenshots/wf-merchant-05-completed.png" alt="Completed orders">
+        <div class="cap">
+          <strong>Completed Orders</strong>
+          Full order history in the completed section. Every order shows timestamp, total, and delivery type. Cancelled orders logged with reason.
+          <span class="status done">Completed</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DRIVER TRACKING + CALLS -->
+  <div>
+    <div class="slbl">Driver Tracking &amp; Direct Calls — Once a Driver Is Assigned</div>
+    <div class="flow-3" style="max-width:740px;">
+
+      <div class="flow-step">
+        <div class="step-num">9</div>
+        <img src="demo/screenshots/wf-merchant-driver-tracking.png" alt="Step 3 active — driver approaching on live map + call buttons">
+        <div class="cap">
+          <strong>Live Driver Map — Step 3 Active</strong>
+          Progress bar shows step 3. Live map appears the moment a driver is assigned, refreshing every 30 seconds. Call buttons for customer and driver are both visible above the map.
+          <span class="status wait">Step 3 — Driver En Route</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">10</div>
+        <img src="demo/screenshots/wf-merchant-calls.png" alt="Driver Assigned — live map appears immediately, call buttons active">
+        <div class="cap">
+          <strong>Live Map from Driver Assignment</strong>
+          The moment a driver is assigned, the map appears showing the driver's position heading to the restaurant. Call customer and call driver both connect via the platform's masked bridge.
+          <span class="status wait">Step 3 — Driver Assigned</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><span class="n">4</span><span class="l">Import Methods</span></div>
+    <div class="stat"><span class="n">Live</span><span class="l">Prep Countdown</span></div>
+    <div class="stat"><span class="n">6-char</span><span class="l">Handover Code</span></div>
+    <div class="stat"><span class="n">Auto</span><span class="l">Driver Assignment</span></div>
+    <div class="stat"><span class="n">1-tap</span><span class="l">Confirm or Reject</span></div>
+    <div class="stat"><span class="n">Stripe</span><span class="l">Instant Payouts</span></div>
+  </div>
+
+  <!-- FEATURE GRID -->
+  <div>
+    <div class="slbl">What the Restaurant App Does</div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-h">📋 Order Management</div>
+        <ul>
+          <li>New orders surface instantly with red alert</li>
+          <li>Confirm with custom prep time — ready-by shown to customer</li>
+          <li>Live countdown timer on every preparing order</li>
+          <li>"Mark Ready" dispatches driver pickup immediately</li>
+          <li>Reject with optional reason — customer notified at once</li>
+          <li>Pause restaurant for 15 / 30 / 60 min or indefinitely</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="feat-h">🔒 Secure Handover &amp; Driver Coordination</div>
+        <ul>
+          <li>Live map shows driver approaching from the moment assigned</li>
+          <li>Call driver directly — masked bridge keeps numbers private</li>
+          <li>Call customer to update on prep time or address questions</li>
+          <li>6-character code generated per order for driver handoff</li>
+          <li>Driver shows code on their phone at pickup</li>
+          <li>Code mismatch blocks handover — audit trail created</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="feat-h">🍜 Menu &amp; Onboarding</div>
+        <ul>
+          <li>Import menu from any restaurant website URL</li>
+          <li>Photo of physical menu — AI reads and structures it</li>
+          <li>Excel / PDF upload for bulk item entry</li>
+          <li>Per-item prep time for accurate order scheduling</li>
+          <li>Toggle items available / unavailable on the fly</li>
+          <li>Stripe Identity + Connect set up in guided onboarding</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="ftr">
+  <span class="by">Built by Anuj Wadhwa &nbsp;·&nbsp; 2026</span>
+  <span>DeliverOS &nbsp;·&nbsp; Restaurant App Flow &nbsp;·&nbsp; Real Screenshots</span>
+</div>
+
+</body>
+</html>
