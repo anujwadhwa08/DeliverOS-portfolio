@@ -277,7 +277,7 @@
         <div class="ss-hdr web">🌐 Web Simulator — All Channels Live</div>
         <img src="screenshots/simulator.png" alt="Platform simulator showing all bot panels">
         <div class="ss-body">
-          <strong>The platform simulator proves cross-channel consistency.</strong> The web simulator shows all three Telegram bot panels side-by-side alongside the web admin panel. A message sent to the customer panel flows into the restaurant and driver panels in milliseconds. No page refresh, no separate state — all panels subscribe to the same Supabase real-time feed. Used during development to verify that every state transition arrives in the right panels at the right time.
+          <strong>The platform simulator proves cross-channel consistency.</strong> The web simulator shows all three Telegram bot panels side-by-side alongside the web admin panel. A message sent to the customer panel flows into the restaurant and driver panels in milliseconds. No page refresh, no separate state — all panels receive live updates via a shared SSE event stream. Used during development to verify that every state transition arrives in the right panels at the right time.
         </div>
       </div>
       <div class="ss-card">
